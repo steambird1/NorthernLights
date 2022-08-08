@@ -46,7 +46,7 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global "})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call "})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr})
 
