@@ -1,0 +1,93 @@
+class list:
+	init:
+		set this.length=0
+	function append data:
+		set this:this.length=data
+		set this.length=this.length+1
+	function remove pos:
+		for i=pos~this.length-1:
+			set this:i=this:(i+1)
+		set this.length=this.length-1
+	function insert pos data:
+		for i=this.length~pos~-1:
+			set this:i=this:(i-1)
+		set this.length=this.length+1
+		set this:pos=data
+
+function isnull obj:
+	if obj=null:
+		return 1
+	else:
+		return 0
+
+function len obj:
+	set temp=__len obj
+	return temp
+
+function not obj:
+	if (boolean obj)=0:
+		return 1
+	else:
+		return 0
+
+function boolean obj:
+	if isnull obj:
+		return 0
+	if obj=0:
+		return 0
+	if len obj=0:
+		return 0
+	return 1
+
+function int_input:
+	set temp=__input_int
+	return temp
+
+function input:
+	set temp=__input
+	return temp
+
+function atof string:
+	set temp=__int string
+	return temp
+
+function atoi string:
+	return floor (atof string)
+
+function ord char:
+	set temp=__ord char
+	return temp
+
+function chr ascii:
+	set temp=__chr ascii
+	return temp
+
+function floor num:
+	set temp=__intg num
+	return temp
+
+function ceil num:
+	set temp=__intg num+0.5
+	return temp
+
+function substr origin begin length:
+	set newstr=""
+	for i=begin~begin+length:
+		set newstr=newstr+origin#i
+	return newstr
+
+function split origin delimit maxsplit:
+	set res=new list
+	set tmp=""
+	for i=0~len origin:
+		if res.length=maxsplit:
+			break
+		if origin#i=delimit:
+			run res.append tmp
+			set tmp=""
+		else:
+			set tmp=tmp+origin#i
+	if (len tmp)>0:
+		run res.append tmp
+	set s=serial res
+	return s
