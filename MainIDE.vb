@@ -372,8 +372,13 @@ Public Class MainIDE
                 End If
                 Dim i As String = "new " & iobj.ObjectName   ' Must be EOL
                 ' Only detects end of line
-                If (i.Length < allline.Length) AndAlso (allline.Substring(allline.Length - i.Length) = i) Then
-                    CodeData.SelectionStart = allline.Length - i.Length + currentbegin
+                ' 1. Add if here's tab
+                Dim wline As String = allline
+                While wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab
+                    wline = wline.Remove(wline.Length - 1)
+                End While
+                If (i.Length < wline.Length) AndAlso (wline.Substring(wline.Length - i.Length) = i) Then
+                    CodeData.SelectionStart = wline.Length - i.Length + currentbegin
                     CodeData.SelectionLength = i.Length
                     CodeData.SelectionColor = Color.DarkCyan
                 End If
