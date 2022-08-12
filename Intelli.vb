@@ -2,6 +2,13 @@
 
     Public mytab As String = "    "
 
+    Private Function GenerateAttributeDescription(ByRef obj As MainIDE.BObject)
+        If IsNothing(obj.Attributes) Then
+            Return ""
+        End If
+        Return String.Join(",", obj.Attributes)
+    End Function
+
     Private Sub InheritanceUpdate(inheritw As MainIDE.BObject, ByRef root As TreeNode, Optional layer As Integer = 0)
         If layer > 16 Then
             root.Nodes.Add("<Too much inherits!>")
@@ -19,7 +26,7 @@
                         desc = desc.Remove(desc.Length - 1)
                     End If
                 End If
-                root.Nodes.Add(desc)
+                root.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
                 root.Nodes(root.Nodes.Count - 1).Tag = i.LinePosition
             ElseIf i.ObjectType = "Inheritance" Then
                 root.Nodes.Add("Inheritance" & mytab & i.ObjectName)
@@ -46,7 +53,7 @@
                         desc = desc.Remove(desc.Length - 1)
                     End If
                 End If
-                ElemViewer.Nodes.Add(desc)
+                ElemViewer.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
                 ElemViewer.Nodes(ElemViewer.Nodes.Count - 1).Tag = i.LinePosition
                 If i.ObjectType = "Class" Then
                     ' Add sub nodes...
@@ -58,7 +65,7 @@
                             End With
 
                         Else
-                            Dim mesc As String = "Member " & mytab & j.ObjectName & mytab
+                            Dim mesc As String = "Member " & j.ObjectType & " " & mytab & j.ObjectName & mytab
                             Dim spls As String() = Split(j.FunctionParameter)
                             For Each k In spls
                                 mesc &= k & ","
@@ -67,7 +74,7 @@
                                 mesc = mesc.Remove(mesc.Length - 1)
                             End If
                             With ElemViewer.Nodes(ElemViewer.Nodes.Count - 1)
-                                .Nodes.Add(mesc)
+                                .Nodes.Add(mesc & mytab & GenerateAttributeDescription(j))
                                 .Nodes(.Nodes.Count - 1).Tag = j.LinePosition
                             End With
                         End If

@@ -32,6 +32,12 @@ Public Class MainIDE
             Me.FunctionParameter = ""
             Me.ObjectName = ""
             Me.LinePosition = -1
+            Me.Attributes = New List(Of String)
+        End Sub
+
+        ' I don't know why. x is reserved.
+        Public Sub New(Optional x As Object = Nothing)
+            Me.Clear()
         End Sub
 
         Public ObjectName As String
@@ -40,13 +46,14 @@ Public Class MainIDE
         ' For class,
         Public ClassFunction As List(Of BObject)
         Public LinePosition As Integer
+        Public Attributes As List(Of String)
 
     End Structure
 
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call "})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr})
 
@@ -98,6 +105,7 @@ Public Class MainIDE
                     arg(1) = arg(1).Remove(arg(1).Length - 1)
                     r_class.ObjectType = "Class"
                     r_class.ObjectName = arg(1)
+                    r_class.Attributes = New List(Of String)
 
                     If (Not ToStatic) And (Not NoLine) Then
                         r_class.LinePosition = line_id
@@ -107,6 +115,25 @@ Public Class MainIDE
                 End Try
 
                 'reading_class = ""
+            ElseIf arg(0) = "shared" Then
+                If arg(1) = "class" Then
+                    r_class.Attributes.Add("Shared")
+                Else
+                    Dim flag As Boolean = False
+                    For j = 0 To r_class.ClassFunction.Count - 1
+                        If r_class.ClassFunction(j).ObjectName = arg(1) Then
+                            r_class.ClassFunction(j).Attributes.Add("Shared")
+                            flag = True
+                        End If
+                    Next
+                    If Not flag Then
+                        Dim m As BObject = New BObject
+                        m.ObjectType = "Variable"
+                        m.ObjectName = arg(1)
+                        m.Attributes = New List(Of String)({"Shared"})
+                        r_class.ClassFunction.Add(m)
+                    End If
+                End If
             ElseIf arg(0) = "function" Then
                 Dim argz As String = ""
                 Dim fn As String = ""
@@ -118,7 +145,8 @@ Public Class MainIDE
                 Catch ex As Exception
 
                 End Try
-                Dim b As BObject
+                Dim b As BObject = New BObject
+                b.Attributes = New List(Of String)
                 b.ObjectType = "Function"
                 b.FunctionParameter = argz
                 b.ObjectName = fn
@@ -146,7 +174,7 @@ Public Class MainIDE
                 End If
             ElseIf arg(0) = "init:" Then
                 If r_class.Vaild() Then
-                    Dim b As BObject
+                    Dim b As BObject = New BObject
                     b.ObjectType = "Function"
                     b.FunctionParameter = ""
                     b.ObjectName = "(Initalizer)"
@@ -188,6 +216,10 @@ Public Class MainIDE
                     Next
                     r_class.ClassFunction.Add(inh_flag)
                 End If
+            ElseIf arg(0) = "no_inherit" Then
+                r_class.Attributes.Add("No Inheriting")
+            ElseIf arg(0) = "must_inherit" Then
+                r_class.Attributes.Add("Must Inherit")
             End If
         Next
         If r_class.Vaild() Then
@@ -374,7 +406,7 @@ Public Class MainIDE
                 ' Only detects end of line
                 ' 1. Add if here's tab
                 Dim wline As String = allline
-                While wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab
+                While wline.Length > 0 AndAlso (wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab)
                     wline = wline.Remove(wline.Length - 1)
                 End While
                 If (i.Length < wline.Length) AndAlso (wline.Substring(wline.Length - i.Length) = i) Then
