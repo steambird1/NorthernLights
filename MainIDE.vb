@@ -349,7 +349,14 @@ Public Class MainIDE
             If currentbegin < 0 Or currentend < 0 Then GoTo vsc
             CodeData.Select(currentbegin, currentend)
             Dim allline As String = CodeData.SelectedText
-            CodeData.SelectionColor = Color.Black
+            ' Only 1 LF acceptable.
+
+            Dim ai As Integer = allline.IndexOf(vbLf)
+                If ai >= 0 Then
+                    allline = allline.Substring(0, ai)
+                End If
+
+                CodeData.SelectionColor = Color.Black
             ' End of currentbegin-currentend selection !
             ' 1. Keywords
             For Each i In keywords
