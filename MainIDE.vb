@@ -347,16 +347,9 @@ Public Class MainIDE
             Dim currentbegin As Integer = CodeData.GetFirstCharIndexFromLine(lineJustEdit)
             Dim currentend As Integer = CodeData.GetFirstCharIndexFromLine(lineJustEdit + 1) - 1
             If currentbegin < 0 Or currentend < 0 Then GoTo vsc
-            CodeData.Select(currentbegin, currentend)
+            CodeData.Select(currentbegin, currentend - currentbegin)
             Dim allline As String = CodeData.SelectedText
-            ' Only 1 LF acceptable.
-
-            Dim ai As Integer = allline.IndexOf(vbLf)
-                If ai >= 0 Then
-                    allline = allline.Substring(0, ai)
-                End If
-
-                CodeData.SelectionColor = Color.Black
+            CodeData.SelectionColor = Color.Black
             ' End of currentbegin-currentend selection !
             ' 1. Keywords
             For Each i In keywords
@@ -413,9 +406,17 @@ Public Class MainIDE
                 ' Only detects end of line
                 ' 1. Add if here's tab
                 Dim wline As String = allline
+                ' Only 1 LF acceptable.
+
+                Dim ai As Integer = wline.IndexOf(vbLf)
+                If ai >= 0 Then
+                    wline = wline.Substring(0, ai)
+                End If
+
                 While wline.Length > 0 AndAlso (wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab)
                     wline = wline.Remove(wline.Length - 1)
                 End While
+
                 If (i.Length < wline.Length) AndAlso (wline.Substring(wline.Length - i.Length) = i) Then
                     CodeData.SelectionStart = wline.Length - i.Length + currentbegin
                     CodeData.SelectionLength = i.Length
