@@ -53,7 +53,7 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit"})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr})
 
@@ -178,7 +178,23 @@ Public Class MainIDE
                     b.ObjectType = "Function"
                     b.FunctionParameter = ""
                     b.ObjectName = "(Initalizer)"
+                    b.LinePosition = line_id
                     r_class.ClassFunction.Add(b)
+                End If
+            ElseIf arg(0) = "error_handler:" Then
+                Dim b As BObject = New BObject
+                b.Clear()
+                b.Attributes = New List(Of String)
+                b.ClassFunction = New List(Of BObject)
+                b.FunctionParameter = ""
+                b.LinePosition = line_id
+                b.ObjectName = "(Error Handler)"
+                b.ObjectType = "Function"
+                If ToStatic Then
+
+                    StaticInfo.Add(b)
+                Else
+                    ObjectInfo.Add(b)
                 End If
             ElseIf arg(0) = "import" Then
                 Try
@@ -350,6 +366,11 @@ Public Class MainIDE
             CodeData.Select(currentbegin, currentend - currentbegin)
             Dim allline As String = CodeData.SelectedText
             CodeData.SelectionColor = Color.Black
+            If allline.Length > 0 AndAlso allline(0) = "#" Then
+                CodeData.SelectionColor = Color.DarkGreen
+                GoTo FinishA
+            End If
+
             ' End of currentbegin-currentend selection !
             ' 1. Keywords
             For Each i In keywords
@@ -449,7 +470,7 @@ Public Class MainIDE
                     turned = False
                 End If
             Next
-            CodeData.Select(usercur, 0)
+FinishA:    CodeData.Select(usercur, 0)
             CodeData.SelectionColor = Color.Black
 
             suspendScroller = False
