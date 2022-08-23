@@ -53,9 +53,9 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:"})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "this:"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
-    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr})
+    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr})
 
     Public Sub LoadObjectInfo(Data As String, Optional ToStatic As Boolean = False, Optional NoLine As Boolean = False)
         Dim sp As String() = Split(Data, vbLf)
@@ -366,7 +366,11 @@ Public Class MainIDE
             CodeData.Select(currentbegin, currentend - currentbegin)
             Dim allline As String = CodeData.SelectedText
             CodeData.SelectionColor = Color.Black
-            If allline.Length > 0 AndAlso allline(0) = "#" Then
+            Dim totrim As String = Trim(allline)
+            While totrim.Length > 0 AndAlso totrim(0) = vbTab
+                totrim = totrim.Remove(0, 1)
+            End While
+            If totrim.Length > 0 AndAlso totrim(0) = "#" Then
                 CodeData.SelectionColor = Color.DarkGreen
                 GoTo FinishA
             End If
