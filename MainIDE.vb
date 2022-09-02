@@ -618,9 +618,15 @@ vsc:    lineJustEdit = currentline
         ClearCheck()
     End Sub
 
+    Private PreparePath As String = Application.StartupPath & "\tcode.blue"
+
+    Private Sub PrepareCurrentProgram()
+        SaveThisTo(PreparePath, True)
+    End Sub
+
     Private Sub RunCurrentProgram(Optional parameter As String = "")
-        SaveThisTo(Application.StartupPath & "\tcode.blue", True)
-        Shell(Application.StartupPath & "\BlueBetter4.exe """ & Application.StartupPath & "\tcode.blue"" " & parameter, AppWinStyle.NormalFocus)
+
+        Shell(Application.StartupPath & "\BlueBetter4.exe """ & PreparePath & " " & parameter, AppWinStyle.NormalFocus)
     End Sub
 
     Private Sub RunCodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunCodeToolStripMenuItem.Click
@@ -679,4 +685,21 @@ vsc:    lineJustEdit = currentline
         End If
 
     End Sub
+
+    Private Sub VersionInformationversionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VersionInformationversionToolStripMenuItem.Click
+        Dim p As New Process
+        p.StartInfo.FileName = Application.StartupPath & "\BlueBetter4.exe"
+        p.StartInfo.Arguments = "--version"
+        p.StartInfo.UseShellExecute = False
+        p.StartInfo.RedirectStandardInput = True
+        p.StartInfo.RedirectStandardOutput = True
+        p.StartInfo.RedirectStandardError = True
+        p.StartInfo.CreateNoWindow = True
+        p.Start()
+        p.WaitForExit()
+        Dim res As String = p.StandardOutput.ReadToEnd()
+        p.Close()
+        MsgBox(res, MsgBoxStyle.Information, "Version")
+    End Sub
+
 End Class
