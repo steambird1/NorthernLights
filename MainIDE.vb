@@ -626,7 +626,7 @@ vsc:    lineJustEdit = currentline
 
     Private Sub RunCurrentProgram(Optional parameter As String = "")
         PrepareCurrentProgram()
-        Shell(Application.StartupPath & "\BlueBetter4.exe """ & PreparePath & " " & parameter, AppWinStyle.NormalFocus)
+        Shell(Application.StartupPath & "\BlueBetter4.exe """ & PreparePath & """ " & parameter, AppWinStyle.NormalFocus)
     End Sub
 
     Private Sub RunCodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunCodeToolStripMenuItem.Click
