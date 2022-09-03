@@ -53,9 +53,11 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "serial ", "object ", "ishave ", "init:", "print ", "file ", "break", "continue", "run ", "new ", "this.", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "this:"})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:"})
+    ' Only able to exist after removing vbTab
+    Public ReadOnly commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
-    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr})
+    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, "$"c, "="c})
 
     Public Sub LoadObjectInfo(Data As String, Optional ToStatic As Boolean = False, Optional NoLine As Boolean = False)
         Dim sp As String() = Split(Data, vbLf)
@@ -390,12 +392,22 @@ Public Class MainIDE
                     previous = sp
                     CodeData.SelectionStart = sp + currentbegin
                     CodeData.SelectionLength = i.Length
-                    CodeData.SelectionColor = Color.Blue
+                    CodeData.SelectionColor = Color.OrangeRed
                     sp += i.Length + 1
                     If sp > allline.Length Then
                         Exit Do
                     End If
                 Loop
+            Next
+            For Each i In commanding_keywords
+                ' Requires at the beginning
+                If totrim.IndexOf(i) = 0 Then
+                    Dim sp As Integer = allline.IndexOf(i)
+                    CodeData.SelectionStart = currentbegin + sp
+                    CodeData.SelectionLength = i.Length
+                    CodeData.SelectionColor = Color.Blue
+                    Exit For
+                End If
             Next
             For Each i In static_func
                 Dim sp As Integer = 0

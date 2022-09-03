@@ -173,6 +173,7 @@ Partial Class MainIDE
         Me.CodeData.Font = New System.Drawing.Font("Lucida Sans Typewriter", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CodeData.Location = New System.Drawing.Point(52, 31)
         Me.CodeData.Name = "CodeData"
+        Me.CodeData.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth
         Me.CodeData.Size = New System.Drawing.Size(809, 420)
         Me.CodeData.TabIndex = 1
         Me.CodeData.Text = ""
