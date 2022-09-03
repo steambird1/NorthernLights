@@ -625,7 +625,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub RunCurrentProgram(Optional parameter As String = "")
-
+        PrepareCurrentProgram()
         Shell(Application.StartupPath & "\BlueBetter4.exe """ & PreparePath & " " & parameter, AppWinStyle.NormalFocus)
     End Sub
 
