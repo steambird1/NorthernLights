@@ -55,9 +55,9 @@ Public Class MainIDE
 
     Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:"})
     ' Only able to exist after removing vbTab
-    Public ReadOnly commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:"})
+    Public ReadOnly commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
-    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, "$"c, "="c})
+    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c})
 
     Public Sub LoadObjectInfo(Data As String, Optional ToStatic As Boolean = False, Optional NoLine As Boolean = False)
         Dim sp As String() = Split(Data, vbLf)
