@@ -1,6 +1,8 @@
 ﻿Imports System.ComponentModel
+Imports BlueBetter_IDE
 Imports Microsoft.Win32.Forms
 Public Class MainIDE
+    Implements IDEChildInterface
 
     ' Load class information and library information
     ' Data can be used for all systems
@@ -12,7 +14,20 @@ Public Class MainIDE
     Dim sync As Boolean = False
     Dim saved As Boolean = True
     'Dim intsync As Boolean = False
-    Dim current As String = ""
+    Private _current As String
+    Private Property current As String
+        Get
+            Return _current
+        End Get
+        Set(value As String)
+            _current = value
+            If Trim(value) = "" Then
+                Me.Text = "BlueBetter"
+            Else
+                Me.Text = "BlueBetter - " & value
+            End If
+        End Set
+    End Property
     'Private Shared Function SendMessage(ByVal hwnd As HWND, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
 
     'End Function
@@ -669,8 +684,12 @@ vsc:    lineJustEdit = currentline
         End If
     End Sub
 
-    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+    Public Sub Creating() Implements IDEChildInterface.Creating
         FileKindSelector.Visible = True
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        Creating()
     End Sub
 
 
@@ -686,7 +705,7 @@ vsc:    lineJustEdit = currentline
         End Set
     End Property
 
-    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+    Public Sub Opening() Implements IDEChildInterface.Opening
         ClearCheck()
         If ofd.ShowDialog() = DialogResult.OK Then
             FileKindSelector.Visible = False
@@ -699,15 +718,15 @@ vsc:    lineJustEdit = currentline
             End Try
             Select Case ext
                 Case "blue"
-                    isBluebetter = True
+                    SelectAKind(True)
                 Case "bp"
-                    isBluebetter = False
+                    SelectAKind(False)
                 Case Else
                     Dim res = MsgBox("BlueBetter IDE can't sure if this is a BlueBetter file or a BluePage file." & vbCrLf & vbCrLf & "Is this a BlueBetter file?", MsgBoxStyle.YesNo, "Confirm")
                     If res = MsgBoxResult.Yes Then
-                        isBluebetter = True
+                        SelectAKind(True)
                     Else
-                        isBluebetter = False
+                        SelectAKind(False)
                     End If
             End Select
             Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
@@ -726,6 +745,10 @@ vsc:    lineJustEdit = currentline
             'CodeHUpdate()
             'CodeData.Visible = True
         End If
+    End Sub
+
+    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+        Opening()
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
@@ -798,7 +821,7 @@ vsc:    lineJustEdit = currentline
         Next
     End Sub
 
-    Private Sub UpdateTimer_Tick(sender As Object, e As EventArgs) 
+    Private Sub UpdateTimer_Tick(sender As Object, e As EventArgs)
         CodeHUpdate()
     End Sub
 
@@ -829,16 +852,9 @@ vsc:    lineJustEdit = currentline
         MsgBox(res, MsgBoxStyle.Information, "Version")
     End Sub
 
-    Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
-
-        If BlueFile.Checked Then
-            isBluebetter = True
-        ElseIf PageFile.Checked Then
-            isBluebetter = False
-        Else
-            MsgBox("Please select a file type!")
-            Exit Sub
-        End If
+    ' Used as 'New' (or 'Open').
+    Public Sub SelectAKind(IsBlueBetter As Boolean)
+        Me.isBluebetter = IsBlueBetter
         FileKindSelector.Visible = False
         ClearCheck()
         CodeData.Text = ""
@@ -846,7 +862,31 @@ vsc:    lineJustEdit = currentline
         CodeFieldVisible = True
     End Sub
 
+    Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
+        If BlueFile.Checked Then
+            SelectAKind(True)
+        ElseIf PageFile.Checked Then
+            SelectAKind(False)
+        Else
+            MsgBox("Please select a file type!")
+            Exit Sub
+        End If
+    End Sub
+
     Private Sub CancelOpening_Click(sender As Object, e As EventArgs) Handles CancelOpening.Click
         FileKindSelector.Visible = False
+    End Sub
+
+    Public Sub Saving() Implements IDEChildInterface.Saving
+        LoadSave()
+    End Sub
+
+    Public Sub SavingAs() Implements IDEChildInterface.SavingAs
+        SelectSave()
+    End Sub
+
+    Private Sub IDEChildInterface_Closing() Implements IDEChildInterface.Closing
+        ClearCheck()
+        Me.Close()
     End Sub
 End Class

@@ -73,6 +73,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="General.Designer.vb">
+      <DependentUpon>General.vb</DependentUpon>
+    </Compile>
+    <Compile Include="General.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IDEChildInterface.vb" />
     <Compile Include="Intelli.Designer.vb">
       <DependentUpon>Intelli.vb</DependentUpon>
     </Compile>
@@ -103,6 +110,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="General.resx">
+      <DependentUpon>General.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Intelli.resx">
       <DependentUpon>Intelli.vb</DependentUpon>
     </EmbeddedResource>

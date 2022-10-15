@@ -54,11 +54,11 @@ Partial Class MainIDE
         Me.LineLabel = New System.Windows.Forms.RichTextBox()
         Me.Notify1 = New System.Windows.Forms.Label()
         Me.FileKindSelector = New System.Windows.Forms.GroupBox()
+        Me.CancelOpening = New System.Windows.Forms.Button()
         Me.ConfirmOpening = New System.Windows.Forms.Button()
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.CancelOpening = New System.Windows.Forms.Button()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -87,6 +87,7 @@ Partial Class MainIDE
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
         Me.FileToolStripMenuItem.Text = "File"
+        Me.FileToolStripMenuItem.Visible = False
         '
         'NewToolStripMenuItem
         '
@@ -94,6 +95,7 @@ Partial Class MainIDE
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
         Me.NewToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.NewToolStripMenuItem.Text = "New"
+        Me.NewToolStripMenuItem.Visible = False
         '
         'OpenToolStripMenuItem
         '
@@ -330,6 +332,15 @@ Partial Class MainIDE
         Me.FileKindSelector.Text = "Select method"
         Me.FileKindSelector.Visible = False
         '
+        'CancelOpening
+        '
+        Me.CancelOpening.Location = New System.Drawing.Point(388, 173)
+        Me.CancelOpening.Name = "CancelOpening"
+        Me.CancelOpening.Size = New System.Drawing.Size(123, 41)
+        Me.CancelOpening.TabIndex = 4
+        Me.CancelOpening.Text = "Cancel"
+        Me.CancelOpening.UseVisualStyleBackColor = True
+        '
         'ConfirmOpening
         '
         Me.ConfirmOpening.Location = New System.Drawing.Point(517, 173)
@@ -369,15 +380,6 @@ Partial Class MainIDE
         Me.Label3.Size = New System.Drawing.Size(407, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind you would like to select."
-        '
-        'CancelOpening
-        '
-        Me.CancelOpening.Location = New System.Drawing.Point(388, 173)
-        Me.CancelOpening.Name = "CancelOpening"
-        Me.CancelOpening.Size = New System.Drawing.Size(123, 41)
-        Me.CancelOpening.TabIndex = 4
-        Me.CancelOpening.Text = "Cancel"
-        Me.CancelOpening.UseVisualStyleBackColor = True
         '
         'MainIDE
         '
