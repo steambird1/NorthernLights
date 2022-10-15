@@ -53,9 +53,16 @@ Partial Class MainIDE
         Me.LineLabel0 = New System.Windows.Forms.Label()
         Me.LineLabel = New System.Windows.Forms.RichTextBox()
         Me.Notify1 = New System.Windows.Forms.Label()
+        Me.FileKindSelector = New System.Windows.Forms.GroupBox()
+        Me.ConfirmOpening = New System.Windows.Forms.Button()
+        Me.PageFile = New System.Windows.Forms.RadioButton()
+        Me.BlueFile = New System.Windows.Forms.RadioButton()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.CancelOpening = New System.Windows.Forms.Button()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
+        Me.FileKindSelector.SuspendLayout()
         Me.SuspendLayout()
         '
         'UpdateTimer
@@ -85,38 +92,41 @@ Partial Class MainIDE
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'SaveToolStripMenuItem
         '
+        Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'SaveAsToolStripMenuItem
         '
+        Me.SaveAsToolStripMenuItem.Enabled = False
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.SaveAsToolStripMenuItem.Text = "Save as..."
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindToolStripMenuItem, Me.SearchClassToolStripMenuItem, Me.AddStaticFileToolStripMenuItem})
+        Me.EditToolStripMenuItem.Enabled = False
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
         Me.EditToolStripMenuItem.Text = "Edit"
@@ -148,12 +158,14 @@ Partial Class MainIDE
         '
         'RunCodeToolStripMenuItem
         '
+        Me.RunCodeToolStripMenuItem.Enabled = False
         Me.RunCodeToolStripMenuItem.Name = "RunCodeToolStripMenuItem"
         Me.RunCodeToolStripMenuItem.Size = New System.Drawing.Size(307, 26)
         Me.RunCodeToolStripMenuItem.Text = "Run code"
         '
         'DebugCodedebugToolStripMenuItem
         '
+        Me.DebugCodedebugToolStripMenuItem.Enabled = False
         Me.DebugCodedebugToolStripMenuItem.Name = "DebugCodedebugToolStripMenuItem"
         Me.DebugCodedebugToolStripMenuItem.Size = New System.Drawing.Size(307, 26)
         Me.DebugCodedebugToolStripMenuItem.Text = "Debug code (--debug)"
@@ -177,6 +189,7 @@ Partial Class MainIDE
         Me.CodeData.Size = New System.Drawing.Size(809, 420)
         Me.CodeData.TabIndex = 1
         Me.CodeData.Text = ""
+        Me.CodeData.Visible = False
         '
         'Searcher
         '
@@ -259,11 +272,11 @@ Partial Class MainIDE
         '
         'ofd
         '
-        Me.ofd.Filter = "BlueBetter file|*.blue|All files|*.*"
+        Me.ofd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|All files|*.*"
         '
         'sfd
         '
-        Me.sfd.Filter = "BlueBetter file|*.blue|All files|*.*"
+        Me.sfd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|All files|*.*"
         '
         'LineLabel0
         '
@@ -287,27 +300,97 @@ Partial Class MainIDE
         Me.LineLabel.Size = New System.Drawing.Size(55, 420)
         Me.LineLabel.TabIndex = 4
         Me.LineLabel.Text = ""
+        Me.LineLabel.Visible = False
         '
         'Notify1
         '
         Me.Notify1.AutoSize = True
-        Me.Notify1.Location = New System.Drawing.Point(294, 230)
+        Me.Notify1.Location = New System.Drawing.Point(14, 47)
         Me.Notify1.Name = "Notify1"
-        Me.Notify1.Size = New System.Drawing.Size(319, 15)
+        Me.Notify1.Size = New System.Drawing.Size(583, 30)
         Me.Notify1.TabIndex = 5
-        Me.Notify1.Text = "Please wait until the file is shown ..."
+        Me.Notify1.Text = "Welcome to BlueBetter IDE!" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Go to File->New to create a file, or File->Open to op" &
+    "en a existing file."
+        '
+        'FileKindSelector
+        '
+        Me.FileKindSelector.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FileKindSelector.Controls.Add(Me.CancelOpening)
+        Me.FileKindSelector.Controls.Add(Me.ConfirmOpening)
+        Me.FileKindSelector.Controls.Add(Me.PageFile)
+        Me.FileKindSelector.Controls.Add(Me.BlueFile)
+        Me.FileKindSelector.Controls.Add(Me.Label3)
+        Me.FileKindSelector.Location = New System.Drawing.Point(0, 31)
+        Me.FileKindSelector.Name = "FileKindSelector"
+        Me.FileKindSelector.Size = New System.Drawing.Size(861, 420)
+        Me.FileKindSelector.TabIndex = 6
+        Me.FileKindSelector.TabStop = False
+        Me.FileKindSelector.Text = "Select method"
+        Me.FileKindSelector.Visible = False
+        '
+        'ConfirmOpening
+        '
+        Me.ConfirmOpening.Location = New System.Drawing.Point(517, 173)
+        Me.ConfirmOpening.Name = "ConfirmOpening"
+        Me.ConfirmOpening.Size = New System.Drawing.Size(123, 41)
+        Me.ConfirmOpening.TabIndex = 3
+        Me.ConfirmOpening.Text = "OK"
+        Me.ConfirmOpening.UseVisualStyleBackColor = True
+        '
+        'PageFile
+        '
+        Me.PageFile.AutoSize = True
+        Me.PageFile.Location = New System.Drawing.Point(61, 104)
+        Me.PageFile.Name = "PageFile"
+        Me.PageFile.Size = New System.Drawing.Size(180, 19)
+        Me.PageFile.TabIndex = 2
+        Me.PageFile.TabStop = True
+        Me.PageFile.Text = "BluePage File (.bp)"
+        Me.PageFile.UseVisualStyleBackColor = True
+        '
+        'BlueFile
+        '
+        Me.BlueFile.AutoSize = True
+        Me.BlueFile.Location = New System.Drawing.Point(61, 79)
+        Me.BlueFile.Name = "BlueFile"
+        Me.BlueFile.Size = New System.Drawing.Size(212, 19)
+        Me.BlueFile.TabIndex = 1
+        Me.BlueFile.TabStop = True
+        Me.BlueFile.Text = "BlueBetter File (.blue)"
+        Me.BlueFile.UseVisualStyleBackColor = True
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(14, 44)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(407, 15)
+        Me.Label3.TabIndex = 0
+        Me.Label3.Text = "Please select which kind you would like to select."
+        '
+        'CancelOpening
+        '
+        Me.CancelOpening.Location = New System.Drawing.Point(388, 173)
+        Me.CancelOpening.Name = "CancelOpening"
+        Me.CancelOpening.Size = New System.Drawing.Size(123, 41)
+        Me.CancelOpening.TabIndex = 4
+        Me.CancelOpening.Text = "Cancel"
+        Me.CancelOpening.UseVisualStyleBackColor = True
         '
         'MainIDE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(861, 450)
+        Me.Controls.Add(Me.FileKindSelector)
         Me.Controls.Add(Me.Searcher)
         Me.Controls.Add(Me.CodeData)
-        Me.Controls.Add(Me.MenuStrip1)
-        Me.Controls.Add(Me.LineLabel0)
         Me.Controls.Add(Me.LineLabel)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.Notify1)
+        Me.Controls.Add(Me.LineLabel0)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "MainIDE"
         Me.Text = "BlueBetter IDE"
@@ -315,6 +398,8 @@ Partial Class MainIDE
         Me.MenuStrip1.PerformLayout()
         Me.Searcher.ResumeLayout(False)
         Me.Searcher.PerformLayout()
+        Me.FileKindSelector.ResumeLayout(False)
+        Me.FileKindSelector.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -349,4 +434,10 @@ Partial Class MainIDE
     Friend WithEvents LineLabel As RichTextBox
     Friend WithEvents Notify1 As Label
     Friend WithEvents VersionInformationversionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents FileKindSelector As GroupBox
+    Friend WithEvents ConfirmOpening As Button
+    Friend WithEvents PageFile As RadioButton
+    Friend WithEvents BlueFile As RadioButton
+    Friend WithEvents Label3 As Label
+    Friend WithEvents CancelOpening As Button
 End Class

@@ -353,6 +353,9 @@ Public Class MainIDE
     End Sub
 
     Private lineJustEdit As Integer = 0
+    ' For bluepage it's false
+    ' For debug propose also use False.
+    Private isBluebetter As Boolean = False
 
     Private Sub LinearUpdate(Optional alwaysRun As Boolean = False)
 
@@ -362,6 +365,8 @@ Public Class MainIDE
             suspendScroller = True
             ' Update 'LineJustEdit'
             'Dim allline As String
+
+            ' Common for all kinds
             Dim currentbegin As Integer = CodeData.GetFirstCharIndexFromLine(lineJustEdit)
             Dim currentend As Integer = CodeData.GetFirstCharIndexFromLine(lineJustEdit + 1) - 1
             If currentbegin < 0 Or currentend < 0 Then GoTo vsc
@@ -372,120 +377,198 @@ Public Class MainIDE
             While totrim.Length > 0 AndAlso totrim(0) = vbTab
                 totrim = totrim.Remove(0, 1)
             End While
-            If totrim.Length > 0 AndAlso totrim(0) = "#" Then
-                CodeData.SelectionColor = Color.DarkGreen
-                GoTo FinishA
+
+            Dim finder As Integer = lineJustEdit
+            Dim is_blue As Boolean = isBluebetter
+            If Not isBluebetter Then
+                While finder >= 0
+                    Dim fcurrentbegin As Integer = CodeData.GetFirstCharIndexFromLine(finder)
+                    Dim fcurrentend As Integer = CodeData.GetFirstCharIndexFromLine(finder + 1) - 1
+                    CodeData.Select(fcurrentbegin, fcurrentend - fcurrentbegin)
+                    Dim fallline As String = CodeData.SelectedText
+                    Dim fbeg As Integer = fallline.LastIndexOf("<?blue")
+                    Dim fend As Integer = fallline.LastIndexOf("?>")
+                    If fbeg > fend Then
+                        is_blue = True
+                        Exit While
+                    ElseIf fbeg < fend Then
+                        is_blue = False
+                        Exit While
+                    End If
+                    finder -= 1
+                End While
             End If
 
-            ' End of currentbegin-currentend selection !
-            ' 1. Keywords
-            For Each i In keywords
-                Dim sp As Integer = 0
-                'Dim _first As Boolean = False
-                Dim previous As Integer = -2
-                Do
-                    'sp = CodeData.Find(i, sp, RichTextBoxFinds.None)
-                    sp = allline.IndexOf(i, sp)
-                    If previous >= sp Or sp < 0 Then
-                        Exit Do
-                    End If
-                    previous = sp
-                    CodeData.SelectionStart = sp + currentbegin
-                    CodeData.SelectionLength = i.Length
-                    CodeData.SelectionColor = Color.OrangeRed
-                    sp += i.Length + 1
-                    If sp > allline.Length Then
-                        Exit Do
-                    End If
-                Loop
-            Next
-            For Each i In commanding_keywords
-                ' Requires at the beginning
-                If totrim.IndexOf(i) = 0 Then
-                    Dim sp As Integer = allline.IndexOf(i)
-                    CodeData.SelectionStart = currentbegin + sp
-                    CodeData.SelectionLength = i.Length
-                    CodeData.SelectionColor = Color.Blue
-                    Exit For
+            If is_blue Then
+                ' End of currentbegin-currentend selection !
+                ' 1. Keywords
+                If totrim.Length > 0 AndAlso totrim(0) = "#" Then
+                    CodeData.SelectionColor = Color.DarkGreen
+                    GoTo FinishA
                 End If
-            Next
-            For Each i In static_func
-                Dim sp As Integer = 0
-                'Dim _first As Boolean = False
-                Dim previous As Integer = -2
-                Do
-                    sp = allline.IndexOf(i, sp)
-                    If previous >= sp Or sp < 0 Then
-                        Exit Do
-                    End If
-                    previous = sp
-                    If (sp > 0 AndAlso (Not acceptable_near.Contains(allline(sp - 1)))) OrElse (sp < allline.Length - i.Length AndAlso (Not acceptable_near.Contains(allline(sp + i.Length)))) Then
+                For Each i In keywords
+                    Dim sp As Integer = 0
+                    'Dim _first As Boolean = False
+                    Dim previous As Integer = -2
+                    Do
+                        'sp = CodeData.Find(i, sp, RichTextBoxFinds.None)
+                        sp = allline.IndexOf(i, sp)
+                        If previous >= sp Or sp < 0 Then
+                            Exit Do
+                        End If
+                        previous = sp
+                        CodeData.SelectionStart = sp + currentbegin
+                        CodeData.SelectionLength = i.Length
+                        CodeData.SelectionColor = Color.OrangeRed
                         sp += i.Length + 1
                         If sp > allline.Length Then
                             Exit Do
                         End If
-                        Continue Do ' Not filtered!
+                    Loop
+                Next
+                For Each i In commanding_keywords
+                    ' Requires at the beginning
+                    If totrim.IndexOf(i) = 0 Then
+                        Dim sp As Integer = allline.IndexOf(i)
+                        CodeData.SelectionStart = currentbegin + sp
+                        CodeData.SelectionLength = i.Length
+                        CodeData.SelectionColor = Color.Blue
+                        Exit For
                     End If
-                    CodeData.SelectionStart = sp + currentbegin
-                    CodeData.SelectionLength = i.Length
-                    CodeData.SelectionColor = Color.Magenta
-                    sp += i.Length + 1
-                    If sp > allline.Length Then
-                        Exit Do
+                Next
+                For Each i In static_func
+                    Dim sp As Integer = 0
+                    'Dim _first As Boolean = False
+                    Dim previous As Integer = -2
+                    Do
+                        sp = allline.IndexOf(i, sp)
+                        If previous >= sp Or sp < 0 Then
+                            Exit Do
+                        End If
+                        previous = sp
+                        If (sp > 0 AndAlso (Not acceptable_near.Contains(allline(sp - 1)))) OrElse (sp < allline.Length - i.Length AndAlso (Not acceptable_near.Contains(allline(sp + i.Length)))) Then
+                            sp += i.Length + 1
+                            If sp > allline.Length Then
+                                Exit Do
+                            End If
+                            Continue Do ' Not filtered!
+                        End If
+                        CodeData.SelectionStart = sp + currentbegin
+                        CodeData.SelectionLength = i.Length
+                        CodeData.SelectionColor = Color.Magenta
+                        sp += i.Length + 1
+                        If sp > allline.Length Then
+                            Exit Do
+                        End If
+                    Loop
+                Next
+                For Each iobj In StaticInfo
+                    If iobj.ObjectType <> "Class" Then
+                        Continue For
                     End If
-                Loop
-            Next
-            For Each iobj In StaticInfo
-                If iobj.ObjectType <> "Class" Then
-                    Continue For
-                End If
-                Dim i As String = "new " & iobj.ObjectName   ' Must be EOL
-                ' Only detects end of line
-                ' 1. Add if here's tab
-                Dim wline As String = allline
-                ' Only 1 LF acceptable.
+                    Dim i As String = "new " & iobj.ObjectName   ' Must be EOL
+                    ' Only detects end of line
+                    ' 1. Add if here's tab
+                    Dim wline As String = allline
+                    ' Only 1 LF acceptable.
 
-                Dim ai As Integer = wline.IndexOf(vbLf)
-                If ai >= 0 Then
-                    wline = wline.Substring(0, ai)
-                End If
+                    Dim ai As Integer = wline.IndexOf(vbLf)
+                    If ai >= 0 Then
+                        wline = wline.Substring(0, ai)
+                    End If
 
-                While wline.Length > 0 AndAlso (wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab)
-                    wline = wline.Remove(wline.Length - 1)
-                End While
+                    While wline.Length > 0 AndAlso (wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab)
+                        wline = wline.Remove(wline.Length - 1)
+                    End While
 
-                If (i.Length < wline.Length) AndAlso (wline.Substring(wline.Length - i.Length) = i) Then
-                    CodeData.SelectionStart = wline.Length - i.Length + currentbegin
-                    CodeData.SelectionLength = i.Length
-                    CodeData.SelectionColor = Color.DarkCyan
-                End If
-            Next
-            ' After all override our quotes
-            Dim turned As Boolean = False
-            Dim instring As Boolean = False
-            Dim justturn As Boolean = False
-            For i = 0 To allline.Length - 1
-                justturn = False
-                If allline(i) = """"c Or instring Then
-                    CodeData.SelectionStart = i + currentbegin
-                    CodeData.SelectionLength = 1
-                    CodeData.SelectionColor = Color.DarkGray
-                    If allline(i) = """"c Then
-                        If Not turned Then
-                            instring = Not instring
+                    If (i.Length < wline.Length) AndAlso (wline.Substring(wline.Length - i.Length) = i) Then
+                        CodeData.SelectionStart = wline.Length - i.Length + currentbegin
+                        CodeData.SelectionLength = i.Length
+                        CodeData.SelectionColor = Color.DarkCyan
+                    End If
+                Next
+                Dim turned As Boolean = False
+                Dim instring As Boolean = False
+                Dim justturn As Boolean = False
+                For i = 0 To allline.Length - 1
+                    justturn = False
+                    If allline(i) = """"c Or instring Then
+                        CodeData.SelectionStart = i + currentbegin
+                        CodeData.SelectionLength = 1
+                        CodeData.SelectionColor = Color.DarkGray
+                        If allline(i) = """"c Then
+                            If Not turned Then
+                                instring = Not instring
+                            End If
                         End If
                     End If
-                End If
-                If allline(i) = "\"c Then
+                    If allline(i) = "\"c Then
                         If Not turned Then
                             turned = True
                             justturn = True
                         End If
                     End If
                     If turned And (Not justturn) Then
-                    turned = False
-                End If
-            Next
+                        turned = False
+                    End If
+                Next
+            Else
+                ' HTML mode
+                Dim inside_tag As Boolean = False
+                Dim previous_tag As Integer = -1
+                For i = 0 To allline.Length - 1
+                    If allline(i) = "<"c Then
+                        If Not inside_tag Then
+                            previous_tag = i
+                            inside_tag = True
+                        End If
+                    ElseIf allline(i) = ">"c Then
+                        inside_tag = False
+                        Dim cs As Integer = currentbegin + previous_tag
+                        CodeData.SelectionStart = cs
+                        ' i+1: Current '>' character
+                        CodeData.SelectionLength = i + 1 - previous_tag
+                        Dim tagtext As String = CodeData.SelectedText
+                        Dim hinstring As Boolean = False
+                        Dim start_html As Boolean = False
+                        CodeData.SelectionColor = Color.Blue
+                        For j = 0 To tagtext.Length - 1
+                            If tagtext(j) = """"c Or hinstring Then
+                                If Not start_html Then
+                                    Continue For
+                                End If
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.DarkGray
+                                If tagtext(j) = """"c Then
+                                    hinstring = Not hinstring
+                                End If
+                            ElseIf tagtext(j) = " "c AndAlso (Not start_html) Then
+                                start_html = True
+                            ElseIf (tagtext(j) <> "="c) AndAlso (tagtext(j) <> ">"c) AndAlso (tagtext(j) <> "/"c) Then
+                                If Not start_html Then
+                                    Continue For
+                                End If
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.Red         ' Properties
+                            ElseIf (tagtext(j) = ">"c) OrElse (tagtext(j) = "/"c) Then
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.Blue
+                            ElseIf tagtext(j) = "="c Then
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.Black
+                            End If
+                        Next
+                    End If
+                Next
+            End If
+
+            ' Maybe have problem with something like <p>"Text"</p>.
+            ' After all override our quotes (It's common for all kinds.)
+
 FinishA:    CodeData.Select(usercur, 0)
             CodeData.SelectionColor = Color.Black
 
@@ -587,14 +670,46 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
-        ClearCheck()
-        CodeData.Text = ""
-        current = ""
+        FileKindSelector.Visible = True
     End Sub
+
+
+    Public WriteOnly Property CodeFieldVisible As Boolean
+        Set(value As Boolean)
+            LineLabel.Visible = value
+            CodeData.Visible = value
+            SaveToolStripMenuItem.Enabled = value
+            SaveAsToolStripMenuItem.Enabled = value
+            EditToolStripMenuItem.Enabled = value
+            RunCodeToolStripMenuItem.Enabled = value
+            DebugCodedebugToolStripMenuItem.Enabled = value
+        End Set
+    End Property
 
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
         ClearCheck()
         If ofd.ShowDialog() = DialogResult.OK Then
+            FileKindSelector.Visible = False
+            CodeFieldVisible = True
+            Dim ext As String = ofd.FileName
+            Try
+                ext = ext.Substring(ext.LastIndexOf("."c) + 1)
+            Catch ex As ArgumentOutOfRangeException
+                ext = ""
+            End Try
+            Select Case ext
+                Case "blue"
+                    isBluebetter = True
+                Case "bp"
+                    isBluebetter = False
+                Case Else
+                    Dim res = MsgBox("BlueBetter IDE can't sure if this is a BlueBetter file or a BluePage file." & vbCrLf & vbCrLf & "Is this a BlueBetter file?", MsgBoxStyle.YesNo, "Confirm")
+                    If res = MsgBoxResult.Yes Then
+                        isBluebetter = True
+                    Else
+                        isBluebetter = False
+                    End If
+            End Select
             Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
             'CodeData.Visible = False
             CodeData.Text = d.ReadToEnd()
@@ -714,4 +829,24 @@ vsc:    lineJustEdit = currentline
         MsgBox(res, MsgBoxStyle.Information, "Version")
     End Sub
 
+    Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
+
+        If BlueFile.Checked Then
+            isBluebetter = True
+        ElseIf PageFile.Checked Then
+            isBluebetter = False
+        Else
+            MsgBox("Please select a file type!")
+            Exit Sub
+        End If
+        FileKindSelector.Visible = False
+        ClearCheck()
+        CodeData.Text = ""
+        current = ""
+        CodeFieldVisible = True
+    End Sub
+
+    Private Sub CancelOpening_Click(sender As Object, e As EventArgs) Handles CancelOpening.Click
+        FileKindSelector.Visible = False
+    End Sub
 End Class
