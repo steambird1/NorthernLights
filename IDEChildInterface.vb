@@ -4,4 +4,6 @@
     Sub Saving()
     Sub SavingAs()
     Sub Closing()
+    Sub OpenFile(Filename As String)
+    Sub RenameFile()
 End Interface

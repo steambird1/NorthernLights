@@ -1,6 +1,8 @@
 ﻿Public Class Intelli
 
     Public mytab As String = "    "
+    Public Property ObjectInfo As List(Of MainIDE.BObject)
+    Public Property CurrentParent As MainIDE
 
     Private Function GenerateAttributeDescription(ByRef obj As MainIDE.BObject)
         If IsNothing(obj.Attributes) Then
@@ -37,7 +39,7 @@
 
     Private Sub TreeUpdate(sender As Object, e As EventArgs) Handles SearchMask.TextChanged
         ElemViewer.Nodes.Clear()
-        For Each i In MainIDE.ObjectInfo
+        For Each i In ObjectInfo
             If i.ObjectType = "Bad" Then
                 Continue For
             End If
@@ -91,8 +93,8 @@
     Private Sub ElemViewer_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles ElemViewer.AfterSelect
         If e.Node.Tag > 0 Then
             Try
-                MainIDE.CodeData.Select(MainIDE.CodeData.GetFirstCharIndexFromLine(e.Node.Tag - 1), 0)
-                MainIDE.CodeData.Select()
+                CurrentParent.CodeData.Select(CurrentParent.CodeData.GetFirstCharIndexFromLine(e.Node.Tag - 1), 0)
+                CurrentParent.CodeData.Select()
             Catch ex As Exception
 
             End Try

@@ -7,6 +7,8 @@ Public Class MainIDE
     ' Load class information and library information
     ' Data can be used for all systems
 
+    Public HTMLKinds As HashSet(Of String) = New HashSet(Of String)({"htm", "html", "xml"})
+    Private IsPlainHTML As Boolean = False
 
     '[DllImport("user32.dll", EntryPoint = "SendMessage")]
     'Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
@@ -87,8 +89,20 @@ Public Class MainIDE
         Dim r_class As BObject = New BObject
         r_class.Clear()
         Dim line_id As Integer = 0
+        Dim is_blue As Boolean = False
         For Each i In sp
             line_id += 1
+            ' Skip non-BlueBetter lines
+            If i.LastIndexOf("<?blue") > i.LastIndexOf("?>") Then
+                is_blue = True
+                Continue For
+            ElseIf i.LastIndexOf("?>") > i.LastIndexOf("<?blue") Then
+                is_blue = False
+                Continue For
+            End If
+            If Not (isBluebetter OrElse is_blue OrElse ToStatic) Then
+                Continue For
+            End If
             Dim arg As String() = Split(i, " ", 2)
             If arg.Count() <= 0 OrElse arg(0).Length <= 0 Then
                 Continue For
@@ -314,6 +328,8 @@ Public Class MainIDE
         LoadIntelli()
         ' Load forms for it
         Dim s As New Intelli
+        s.ObjectInfo = Me.ObjectInfo
+        s.CurrentParent = Me
         s.Show()
     End Sub
 
@@ -395,7 +411,7 @@ Public Class MainIDE
 
             Dim finder As Integer = lineJustEdit
             Dim is_blue As Boolean = isBluebetter
-            If Not isBluebetter Then
+            If (Not isBluebetter) AndAlso (Not IsPlainHTML) Then
                 While finder >= 0
                     Dim fcurrentbegin As Integer = CodeData.GetFirstCharIndexFromLine(finder)
                     Dim fcurrentend As Integer = CodeData.GetFirstCharIndexFromLine(finder + 1) - 1
@@ -705,43 +721,55 @@ vsc:    lineJustEdit = currentline
         End Set
     End Property
 
-    Public Sub Opening() Implements IDEChildInterface.Opening
-        ClearCheck()
-        If ofd.ShowDialog() = DialogResult.OK Then
-            FileKindSelector.Visible = False
-            CodeFieldVisible = True
-            Dim ext As String = ofd.FileName
-            Try
-                ext = ext.Substring(ext.LastIndexOf("."c) + 1)
-            Catch ex As ArgumentOutOfRangeException
-                ext = ""
-            End Try
-            Select Case ext
-                Case "blue"
-                    SelectAKind(True)
-                Case "bp"
+    Public Sub OpenFile(Filename As String) Implements IDEChildInterface.OpenFile
+        FileKindSelector.Visible = False
+        CodeFieldVisible = True
+        IsPlainHTML = False
+        Dim ext As String = Filename
+        Try
+            ext = ext.Substring(ext.LastIndexOf("."c) + 1)
+        Catch ex As ArgumentOutOfRangeException
+            ext = ""
+        End Try
+        Select Case ext
+            Case "blue"
+                SelectAKind(True)
+            Case "bp"
+                SelectAKind(False)
+            Case Else
+                If HTMLKinds.Contains(ext) Then
+                    ' Process as HTML
+                    IsPlainHTML = True
                     SelectAKind(False)
-                Case Else
-                    Dim res = MsgBox("BlueBetter IDE can't sure if this is a BlueBetter file or a BluePage file." & vbCrLf & vbCrLf & "Is this a BlueBetter file?", MsgBoxStyle.YesNo, "Confirm")
+                Else
+                    Dim res = MsgBox("BlueBetter IDE can't sure if this is a BlueBetter file or a BluePage file." & vbCrLf & vbCrLf & "Is this a BlueBetter file?", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Confirm")
                     If res = MsgBoxResult.Yes Then
                         SelectAKind(True)
                     Else
                         SelectAKind(False)
                     End If
-            End Select
-            Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
-            'CodeData.Visible = False
-            CodeData.Text = d.ReadToEnd()
-            current = ofd.FileName
-            d.Close()
-            suspendScroller = True
-            CodeData.Enabled = False
-            For i = 0 To CodeData.GetLineFromCharIndex(CodeData.TextLength - 1)
-                lineJustEdit = i
-                LinearUpdate(True)
-            Next
-            CodeData.Enabled = True
-            suspendScroller = False
+                End If
+
+        End Select
+        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename)
+        'CodeData.Visible = False
+        CodeData.Text = d.ReadToEnd()
+        current = Filename
+        d.Close()
+        suspendScroller = True
+        CodeData.Enabled = False
+        For i = 0 To CodeData.GetLineFromCharIndex(CodeData.TextLength - 1)
+            lineJustEdit = i
+            LinearUpdate(True)
+        Next
+        CodeData.Enabled = True
+        suspendScroller = False
+    End Sub
+
+    Public Sub Opening() Implements IDEChildInterface.Opening
+        ClearCheck()
+        If ofd.ShowDialog() = DialogResult.OK Then
+            OpenFile(ofd.FileName)
             'CodeHUpdate()
             'CodeData.Visible = True
         End If
@@ -860,6 +888,8 @@ vsc:    lineJustEdit = currentline
         CodeData.Text = ""
         current = ""
         CodeFieldVisible = True
+        RunCodeToolStripMenuItem.Enabled = IsBlueBetter
+        DebugCodedebugToolStripMenuItem.Enabled = IsBlueBetter
     End Sub
 
     Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
@@ -889,4 +919,9 @@ vsc:    lineJustEdit = currentline
         ClearCheck()
         Me.Close()
     End Sub
+
+    Public Sub RenameFile() Implements IDEChildInterface.RenameFile
+
+    End Sub
+
 End Class

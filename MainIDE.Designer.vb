@@ -93,7 +93,7 @@ Partial Class MainIDE
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -101,7 +101,7 @@ Partial Class MainIDE
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'SaveToolStripMenuItem
@@ -109,20 +109,20 @@ Partial Class MainIDE
         Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'SaveAsToolStripMenuItem
         '
         Me.SaveAsToolStripMenuItem.Enabled = False
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.SaveAsToolStripMenuItem.Text = "Save as..."
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'EditToolStripMenuItem
@@ -274,11 +274,13 @@ Partial Class MainIDE
         '
         'ofd
         '
-        Me.ofd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|All files|*.*"
+        Me.ofd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML Fil" &
+    "e|*.xml|All files|*.*"
         '
         'sfd
         '
-        Me.sfd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|All files|*.*"
+        Me.sfd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML Fil" &
+    "e|*.xml|All files|*.*"
         '
         'LineLabel0
         '
@@ -340,6 +342,7 @@ Partial Class MainIDE
         Me.CancelOpening.TabIndex = 4
         Me.CancelOpening.Text = "Cancel"
         Me.CancelOpening.UseVisualStyleBackColor = True
+        Me.CancelOpening.Visible = False
         '
         'ConfirmOpening
         '
