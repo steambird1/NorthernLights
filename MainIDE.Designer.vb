@@ -54,6 +54,8 @@ Partial Class MainIDE
         Me.LineLabel = New System.Windows.Forms.RichTextBox()
         Me.Notify1 = New System.Windows.Forms.Label()
         Me.FileKindSelector = New System.Windows.Forms.GroupBox()
+        Me.PlainFile = New System.Windows.Forms.RadioButton()
+        Me.HTMLFile = New System.Windows.Forms.RadioButton()
         Me.CancelOpening = New System.Windows.Forms.Button()
         Me.ConfirmOpening = New System.Windows.Forms.Button()
         Me.PageFile = New System.Windows.Forms.RadioButton()
@@ -275,12 +277,12 @@ Partial Class MainIDE
         'ofd
         '
         Me.ofd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML Fil" &
-    "e|*.xml|All files|*.*"
+    "e|*.xml|Text file|*.txt|CSV Table file|*.csv|All files|*.*"
         '
         'sfd
         '
         Me.sfd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML Fil" &
-    "e|*.xml|All files|*.*"
+    "e|*.xml|Text file|*.txt|CSV Table file|*.csv|All files|*.*"
         '
         'LineLabel0
         '
@@ -321,6 +323,8 @@ Partial Class MainIDE
         Me.FileKindSelector.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FileKindSelector.Controls.Add(Me.PlainFile)
+        Me.FileKindSelector.Controls.Add(Me.HTMLFile)
         Me.FileKindSelector.Controls.Add(Me.CancelOpening)
         Me.FileKindSelector.Controls.Add(Me.ConfirmOpening)
         Me.FileKindSelector.Controls.Add(Me.PageFile)
@@ -334,9 +338,30 @@ Partial Class MainIDE
         Me.FileKindSelector.Text = "Select method"
         Me.FileKindSelector.Visible = False
         '
+        'PlainFile
+        '
+        Me.PlainFile.AutoSize = True
+        Me.PlainFile.Location = New System.Drawing.Point(61, 154)
+        Me.PlainFile.Name = "PlainFile"
+        Me.PlainFile.Size = New System.Drawing.Size(108, 19)
+        Me.PlainFile.TabIndex = 6
+        Me.PlainFile.Text = "Plain text"
+        Me.PlainFile.UseVisualStyleBackColor = True
+        '
+        'HTMLFile
+        '
+        Me.HTMLFile.AutoSize = True
+        Me.HTMLFile.Location = New System.Drawing.Point(61, 129)
+        Me.HTMLFile.Name = "HTMLFile"
+        Me.HTMLFile.Size = New System.Drawing.Size(316, 19)
+        Me.HTMLFile.TabIndex = 5
+        Me.HTMLFile.TabStop = True
+        Me.HTMLFile.Text = "HTML or XML File (.html; .htm; .xml)"
+        Me.HTMLFile.UseVisualStyleBackColor = True
+        '
         'CancelOpening
         '
-        Me.CancelOpening.Location = New System.Drawing.Point(388, 173)
+        Me.CancelOpening.Location = New System.Drawing.Point(395, 220)
         Me.CancelOpening.Name = "CancelOpening"
         Me.CancelOpening.Size = New System.Drawing.Size(123, 41)
         Me.CancelOpening.TabIndex = 4
@@ -346,7 +371,7 @@ Partial Class MainIDE
         '
         'ConfirmOpening
         '
-        Me.ConfirmOpening.Location = New System.Drawing.Point(517, 173)
+        Me.ConfirmOpening.Location = New System.Drawing.Point(524, 220)
         Me.ConfirmOpening.Name = "ConfirmOpening"
         Me.ConfirmOpening.Size = New System.Drawing.Size(123, 41)
         Me.ConfirmOpening.TabIndex = 3
@@ -380,17 +405,17 @@ Partial Class MainIDE
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(14, 44)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(407, 15)
+        Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
-        Me.Label3.Text = "Please select which kind you would like to select."
+        Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
         '
         'MainIDE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(861, 450)
-        Me.Controls.Add(Me.FileKindSelector)
         Me.Controls.Add(Me.Searcher)
+        Me.Controls.Add(Me.FileKindSelector)
         Me.Controls.Add(Me.CodeData)
         Me.Controls.Add(Me.LineLabel)
         Me.Controls.Add(Me.MenuStrip1)
@@ -445,4 +470,6 @@ Partial Class MainIDE
     Friend WithEvents BlueFile As RadioButton
     Friend WithEvents Label3 As Label
     Friend WithEvents CancelOpening As Button
+    Friend WithEvents PlainFile As RadioButton
+    Friend WithEvents HTMLFile As RadioButton
 End Class

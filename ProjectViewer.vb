@@ -64,7 +64,7 @@ Public Class ProjectViewer
         Upload()
     End Sub
 
-    Private Sub DocumentTree_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles DocumentTree.AfterSelect
+    Private Sub DocumentTree_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles DocumentTree.NodeMouseDoubleClick
         Dim ent As String = e.Node.Tag
         If IsNothing(ent) Then
             Exit Sub

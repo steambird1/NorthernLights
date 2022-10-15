@@ -9,6 +9,9 @@ Public Class MainIDE
 
     Public HTMLKinds As HashSet(Of String) = New HashSet(Of String)({"htm", "html", "xml"})
     Private IsPlainHTML As Boolean = False
+    Private IsCreating As Boolean = False
+    ' For plain file only
+    Private NoExecution As Boolean = False
 
     '[DllImport("user32.dll", EntryPoint = "SendMessage")]
     'Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
@@ -389,7 +392,10 @@ Public Class MainIDE
     Private isBluebetter As Boolean = False
 
     Private Sub LinearUpdate(Optional alwaysRun As Boolean = False)
-
+        If NoExecution Then
+            Exit Sub
+            ' Plain file !
+        End If
         Dim currentline As Integer = CodeData.GetLineFromCharIndex(CodeData.SelectionStart)
         Dim usercur As Integer = CodeData.SelectionStart
         If (currentline <> lineJustEdit) Or alwaysRun Then
@@ -701,6 +707,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Public Sub Creating() Implements IDEChildInterface.Creating
+        IsCreating = True
         FileKindSelector.Visible = True
     End Sub
 
@@ -721,7 +728,31 @@ vsc:    lineJustEdit = currentline
         End Set
     End Property
 
+    Public Sub OpenHTML()
+        IsPlainHTML = True
+        SelectAKind(False)
+    End Sub
+
+    Private _TmpFilename As String
+    Private Sub FurtherOpener()
+        Dim Filename = _TmpFilename
+        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename)
+        'CodeData.Visible = False
+        CodeData.Text = d.ReadToEnd()
+        current = Filename
+        d.Close()
+        suspendScroller = True
+        CodeData.Enabled = False
+        For i = 0 To CodeData.GetLineFromCharIndex(CodeData.TextLength - 1)
+            lineJustEdit = i
+            LinearUpdate(True)
+        Next
+        CodeData.Enabled = True
+        suspendScroller = False
+    End Sub
+
     Public Sub OpenFile(Filename As String) Implements IDEChildInterface.OpenFile
+        _TmpFilename = Filename
         FileKindSelector.Visible = False
         CodeFieldVisible = True
         IsPlainHTML = False
@@ -739,31 +770,15 @@ vsc:    lineJustEdit = currentline
             Case Else
                 If HTMLKinds.Contains(ext) Then
                     ' Process as HTML
-                    IsPlainHTML = True
-                    SelectAKind(False)
+                    OpenHTML()
                 Else
-                    Dim res = MsgBox("BlueBetter IDE can't sure if this is a BlueBetter file or a BluePage file." & vbCrLf & vbCrLf & "Is this a BlueBetter file?", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Confirm")
-                    If res = MsgBoxResult.Yes Then
-                        SelectAKind(True)
-                    Else
-                        SelectAKind(False)
-                    End If
+                    IsCreating = False
+                    FileKindSelector.Visible = True
+                    Exit Sub
                 End If
 
         End Select
-        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename)
-        'CodeData.Visible = False
-        CodeData.Text = d.ReadToEnd()
-        current = Filename
-        d.Close()
-        suspendScroller = True
-        CodeData.Enabled = False
-        For i = 0 To CodeData.GetLineFromCharIndex(CodeData.TextLength - 1)
-            lineJustEdit = i
-            LinearUpdate(True)
-        Next
-        CodeData.Enabled = True
-        suspendScroller = False
+        FurtherOpener()
     End Sub
 
     Public Sub Opening() Implements IDEChildInterface.Opening
@@ -890,12 +905,20 @@ vsc:    lineJustEdit = currentline
         CodeFieldVisible = True
         RunCodeToolStripMenuItem.Enabled = IsBlueBetter
         DebugCodedebugToolStripMenuItem.Enabled = IsBlueBetter
+        If Not IsCreating Then
+            FurtherOpener()
+        End If
     End Sub
 
     Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
         If BlueFile.Checked Then
             SelectAKind(True)
         ElseIf PageFile.Checked Then
+            SelectAKind(False)
+        ElseIf HTMLFile.Checked Then
+            OpenHTML()
+        ElseIf PlainFile.Checked Then
+            NoExecution = True
             SelectAKind(False)
         Else
             MsgBox("Please select a file type!")
@@ -924,4 +947,16 @@ vsc:    lineJustEdit = currentline
 
     End Sub
 
+    Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click, EditToolStripMenuItem.MouseMove
+        ' ...
+        Dim ac As Boolean = Not (IsPlainHTML OrElse NoExecution)
+        SearchClassToolStripMenuItem.Enabled = ac
+        AddStaticFileToolStripMenuItem.Enabled = ac
+    End Sub
+
+    Private Sub RunToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunToolStripMenuItem.Click, RunToolStripMenuItem.MouseMove
+        Dim ac As Boolean = (Not (IsPlainHTML OrElse NoExecution)) AndAlso Me.isBluebetter
+        RunToolStripMenuItem.Enabled = ac
+        DebugCodedebugToolStripMenuItem.Enabled = ac
+    End Sub
 End Class

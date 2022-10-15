@@ -61,6 +61,19 @@ Public Class General
     End Sub
 
     Public Sub OpenSpecifiedFile(Filename As String)
+        Try
+            If Not CurrentWebProcess.HasExited Then
+                ' Select...
+                If ViewSpecified.Checked Then
+                    ' Getting the resolve
+                    Dim suffix As String = Filename.Substring(Filename.IndexOf(CurrentProject) + CurrentProject.Length)
+                    System.Diagnostics.Process.Start("http://localhost" & suffix.Replace("\"c, "/"c))
+                    Exit Sub
+                End If
+            End If
+        Catch ex As Exception
+            ' The process is not running.
+        End Try
         CreatingOne().OpenFile(Filename)
     End Sub
 
@@ -115,13 +128,25 @@ Public Class General
         Next
     End Sub
 
+    Public Property CurrentWebProcess As Process = New Process
+
     Private Sub RunWebsiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunWebsiteToolStripMenuItem.Click
         ' TODO: Add runner
         Try
             For Each i In Environments
                 My.Computer.FileSystem.CopyFile(Application.StartupPath & "\" & i, CurrentProject & "\" & i, True)
             Next
-            Shell("cmd /c cd " & CurrentProject & " & " & CurrentProject & "\VBWeb.exe", AppWinStyle.NormalFocus)
+            With CurrentWebProcess.StartInfo
+                .FileName = CurrentProject & "\VBWeb.exe"
+                .UseShellExecute = True
+                .RedirectStandardError = False
+                .RedirectStandardInput = False
+                .RedirectStandardOutput = False
+                .CreateNoWindow = False
+                .WorkingDirectory = CurrentProject
+                .WindowStyle = ProcessWindowStyle.Normal
+            End With
+            CurrentWebProcess.Start()
         Catch ex As OperationCanceledException
             ' Do nothing
         Catch ex As Exception

@@ -39,6 +39,7 @@ Partial Class General
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.RunWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ViewSpecified = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -114,7 +115,7 @@ Partial Class General
         '
         'ProjectToolStripMenuItem
         '
-        Me.ProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6, Me.ToolStripSeparator2, Me.RunWebsiteToolStripMenuItem})
+        Me.ProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem6, Me.ToolStripSeparator2, Me.RunWebsiteToolStripMenuItem, Me.ViewSpecified})
         Me.ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem"
         Me.ProjectToolStripMenuItem.Size = New System.Drawing.Size(81, 24)
         Me.ProjectToolStripMenuItem.Text = "Website"
@@ -122,19 +123,28 @@ Partial Class General
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(216, 26)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(318, 26)
         Me.ToolStripMenuItem6.Text = "Project viewer..."
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(213, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(315, 6)
         '
         'RunWebsiteToolStripMenuItem
         '
         Me.RunWebsiteToolStripMenuItem.Name = "RunWebsiteToolStripMenuItem"
-        Me.RunWebsiteToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.RunWebsiteToolStripMenuItem.Size = New System.Drawing.Size(318, 26)
         Me.RunWebsiteToolStripMenuItem.Text = "Run website..."
+        '
+        'ViewSpecified
+        '
+        Me.ViewSpecified.Checked = True
+        Me.ViewSpecified.CheckOnClick = True
+        Me.ViewSpecified.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ViewSpecified.Name = "ViewSpecified"
+        Me.ViewSpecified.Size = New System.Drawing.Size(318, 26)
+        Me.ViewSpecified.Text = "View specified file when running"
         '
         'General
         '
@@ -170,4 +180,5 @@ Partial Class General
     Friend WithEvents ToolStripMenuItem6 As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripMenuItem7 As ToolStripMenuItem
+    Friend WithEvents ViewSpecified As ToolStripMenuItem
 End Class
