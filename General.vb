@@ -3,6 +3,7 @@
 Public Class General
 
     Private ActiveRequired, ProjectActiveRequired As List(Of ToolStripMenuItem)
+    Private Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe"})
 
     Private _CurrentObject As String = ""
     Public Property CurrentProject As String
@@ -30,6 +31,15 @@ Public Class General
         ActiveRequired = New List(Of ToolStripMenuItem)({ToolStripMenuItem2, ToolStripMenuItem3, ToolStripMenuItem7, ToolStripMenuItem4})
         ProjectActiveRequired = New List(Of ToolStripMenuItem)  ' Nothing is provided !
         ' End
+        Dim alert As String = ""
+        For Each i In Environments
+            If Not My.Computer.FileSystem.FileExists(Application.StartupPath & "\" & i) Then
+                alert &= i & vbCrLf
+            End If
+        Next
+        If Trim(alert) <> "" Then
+            MsgBox("Warning: Following files are not found in the application directory:" & vbCrLf & alert & vbCrLf & vbCrLf & "Without these files, the editor can be runned, but you may not able to run BlueBetter program or website.", MsgBoxStyle.Exclamation, "Warning")
+        End If
     End Sub
 
     Private Function CreatingOne() As MainIDE
@@ -92,7 +102,7 @@ Public Class General
         p.Show()
     End Sub
 
-    Private Sub FileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileToolStripMenuItem.Click
+    Private Sub FileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileToolStripMenuItem.Click, FileToolStripMenuItem.MouseMove
         Dim oks As Boolean = HaveChildren
         For Each i In ActiveRequired
             Dim ob As ToolStripMenuItem = i
@@ -107,7 +117,25 @@ Public Class General
 
     Private Sub RunWebsiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunWebsiteToolStripMenuItem.Click
         ' TODO: Add runner
+        Try
+            For Each i In Environments
+                My.Computer.FileSystem.CopyFile(Application.StartupPath & "\" & i, CurrentProject & "\" & i, True)
+            Next
+            Shell("cmd /c cd " & CurrentProject & " & " & CurrentProject & "\VBWeb.exe", AppWinStyle.NormalFocus)
+        Catch ex As OperationCanceledException
+            ' Do nothing
+        Catch ex As Exception
+            MsgBox("Cannot run website: " & ex.Message, MsgBoxStyle.Critical, "Fatal error")
+        End Try
+
     End Sub
+
+    Private Sub ProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProjectToolStripMenuItem.Click, ProjectToolStripMenuItem.MouseMove
+        Dim avail As Boolean = Trim(CurrentProject) <> ""
+        ToolStripMenuItem6.Enabled = avail
+        RunWebsiteToolStripMenuItem.Enabled = avail
+    End Sub
+
 
     Private Sub ToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem7.Click
         If HaveChildren Then
