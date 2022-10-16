@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3DAA2E7E-A29B-4BDC-A7EC-FF0D384F5155}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>BlueBetter_IDE.My.MyApplication</StartupObject>
-    <RootNamespace>BlueBetter_IDE</RootNamespace>
-    <AssemblyName>BlueBetter IDE</AssemblyName>
+    <StartupObject>NorthernLights.My.MyApplication</StartupObject>
+    <RootNamespace>NorthernLights</RootNamespace>
+    <AssemblyName>Northern Lights</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>BlueBetter IDE.xml</DocumentationFile>
+    <DocumentationFile>Northern Lights.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>BlueBetter IDE.xml</DocumentationFile>
+    <DocumentationFile>Northern Lights.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>

@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports BlueBetter_IDE.Utility
 Imports System.Threading
 
 Public Class ProjectViewer
@@ -80,7 +79,9 @@ Public Class ProjectViewer
                     curoot.ImageIndex = 1
                     ' Query if here's its color
                     Dim ge As String = GetExtension(cur)
-                    If Highlighted.ContainsKey(ge) Then
+                    If Environments.Contains(cur) Then
+                        curoot.ForeColor = Color.Purple
+                    ElseIf Highlighted.ContainsKey(ge) Then
                         curoot.ForeColor = Highlighted(ge)
                     Else
                         curoot.ForeColor = Color.Black
@@ -114,7 +115,9 @@ AfterNodeYielder: 'Must be found!
                 Dim ge As String = GetExtension(gn)
                 Dim c As TreeNode = CurrentNode.Nodes.Add(gn)
                 c.ImageIndex = 1
-                If Highlighted.ContainsKey(ge) Then
+                If Environments.Contains(gn) Then
+                    c.ForeColor = Color.Purple
+                ElseIf Highlighted.ContainsKey(ge) Then
                     c.ForeColor = Highlighted(ge)
                 Else
                     c.ForeColor = Color.Black
@@ -227,7 +230,9 @@ AfterNodeYielder: 'Must be found!
             tag.Tag = e.FullPath
             tag.Text = My.Computer.FileSystem.GetName(e.FullPath)
             Dim ge As String = GetExtension(tag.Text)
-            If Highlighted.ContainsKey(ge) Then
+            If Environments.Contains(tag.Text) Then
+                tag.ForeColor = Color.Purple
+            ElseIf Highlighted.ContainsKey(ge) Then
                 tag.ForeColor = Highlighted(ge)
             Else
                 tag.ForeColor = Color.Black
@@ -273,6 +278,11 @@ AfterNodeYielder: 'Must be found!
     Public Sub Deleting() Implements IDEChildInterface.Deleting
         Dim cf As String = DocumentTree.SelectedNode.Tag
         If MsgBox("Are you sure to delete this file or directory?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.Yes Then
+            If Environments.Contains(My.Computer.FileSystem.GetName(cf)) Then
+                If MsgBox("This is a server executable file! Are you sure to delete it?", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.No Then
+                    Exit Sub
+                End If
+            End If
             If My.Computer.FileSystem.DirectoryExists(cf) Then
                 My.Computer.FileSystem.DeleteDirectory(cf, FileIO.DeleteDirectoryOption.DeleteAllContents)
             Else

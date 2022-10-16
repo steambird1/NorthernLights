@@ -1,4 +1,5 @@
 ﻿Module Utility
+    Public Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe"})
     Public Function GetExtension(Filename As String) As String
         Dim ext As String = Filename
         Try

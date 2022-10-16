@@ -3,7 +3,6 @@
 Public Class General
 
     Private ActiveRequired, ProjectActiveRequired As List(Of ToolStripMenuItem)
-    Private Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe"})
 
     Private _CurrentObject As String = ""
     Public Property CurrentProject As String

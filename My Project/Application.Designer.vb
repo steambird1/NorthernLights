@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.BlueBetter_IDE.General
+            Me.MainForm = Global.NorthernLights.General
         End Sub
     End Class
 End Namespace
