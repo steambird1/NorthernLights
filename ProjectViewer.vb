@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-Imports BlueBetter_IDE
+Imports BlueBetter_IDE.Utility
 Imports System.Threading
 
 Public Class ProjectViewer
@@ -7,6 +7,18 @@ Public Class ProjectViewer
     Implements IDEChildInterface
 
     Public AcceptableStarter As HashSet(Of String) = New HashSet(Of String)({"html", "htm", "xml", "blue", "bp", "txt", "log"})
+    ' Also, bold for all directories.
+    Public Highlighted As Dictionary(Of String, Color) = New Dictionary(Of String, Color)
+
+    Private Sub LoadConstants()
+        Highlighted.Add("html", Color.Red)
+        Highlighted.Add("htm", Color.Red)
+        Highlighted.Add("xml", Color.Red)
+        Highlighted.Add("blue", Color.Blue)
+        Highlighted.Add("bp", Color.Blue)
+        Highlighted.Add("txt", Color.Green)
+        Highlighted.Add("log", Color.Green)
+    End Sub
 
     Private SuppressUpdater As Boolean = False
     Private HasUpdated As Boolean = False
@@ -66,6 +78,13 @@ Public Class ProjectViewer
                     curoot.ImageIndex = 0
                 Else
                     curoot.ImageIndex = 1
+                    ' Query if here's its color
+                    Dim ge As String = GetExtension(cur)
+                    If Highlighted.ContainsKey(ge) Then
+                        curoot.ForeColor = Highlighted(ge)
+                    Else
+                        curoot.ForeColor = Color.Black
+                    End If
                 End If
                 curoot.Text = cur '??
             End If
@@ -91,8 +110,15 @@ AfterNodeYielder: 'Must be found!
         Next
         For Each i In My.Computer.FileSystem.GetFiles(Path)
             If i.IndexOf(SearchContent.Text) >= 0 Then
-                Dim c As TreeNode = CurrentNode.Nodes.Add(My.Computer.FileSystem.GetName(i))
+                Dim gn As String = My.Computer.FileSystem.GetName(i)
+                Dim ge As String = GetExtension(gn)
+                Dim c As TreeNode = CurrentNode.Nodes.Add(gn)
                 c.ImageIndex = 1
+                If Highlighted.ContainsKey(ge) Then
+                    c.ForeColor = Highlighted(ge)
+                Else
+                    c.ForeColor = Color.Black
+                End If
                 c.Tag = i
             End If
         Next
@@ -168,6 +194,7 @@ AfterNodeYielder: 'Must be found!
     End Sub
 
     Private Sub ProjectViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadConstants()
         Upload()
     End Sub
 
@@ -199,11 +226,18 @@ AfterNodeYielder: 'Must be found!
             Dim tag As TreeNode = FindTreeNode(e.OldFullPath)
             tag.Tag = e.FullPath
             tag.Text = My.Computer.FileSystem.GetName(e.FullPath)
+            Dim ge As String = GetExtension(tag.Text)
+            If Highlighted.ContainsKey(ge) Then
+                tag.ForeColor = Highlighted(ge)
+            Else
+                tag.ForeColor = Color.Black
+            End If
         End If
     End Sub
 
     Private Sub DocumentTree_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles DocumentTree.AfterSelect
-
+        ' For better view
+        DocumentTree.SelectedNode.SelectedImageIndex = DocumentTree.SelectedNode.ImageIndex
     End Sub
 
     Private Sub DocumentTree_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles DocumentTree.AfterLabelEdit

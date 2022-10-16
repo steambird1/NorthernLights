@@ -56,13 +56,18 @@
                     End If
                 End If
                 ElemViewer.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
-                ElemViewer.Nodes(ElemViewer.Nodes.Count - 1).Tag = i.LinePosition
+                With ElemViewer.Nodes(ElemViewer.Nodes.Count - 1)
+                    .Tag = i.LinePosition
+                    .ForeColor = Color.Black        ' No special thing for functions
+                End With
                 If i.ObjectType = "Class" Then
                     ' Add sub nodes...
+                    ElemViewer.Nodes(ElemViewer.Nodes.Count - 1).ForeColor = Color.Green
                     For Each j In i.ClassFunction
                         If j.ObjectType = "Inheritance" Then
                             With ElemViewer.Nodes(ElemViewer.Nodes.Count - 1)
                                 .Nodes.Add("Inheritance" & mytab & j.ObjectName)
+                                .Nodes(.Nodes.Count - 1).ForeColor = Color.Red
                                 InheritanceUpdate(j, .Nodes(.Nodes.Count - 1))
                             End With
 
@@ -77,7 +82,13 @@
                             End If
                             With ElemViewer.Nodes(ElemViewer.Nodes.Count - 1)
                                 .Nodes.Add(mesc & mytab & GenerateAttributeDescription(j))
-                                .Nodes(.Nodes.Count - 1).Tag = j.LinePosition
+                                With .Nodes(.Nodes.Count - 1)
+                                    .ForeColor = Color.Black
+                                    If j.ObjectType = "Variable" Then
+                                        .ForeColor = Color.Blue
+                                    End If
+                                    .Tag = j.LinePosition
+                                End With
                             End With
                         End If
                     Next

@@ -114,6 +114,7 @@
     <Compile Include="ProjectViewer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Utility.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="General.resx">

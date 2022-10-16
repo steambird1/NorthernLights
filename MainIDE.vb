@@ -697,14 +697,24 @@ vsc:    lineJustEdit = currentline
         End If
     End Sub
 
-    Public Sub ClearCheck()
+    ''' <summary>
+    ''' Ask the user whether or not the file should be saved.
+    ''' </summary>
+    ''' <returns>True - Go on execution, False - Stop execution</returns>
+    Public Function ClearCheck() As Boolean
         If Not saved Then
-            Dim r = MsgBox("Current file not saved. Save?", MsgBoxStyle.YesNo, "Prompt")
-            If r = MsgBoxResult.Yes Then
-                LoadSave()
-            End If
+            Dim r = MsgBox("Current file is not saved. Save?", MsgBoxStyle.YesNoCancel, "Prompt")
+            Select Case r
+                Case MsgBoxResult.Yes
+                    LoadSave()
+                Case MsgBoxResult.Cancel
+                    Return False
+            End Select
+            Return True
+        Else
+            Return True         ' Always return true as here's no work
         End If
-    End Sub
+    End Function
 
     Public Sub Creating() Implements IDEChildInterface.Creating
         IsCreating = True
@@ -755,44 +765,43 @@ vsc:    lineJustEdit = currentline
         Next
         CodeData.Enabled = True
         suspendScroller = False
+        saved = True                    ' Initial time
     End Sub
 
     Public Sub OpenFile(Filename As String) Implements IDEChildInterface.OpenFile
-        _TmpFilename = Filename
-        FileKindSelector.Visible = False
-        CodeFieldVisible = True
-        IsPlainHTML = False
-        Dim ext As String = Filename
-        Try
-            ext = ext.Substring(ext.LastIndexOf("."c) + 1)
-        Catch ex As ArgumentOutOfRangeException
-            ext = ""
-        End Try
-        Select Case ext
-            Case "blue"
-                SelectAKind(True)
-            Case "bp"
-                SelectAKind(False)
-            Case Else
-                If HTMLKinds.Contains(ext) Then
-                    ' Process as HTML
-                    OpenHTML()
-                Else
-                    IsCreating = False
-                    FileKindSelector.Visible = True
-                    Exit Sub
-                End If
+        If ClearCheck() Then
+            _TmpFilename = Filename
+            FileKindSelector.Visible = False
+            CodeFieldVisible = True
+            IsPlainHTML = False
+            Dim ext As String = GetExtension(Filename)
+            Select Case ext
+                Case "blue"
+                    SelectAKind(True)
+                Case "bp"
+                    SelectAKind(False)
+                Case Else
+                    If HTMLKinds.Contains(ext) Then
+                        ' Process as HTML
+                        OpenHTML()
+                    Else
+                        IsCreating = False
+                        FileKindSelector.Visible = True
+                        Exit Sub
+                    End If
 
-        End Select
-        FurtherOpener()
+            End Select
+            FurtherOpener()
+        End If
     End Sub
 
     Public Sub Opening() Implements IDEChildInterface.Opening
-        ClearCheck()
-        If ofd.ShowDialog() = DialogResult.OK Then
-            OpenFile(ofd.FileName)
-            'CodeHUpdate()
-            'CodeData.Visible = True
+        If ClearCheck() Then
+            If ofd.ShowDialog() = DialogResult.OK Then
+                OpenFile(ofd.FileName)
+                'CodeHUpdate()
+                'CodeData.Visible = True
+            End If
         End If
     End Sub
 
@@ -809,12 +818,13 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub QuitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QuitToolStripMenuItem.Click
-        ClearCheck()
-        Me.Close()
+        If ClearCheck() Then
+            Me.Close()
+        End If
     End Sub
 
     Private Sub MainIDE_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        ClearCheck()
+        e.Cancel = Not ClearCheck()
     End Sub
 
     Private PreparePath As String = Application.StartupPath & "\tcode.blue"
@@ -829,17 +839,11 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub RunCodeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunCodeToolStripMenuItem.Click
-        'ClearCheck()
-        'If saved Then
-        '    FileCopy()
-        'CodeData.SaveFile(Environ("temp") & "\tcode.blue", RichTextBoxStreamType.PlainText)
         RunCurrentProgram()
         'End If
     End Sub
 
     Private Sub DebugCodedebugToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugCodedebugToolStripMenuItem.Click
-        'ClearCheck()
-        'If saved Then
         RunCurrentProgram("--debug")
         'End If
     End Sub
@@ -917,18 +921,20 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
-        If BlueFile.Checked Then
-            SelectAKind(True)
-        ElseIf PageFile.Checked Then
-            SelectAKind(False)
-        ElseIf HTMLFile.Checked Then
-            OpenHTML()
-        ElseIf PlainFile.Checked Then
-            NoExecution = True
-            SelectAKind(False)
-        Else
-            MsgBox("Please select a file type!")
-            Exit Sub
+        If ClearCheck() Then
+            If BlueFile.Checked Then
+                SelectAKind(True)
+            ElseIf PageFile.Checked Then
+                SelectAKind(False)
+            ElseIf HTMLFile.Checked Then
+                OpenHTML()
+            ElseIf PlainFile.Checked Then
+                NoExecution = True
+                SelectAKind(False)
+            Else
+                MsgBox("Please select a file type!")
+                Exit Sub
+            End If
         End If
     End Sub
 
@@ -945,8 +951,9 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub IDEChildInterface_Closing() Implements IDEChildInterface.Closing
-        ClearCheck()
-        Me.Close()
+        If ClearCheck() Then
+            Me.Close()
+        End If
     End Sub
 
     Public Sub RenameFile() Implements IDEChildInterface.RenameFile
