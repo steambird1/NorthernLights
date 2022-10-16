@@ -274,9 +274,9 @@ AfterNodeYielder: 'Must be found!
         Dim cf As String = DocumentTree.SelectedNode.Tag
         If MsgBox("Are you sure to delete this file or directory?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "Confirm") = MsgBoxResult.Yes Then
             If My.Computer.FileSystem.DirectoryExists(cf) Then
-                My.Computer.FileSystem.DeleteDirectory(cf, FileIO.DeleteDirectoryOption.DeleteAllContents, FileIO.RecycleOption.SendToRecycleBin)
+                My.Computer.FileSystem.DeleteDirectory(cf, FileIO.DeleteDirectoryOption.DeleteAllContents)
             Else
-                My.Computer.FileSystem.DeleteFile(cf, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                My.Computer.FileSystem.DeleteFile(cf)
             End If
         End If
         ' Will be automaticly updated

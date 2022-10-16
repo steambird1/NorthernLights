@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class General
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -21,7 +21,7 @@ Partial Class General
     '注意: 以下过程是 Windows 窗体设计器所必需的
     '可以使用 Windows 窗体设计器修改它。  
     '不要使用代码编辑器修改它。
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -39,8 +39,14 @@ Partial Class General
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.RunWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewSpecified = New System.Windows.Forms.ToolStripMenuItem()
-        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
         Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CascadeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TiltToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TiltVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ArrangeIconsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -57,7 +63,7 @@ Partial Class General
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem7, Me.ToolStripMenuItem4, Me.ToolStripSeparator1, Me.NewProjectToolStripMenuItem, Me.QuitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem7, Me.ToolStripMenuItem5, Me.ToolStripMenuItem4, Me.ToolStripSeparator1, Me.NewProjectToolStripMenuItem, Me.QuitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
         Me.FileToolStripMenuItem.Text = "File"
@@ -65,18 +71,21 @@ Partial Class General
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
         Me.NewToolStripMenuItem.Size = New System.Drawing.Size(254, 26)
         Me.NewToolStripMenuItem.Text = "New..."
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(254, 26)
         Me.ToolStripMenuItem1.Text = "Open file..."
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
         Me.ToolStripMenuItem2.Size = New System.Drawing.Size(254, 26)
         Me.ToolStripMenuItem2.Text = "Save file"
         '
@@ -95,7 +104,8 @@ Partial Class General
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(254, 26)
+        Me.ToolStripMenuItem4.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(356, 26)
         Me.ToolStripMenuItem4.Text = "Close file"
         '
         'ToolStripSeparator1
@@ -106,13 +116,16 @@ Partial Class General
         'NewProjectToolStripMenuItem
         '
         Me.NewProjectToolStripMenuItem.Name = "NewProjectToolStripMenuItem"
-        Me.NewProjectToolStripMenuItem.Size = New System.Drawing.Size(254, 26)
+        Me.NewProjectToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.NewProjectToolStripMenuItem.Size = New System.Drawing.Size(356, 26)
         Me.NewProjectToolStripMenuItem.Text = "Open/Create Website..."
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(254, 26)
+        Me.QuitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(356, 26)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'ProjectToolStripMenuItem
@@ -125,6 +138,7 @@ Partial Class General
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        Me.ToolStripMenuItem6.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
         Me.ToolStripMenuItem6.Size = New System.Drawing.Size(318, 26)
         Me.ToolStripMenuItem6.Text = "Project viewer..."
         '
@@ -136,6 +150,7 @@ Partial Class General
         'RunWebsiteToolStripMenuItem
         '
         Me.RunWebsiteToolStripMenuItem.Name = "RunWebsiteToolStripMenuItem"
+        Me.RunWebsiteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10
         Me.RunWebsiteToolStripMenuItem.Size = New System.Drawing.Size(318, 26)
         Me.RunWebsiteToolStripMenuItem.Text = "Run website..."
         '
@@ -150,9 +165,46 @@ Partial Class General
         '
         'WindowToolStripMenuItem
         '
+        Me.WindowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CascadeToolStripMenuItem, Me.TiltToolStripMenuItem, Me.TiltVerticalToolStripMenuItem, Me.ArrangeIconsToolStripMenuItem, Me.ToolStripSeparator3})
         Me.WindowToolStripMenuItem.Name = "WindowToolStripMenuItem"
         Me.WindowToolStripMenuItem.Size = New System.Drawing.Size(81, 24)
         Me.WindowToolStripMenuItem.Text = "Window"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.Delete), System.Windows.Forms.Keys)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(356, 26)
+        Me.ToolStripMenuItem5.Text = "Delete file"
+        '
+        'CascadeToolStripMenuItem
+        '
+        Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CascadeToolStripMenuItem.Text = "Cascade"
+        '
+        'TiltToolStripMenuItem
+        '
+        Me.TiltToolStripMenuItem.Name = "TiltToolStripMenuItem"
+        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.TiltToolStripMenuItem.Text = "Tilt Horizontal"
+        '
+        'TiltVerticalToolStripMenuItem
+        '
+        Me.TiltVerticalToolStripMenuItem.Name = "TiltVerticalToolStripMenuItem"
+        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.TiltVerticalToolStripMenuItem.Text = "Tilt Vertical"
+        '
+        'ArrangeIconsToolStripMenuItem
+        '
+        Me.ArrangeIconsToolStripMenuItem.Name = "ArrangeIconsToolStripMenuItem"
+        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.ArrangeIconsToolStripMenuItem.Text = "Arrange Icons"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(213, 6)
         '
         'General
         '
@@ -190,4 +242,10 @@ Partial Class General
     Friend WithEvents ToolStripMenuItem7 As ToolStripMenuItem
     Friend WithEvents ViewSpecified As ToolStripMenuItem
     Friend WithEvents WindowToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem5 As ToolStripMenuItem
+    Friend WithEvents CascadeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TiltToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TiltVerticalToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ArrangeIconsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 End Class

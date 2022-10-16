@@ -28,7 +28,7 @@ Public Class General
 
     Private Sub General_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Constants
-        ActiveRequired = New List(Of ToolStripMenuItem)({ToolStripMenuItem2, ToolStripMenuItem3, ToolStripMenuItem7, ToolStripMenuItem4})
+        ActiveRequired = New List(Of ToolStripMenuItem)({ToolStripMenuItem2, ToolStripMenuItem3, ToolStripMenuItem7, ToolStripMenuItem5, ToolStripMenuItem4})
         ProjectActiveRequired = New List(Of ToolStripMenuItem)  ' Nothing is provided !
         ' End
         Dim alert As String = ""
@@ -174,6 +174,28 @@ Public Class General
         RunWebsiteToolStripMenuItem.Enabled = avail
     End Sub
 
+    Private Sub ToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem5.Click
+        If HaveChildren Then
+            Dim s As IDEChildInterface = Me.ActiveMdiChild
+            s.Deleting()
+        End If
+    End Sub
+
+    Private Sub CascadeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CascadeToolStripMenuItem.Click
+        LayoutMdi(MdiLayout.Cascade)
+    End Sub
+
+    Private Sub TiltToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TiltToolStripMenuItem.Click
+        LayoutMdi(MdiLayout.TileHorizontal)
+    End Sub
+
+    Private Sub TiltVerticalToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TiltVerticalToolStripMenuItem.Click
+        LayoutMdi(MdiLayout.TileVertical)
+    End Sub
+
+    Private Sub ArrangeIconsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ArrangeIconsToolStripMenuItem.Click
+        LayoutMdi(MdiLayout.ArrangeIcons)
+    End Sub
 
     Private Sub ToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem7.Click
         If HaveChildren Then

@@ -8,6 +8,7 @@ Public Class MainIDE
     ' Data can be used for all systems
 
     Public HTMLKinds As HashSet(Of String) = New HashSet(Of String)({"htm", "html", "xml"})
+    Public StandardLibrary As List(Of String) = New List(Of String)({"bmain.blue", "WebHeader.blue", "algo.blue"})
     Private IsPlainHTML As Boolean = False
     Private IsCreating As Boolean = False
     ' For plain file only
@@ -75,7 +76,7 @@ Public Class MainIDE
 
     Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:"})
     ' Only able to exist after removing vbTab
-    Public ReadOnly commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden"})
+    Public commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c})
 
@@ -320,11 +321,22 @@ Public Class MainIDE
             End If
         Next
         CodeData_VScroll(New Object, New EventArgs)
-        Dim f As String
-        Dim fd As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Application.StartupPath & "\bmain.blue")
-        f = fd.ReadToEnd()
-        fd.Close()
-        LoadObjectInfo(f, True)
+
+        Dim failure As String = ""
+        For Each i In StandardLibrary
+            Try
+                Dim f As String
+                Dim fd As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Application.StartupPath & "\" & i)
+                f = fd.ReadToEnd()
+                fd.Close()
+                LoadObjectInfo(f, True)
+            Catch ex As Exception
+                failure &= i & vbCrLf
+            End Try
+        Next
+        If Trim(failure) <> "" Then
+            MsgBox("Warning: Failed to load standard library: " & vbCrLf & vbCrLf & failure, MsgBoxStyle.Exclamation, "Warning")
+        End If
     End Sub
 
     Private Sub SearchClassToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchClassToolStripMenuItem.Click
@@ -908,6 +920,11 @@ vsc:    lineJustEdit = currentline
     ' Used as 'New' (or 'Open').
     Public Sub SelectAKind(IsBlueBetter As Boolean)
         Me.isBluebetter = IsBlueBetter
+        If IsBlueBetter Then
+            commanding_keywords.Remove("echo")
+        Else
+            commanding_keywords.Add("echo")
+        End If
         FileKindSelector.Visible = False
         ClearCheck()
         CodeData.Text = ""
