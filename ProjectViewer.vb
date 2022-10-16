@@ -62,6 +62,11 @@ Public Class ProjectViewer
                 End If
                 curoot = curoot.Nodes.Add(cur)
                 curoot.Tag = sumi
+                If My.Computer.FileSystem.DirectoryExists(sumi) Then
+                    curoot.ImageIndex = 0
+                Else
+                    curoot.ImageIndex = 1
+                End If
                 curoot.Text = cur '??
             End If
 AfterNodeYielder: 'Must be found!
@@ -80,12 +85,14 @@ AfterNodeYielder: 'Must be found!
     Public Sub RecesuiveUpload(Path As String, CurrentNode As TreeNode)
         For Each i In My.Computer.FileSystem.GetDirectories(Path)
             Dim c As TreeNode = CurrentNode.Nodes.Add(My.Computer.FileSystem.GetName(i))
+            c.ImageIndex = 0
             c.Tag = i
             RecesuiveUpload(i, c)
         Next
         For Each i In My.Computer.FileSystem.GetFiles(Path)
             If i.IndexOf(SearchContent.Text) >= 0 Then
                 Dim c As TreeNode = CurrentNode.Nodes.Add(My.Computer.FileSystem.GetName(i))
+                c.ImageIndex = 1
                 c.Tag = i
             End If
         Next
@@ -95,6 +102,7 @@ AfterNodeYielder: 'Must be found!
         ' Yield the directory.
         DocumentTree.Nodes.Clear()
         Dim dt As TreeNode = DocumentTree.Nodes.Add("(Root)")
+        dt.ImageIndex = 0
         dt.Tag = ProjectDirectory
         RecesuiveUpload(ProjectDirectory, dt)
     End Sub
@@ -119,6 +127,7 @@ AfterNodeYielder: 'Must be found!
             SuppressUpdater = True
             My.Computer.FileSystem.OpenTextFileWriter(okp, True).Close()
             Dim ft As TreeNode = DocumentTree.SelectedNode.Nodes.Add(My.Computer.FileSystem.GetName(okp))
+            ft.ImageIndex = 1
             ft.Tag = okp
             SuppressUpdater = False
             ft.BeginEdit()
@@ -245,6 +254,7 @@ AfterNodeYielder: 'Must be found!
             SuppressUpdater = True
             My.Computer.FileSystem.CreateDirectory(okp)
             Dim ft As TreeNode = DocumentTree.SelectedNode.Nodes.Add(My.Computer.FileSystem.GetName(okp))
+            ft.ImageIndex = 0
             ft.Tag = okp
             Thread.Yield()
             SuppressUpdater = False

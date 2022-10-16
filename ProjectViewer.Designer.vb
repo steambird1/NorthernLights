@@ -22,6 +22,8 @@ Partial Class ProjectViewer
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProjectViewer))
         Me.DocumentTree = New System.Windows.Forms.TreeView()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SearchContent = New System.Windows.Forms.TextBox()
@@ -29,6 +31,7 @@ Partial Class ProjectViewer
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.TreeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateDirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ImageProvider = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.FSWatcher, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -38,9 +41,12 @@ Partial Class ProjectViewer
         Me.DocumentTree.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DocumentTree.ImageIndex = 1
+        Me.DocumentTree.ImageList = Me.ImageProvider
         Me.DocumentTree.LabelEdit = True
         Me.DocumentTree.Location = New System.Drawing.Point(0, 71)
         Me.DocumentTree.Name = "DocumentTree"
+        Me.DocumentTree.SelectedImageIndex = 1
         Me.DocumentTree.Size = New System.Drawing.Size(531, 337)
         Me.DocumentTree.TabIndex = 0
         '
@@ -88,8 +94,15 @@ Partial Class ProjectViewer
         'CreateDirectoryToolStripMenuItem
         '
         Me.CreateDirectoryToolStripMenuItem.Name = "CreateDirectoryToolStripMenuItem"
-        Me.CreateDirectoryToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CreateDirectoryToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.CreateDirectoryToolStripMenuItem.Text = "Create directory"
+        '
+        'ImageProvider
+        '
+        Me.ImageProvider.ImageStream = CType(resources.GetObject("ImageProvider.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageProvider.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageProvider.Images.SetKeyName(0, "Folder.png")
+        Me.ImageProvider.Images.SetKeyName(1, "Empty.png")
         '
         'ProjectViewer
         '
@@ -118,4 +131,5 @@ Partial Class ProjectViewer
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents TreeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CreateDirectoryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ImageProvider As ImageList
 End Class
