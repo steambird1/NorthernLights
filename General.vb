@@ -51,11 +51,24 @@ Public Class General
     End Function
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        If HaveChildren Then
+            Dim s As IDEChildInterface = Me.ActiveMdiChild
+            If s.HaveOwnCreator Then
+                s.Creating()
+                Exit Sub
+            End If
+        End If
         CreatingOne()
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
-
+        If HaveChildren Then
+            Dim s As IDEChildInterface = Me.ActiveMdiChild
+            If s.HaveOwnCreator Then
+                s.Opening()
+                Exit Sub
+            End If
+        End If
         CreatingOne().Opening()
 
     End Sub

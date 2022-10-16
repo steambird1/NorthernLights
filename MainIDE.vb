@@ -728,6 +728,12 @@ vsc:    lineJustEdit = currentline
         End Set
     End Property
 
+    Public ReadOnly Property HaveOwnCreator As Boolean Implements IDEChildInterface.HaveOwnCreator
+        Get
+            Return False
+        End Get
+    End Property
+
     Public Sub OpenHTML()
         IsPlainHTML = True
         SelectAKind(False)
@@ -958,5 +964,17 @@ vsc:    lineJustEdit = currentline
         Dim ac As Boolean = (Not (IsPlainHTML OrElse NoExecution)) AndAlso Me.isBluebetter
         RunToolStripMenuItem.Enabled = ac
         DebugCodedebugToolStripMenuItem.Enabled = ac
+    End Sub
+
+    Private Sub FileKindSelector_Enter(sender As Object, e As EventArgs) Handles FileKindSelector.Enter
+
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+
+    End Sub
+
+    Public Sub Deleting() Implements IDEChildInterface.Deleting
+
     End Sub
 End Class

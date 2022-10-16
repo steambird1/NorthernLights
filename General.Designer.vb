@@ -38,16 +38,18 @@ Partial Class General
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.RunWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
         Me.ViewSpecified = New System.Windows.Forms.ToolStripMenuItem()
+        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
+        Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ProjectToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ProjectToolStripMenuItem, Me.WindowToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.MdiWindowListItem = Me.WindowToolStripMenuItem
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(843, 28)
         Me.MenuStrip1.TabIndex = 1
@@ -146,6 +148,12 @@ Partial Class General
         Me.ViewSpecified.Size = New System.Drawing.Size(318, 26)
         Me.ViewSpecified.Text = "View specified file when running"
         '
+        'WindowToolStripMenuItem
+        '
+        Me.WindowToolStripMenuItem.Name = "WindowToolStripMenuItem"
+        Me.WindowToolStripMenuItem.Size = New System.Drawing.Size(81, 24)
+        Me.WindowToolStripMenuItem.Text = "Window"
+        '
         'General
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -181,4 +189,5 @@ Partial Class General
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripMenuItem7 As ToolStripMenuItem
     Friend WithEvents ViewSpecified As ToolStripMenuItem
+    Friend WithEvents WindowToolStripMenuItem As ToolStripMenuItem
 End Class
