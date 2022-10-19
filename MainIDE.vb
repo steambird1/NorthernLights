@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
-Imports BlueBetter_IDE
-Imports Microsoft.Win32.Forms
+Imports NorthernLights
+
 Public Class MainIDE
     Implements IDEChildInterface
 
@@ -968,9 +968,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub IDEChildInterface_Closing() Implements IDEChildInterface.Closing
-        If ClearCheck() Then
-            Me.Close()
-        End If
+        Me.Close()
     End Sub
 
     Public Sub RenameFile() Implements IDEChildInterface.RenameFile
@@ -1001,4 +999,8 @@ vsc:    lineJustEdit = currentline
     Public Sub Deleting() Implements IDEChildInterface.Deleting
 
     End Sub
+
+    Public Function ConfirmMasterClose() As Boolean Implements IDEChildInterface.ConfirmMasterClose
+        Return Not ClearCheck()
+    End Function
 End Class

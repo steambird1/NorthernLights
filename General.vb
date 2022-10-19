@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms
+﻿Imports System.ComponentModel
+Imports System.Windows.Forms
 
 Public Class General
 
@@ -196,6 +197,10 @@ Public Class General
         LayoutMdi(MdiLayout.ArrangeIcons)
     End Sub
 
+    Private Sub QuitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QuitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
     Private Sub ToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem7.Click
         If HaveChildren Then
             Dim s As IDEChildInterface = Me.ActiveMdiChild
@@ -203,4 +208,9 @@ Public Class General
         End If
     End Sub
 
+    Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        If Not e.Cancel Then
+            End
+        End If
+    End Sub
 End Class

@@ -30,6 +30,7 @@ Partial Class General
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.NewProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -40,13 +41,12 @@ Partial Class General
         Me.RunWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewSpecified = New System.Windows.Forms.ToolStripMenuItem()
         Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem()
         Me.CascadeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TiltToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TiltVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ArrangeIconsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -72,34 +72,41 @@ Partial Class General
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(254, 26)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(356, 26)
         Me.NewToolStripMenuItem.Text = "New..."
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
         Me.ToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(254, 26)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(356, 26)
         Me.ToolStripMenuItem1.Text = "Open file..."
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(254, 26)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(356, 26)
         Me.ToolStripMenuItem2.Text = "Save file"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(254, 26)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(356, 26)
         Me.ToolStripMenuItem3.Text = "Save file as ..."
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(254, 26)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(356, 26)
         Me.ToolStripMenuItem7.Text = "Rename..."
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.Delete), System.Windows.Forms.Keys)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(356, 26)
+        Me.ToolStripMenuItem5.Text = "Delete file"
         '
         'ToolStripMenuItem4
         '
@@ -111,7 +118,7 @@ Partial Class General
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(251, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(353, 6)
         '
         'NewProjectToolStripMenuItem
         '
@@ -170,41 +177,34 @@ Partial Class General
         Me.WindowToolStripMenuItem.Size = New System.Drawing.Size(81, 24)
         Me.WindowToolStripMenuItem.Text = "Window"
         '
-        'ToolStripMenuItem5
-        '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.Delete), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(356, 26)
-        Me.ToolStripMenuItem5.Text = "Delete file"
-        '
         'CascadeToolStripMenuItem
         '
         Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.CascadeToolStripMenuItem.Text = "Cascade"
         '
         'TiltToolStripMenuItem
         '
         Me.TiltToolStripMenuItem.Name = "TiltToolStripMenuItem"
-        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.TiltToolStripMenuItem.Text = "Tilt Horizontal"
         '
         'TiltVerticalToolStripMenuItem
         '
         Me.TiltVerticalToolStripMenuItem.Name = "TiltVerticalToolStripMenuItem"
-        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.TiltVerticalToolStripMenuItem.Text = "Tilt Vertical"
         '
         'ArrangeIconsToolStripMenuItem
         '
         Me.ArrangeIconsToolStripMenuItem.Name = "ArrangeIconsToolStripMenuItem"
-        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.ArrangeIconsToolStripMenuItem.Text = "Arrange Icons"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(213, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
         '
         'General
         '

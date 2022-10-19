@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Threading
+Imports NorthernLights
 
 Public Class ProjectViewer
 
@@ -202,7 +203,7 @@ AfterNodeYielder: 'Must be found!
     End Sub
 
     Private Sub IDEChildInterface_Closing() Implements IDEChildInterface.Closing
-
+        Me.Close()
     End Sub
 
     Private Sub SearchContent_TextChanged(sender As Object, e As EventArgs) Handles SearchContent.TextChanged
@@ -308,4 +309,8 @@ AfterNodeYielder: 'Must be found!
         End Try
 
     End Sub
+
+    Public Function ConfirmMasterClose() As Boolean Implements IDEChildInterface.ConfirmMasterClose
+        Return False
+    End Function
 End Class
