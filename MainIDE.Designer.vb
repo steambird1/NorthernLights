@@ -38,7 +38,6 @@ Partial Class MainIDE
         Me.RunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunCodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugCodedebugToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.VersionInformationversionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CodeData = New System.Windows.Forms.RichTextBox()
         Me.Searcher = New System.Windows.Forms.GroupBox()
         Me.Closer = New System.Windows.Forms.Button()
@@ -155,7 +154,7 @@ Partial Class MainIDE
         '
         'RunToolStripMenuItem
         '
-        Me.RunToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RunCodeToolStripMenuItem, Me.DebugCodedebugToolStripMenuItem, Me.VersionInformationversionToolStripMenuItem})
+        Me.RunToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RunCodeToolStripMenuItem, Me.DebugCodedebugToolStripMenuItem})
         Me.RunToolStripMenuItem.Name = "RunToolStripMenuItem"
         Me.RunToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
         Me.RunToolStripMenuItem.Text = "Run"
@@ -164,21 +163,15 @@ Partial Class MainIDE
         '
         Me.RunCodeToolStripMenuItem.Enabled = False
         Me.RunCodeToolStripMenuItem.Name = "RunCodeToolStripMenuItem"
-        Me.RunCodeToolStripMenuItem.Size = New System.Drawing.Size(307, 26)
+        Me.RunCodeToolStripMenuItem.Size = New System.Drawing.Size(248, 26)
         Me.RunCodeToolStripMenuItem.Text = "Run code"
         '
         'DebugCodedebugToolStripMenuItem
         '
         Me.DebugCodedebugToolStripMenuItem.Enabled = False
         Me.DebugCodedebugToolStripMenuItem.Name = "DebugCodedebugToolStripMenuItem"
-        Me.DebugCodedebugToolStripMenuItem.Size = New System.Drawing.Size(307, 26)
+        Me.DebugCodedebugToolStripMenuItem.Size = New System.Drawing.Size(248, 26)
         Me.DebugCodedebugToolStripMenuItem.Text = "Debug code (--debug)"
-        '
-        'VersionInformationversionToolStripMenuItem
-        '
-        Me.VersionInformationversionToolStripMenuItem.Name = "VersionInformationversionToolStripMenuItem"
-        Me.VersionInformationversionToolStripMenuItem.Size = New System.Drawing.Size(307, 26)
-        Me.VersionInformationversionToolStripMenuItem.Text = "Version information (--version)"
         '
         'CodeData
         '
@@ -463,7 +456,6 @@ Partial Class MainIDE
     Friend WithEvents LineLabel0 As Label
     Friend WithEvents LineLabel As RichTextBox
     Friend WithEvents Notify1 As Label
-    Friend WithEvents VersionInformationversionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FileKindSelector As GroupBox
     Friend WithEvents ConfirmOpening As Button
     Friend WithEvents PageFile As RadioButton

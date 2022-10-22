@@ -9,5 +9,6 @@
     Sub Deleting()
     Function ConfirmMasterClose() As Boolean            ' Return True to cancel
     ReadOnly Property HaveOwnCreator As Boolean
+    ReadOnly Property IsViewer As Boolean
     'Property SuppressConfirmer As Boolean
 End Interface

@@ -102,6 +102,12 @@ AfterNodeYielder: 'Must be found!
         End Get
     End Property
 
+    Public ReadOnly Property IsViewer As Boolean Implements IDEChildInterface.IsViewer
+        Get
+            Return True
+        End Get
+    End Property
+
     ' All directory included !
     Public Sub RecesuiveUpload(Path As String, CurrentNode As TreeNode)
         For Each i In My.Computer.FileSystem.GetDirectories(Path)

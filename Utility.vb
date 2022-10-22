@@ -9,4 +9,19 @@
         End Try
         Return ext
     End Function
+    Public Sub ShowVersion(Executable As String)
+        Dim p As New Process
+        p.StartInfo.FileName = Application.StartupPath & Executable
+        p.StartInfo.Arguments = "--version"
+        p.StartInfo.UseShellExecute = False
+        p.StartInfo.RedirectStandardInput = True
+        p.StartInfo.RedirectStandardOutput = True
+        p.StartInfo.RedirectStandardError = True
+        p.StartInfo.CreateNoWindow = True
+        p.Start()
+        p.WaitForExit()
+        Dim res As String = p.StandardOutput.ReadToEnd()
+        p.Close()
+        MsgBox(res, MsgBoxStyle.Information, "About")
+    End Sub
 End Module

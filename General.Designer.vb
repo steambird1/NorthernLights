@@ -47,13 +47,17 @@ Partial Class General
         Me.ArrangeIconsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
+        Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AboutBlueBetterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AboutBluePageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AboutIDEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ProjectToolStripMenuItem, Me.WindowToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ProjectToolStripMenuItem, Me.WindowToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.MdiWindowListItem = Me.WindowToolStripMenuItem
         Me.MenuStrip1.Name = "MenuStrip1"
@@ -180,31 +184,56 @@ Partial Class General
         'CascadeToolStripMenuItem
         '
         Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.CascadeToolStripMenuItem.Text = "Cascade"
         '
         'TiltToolStripMenuItem
         '
         Me.TiltToolStripMenuItem.Name = "TiltToolStripMenuItem"
-        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.TiltToolStripMenuItem.Text = "Tilt Horizontal"
         '
         'TiltVerticalToolStripMenuItem
         '
         Me.TiltVerticalToolStripMenuItem.Name = "TiltVerticalToolStripMenuItem"
-        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.TiltVerticalToolStripMenuItem.Text = "Tilt Vertical"
         '
         'ArrangeIconsToolStripMenuItem
         '
         Me.ArrangeIconsToolStripMenuItem.Name = "ArrangeIconsToolStripMenuItem"
-        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.ArrangeIconsToolStripMenuItem.Text = "Arrange Icons"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(213, 6)
+        '
+        'HelpToolStripMenuItem
+        '
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutIDEToolStripMenuItem})
+        Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(56, 24)
+        Me.HelpToolStripMenuItem.Text = "Help"
+        '
+        'AboutBlueBetterToolStripMenuItem
+        '
+        Me.AboutBlueBetterToolStripMenuItem.Name = "AboutBlueBetterToolStripMenuItem"
+        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.AboutBlueBetterToolStripMenuItem.Text = "About BlueBetter"
+        '
+        'AboutBluePageToolStripMenuItem
+        '
+        Me.AboutBluePageToolStripMenuItem.Name = "AboutBluePageToolStripMenuItem"
+        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.AboutBluePageToolStripMenuItem.Text = "About BluePage"
+        '
+        'AboutIDEToolStripMenuItem
+        '
+        Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
+        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.AboutIDEToolStripMenuItem.Text = "About IDE"
         '
         'General
         '
@@ -248,4 +277,8 @@ Partial Class General
     Friend WithEvents TiltVerticalToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ArrangeIconsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AboutBlueBetterToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AboutBluePageToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AboutIDEToolStripMenuItem As ToolStripMenuItem
 End Class

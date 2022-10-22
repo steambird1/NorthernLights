@@ -448,6 +448,9 @@ Public Class MainIDE
                 End While
             End If
 
+            ' Reselect...
+            CodeData.Select(currentbegin, currentend - currentbegin)
+
             If is_blue Then
                 ' End of currentbegin-currentend selection !
                 ' 1. Keywords
@@ -614,8 +617,6 @@ Public Class MainIDE
                     End If
                 Next
             End If
-
-            ' Maybe have problem with something like <p>"Text"</p>.
             ' After all override our quotes (It's common for all kinds.)
 
 FinishA:    CodeData.Select(usercur, 0)
@@ -751,6 +752,12 @@ vsc:    lineJustEdit = currentline
     End Property
 
     Public ReadOnly Property HaveOwnCreator As Boolean Implements IDEChildInterface.HaveOwnCreator
+        Get
+            Return False
+        End Get
+    End Property
+
+    Public ReadOnly Property IsViewer As Boolean Implements IDEChildInterface.IsViewer
         Get
             Return False
         End Get
@@ -899,22 +906,6 @@ vsc:    lineJustEdit = currentline
             LinearUpdate()
         End If
 
-    End Sub
-
-    Private Sub VersionInformationversionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VersionInformationversionToolStripMenuItem.Click
-        Dim p As New Process
-        p.StartInfo.FileName = Application.StartupPath & "\BlueBetter4.exe"
-        p.StartInfo.Arguments = "--version"
-        p.StartInfo.UseShellExecute = False
-        p.StartInfo.RedirectStandardInput = True
-        p.StartInfo.RedirectStandardOutput = True
-        p.StartInfo.RedirectStandardError = True
-        p.StartInfo.CreateNoWindow = True
-        p.Start()
-        p.WaitForExit()
-        Dim res As String = p.StandardOutput.ReadToEnd()
-        p.Close()
-        MsgBox(res, MsgBoxStyle.Information, "Version")
     End Sub
 
     ' Used as 'New' (or 'Open').

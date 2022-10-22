@@ -115,6 +115,12 @@ Public Class General
         If fbd.ShowDialog() = DialogResult.OK Then
             If My.Computer.FileSystem.DirectoryExists(fbd.SelectedPath) Then
                 CurrentProject = fbd.SelectedPath
+                For Each i In Me.MdiChildren
+                    Dim s As IDEChildInterface = i
+                    If s.IsViewer Then
+                        s.Closing()
+                    End If
+                Next
                 ProjectViews(sender, e)
             End If
         End If
@@ -206,6 +212,18 @@ Public Class General
             Dim s As IDEChildInterface = Me.ActiveMdiChild
             s.RenameFile()
         End If
+    End Sub
+
+    Private Sub AboutIDEToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutIDEToolStripMenuItem.Click
+        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.2", MsgBoxStyle.Information, "About IDE")
+    End Sub
+
+    Private Sub AboutBlueBetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBlueBetterToolStripMenuItem.Click
+        ShowVersion("\BlueBetter4.exe")
+    End Sub
+
+    Private Sub AboutBluePageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBluePageToolStripMenuItem.Click
+        ShowVersion("\BluePage.exe")
     End Sub
 
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
