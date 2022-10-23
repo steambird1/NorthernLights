@@ -149,14 +149,14 @@ Public Class General
 
     Public Property CurrentWebProcess As Process = New Process
 
-    Private Sub RunWebsiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunWebsiteToolStripMenuItem.Click
-        ' TODO: Add runner
+    Private Sub RunWebsite(Optional Parameter As String = "")
         Try
             For Each i In Environments
                 My.Computer.FileSystem.CopyFile(Application.StartupPath & "\" & i, CurrentProject & "\" & i, True)
             Next
             With CurrentWebProcess.StartInfo
                 .FileName = CurrentProject & "\VBWeb.exe"
+                .Arguments = Parameter
                 .UseShellExecute = True
                 .RedirectStandardError = False
                 .RedirectStandardInput = False
@@ -171,6 +171,10 @@ Public Class General
         Catch ex As Exception
             MsgBox("Cannot run website: " & ex.Message, MsgBoxStyle.Critical, "Fatal error")
         End Try
+    End Sub
+
+    Private Sub RunWebsiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunWebsiteToolStripMenuItem.Click
+        RunWebsite()
 
     End Sub
 
@@ -224,6 +228,10 @@ Public Class General
 
     Private Sub AboutBluePageToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBluePageToolStripMenuItem.Click
         ShowVersion("\BluePage.exe")
+    End Sub
+
+    Private Sub ToolStripMenuItem8_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem8.Click
+        RunWebsite("--debug")
     End Sub
 
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
