@@ -182,6 +182,7 @@ Public Class General
         Dim avail As Boolean = Trim(CurrentProject) <> ""
         ToolStripMenuItem6.Enabled = avail
         RunWebsiteToolStripMenuItem.Enabled = avail
+        DebugMenu.Enabled = avail
     End Sub
 
     Private Sub ToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem5.Click
@@ -230,7 +231,7 @@ Public Class General
         ShowVersion("\BluePage.exe")
     End Sub
 
-    Private Sub ToolStripMenuItem8_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem8.Click
+    Private Sub ToolStripMenuItem8_Click(sender As Object, e As EventArgs) Handles DebugMenu.Click
         RunWebsite("--debug")
     End Sub
 
