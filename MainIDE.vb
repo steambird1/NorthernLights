@@ -18,7 +18,21 @@ Public Class MainIDE
     'Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
     Dim upd As Boolean = False
     Dim sync As Boolean = False
-    Dim saved As Boolean = True
+    'Dim saved As Boolean = True
+    Private _saved As Boolean = True
+    Private Property saved As Boolean
+        Get
+            Return _saved
+        End Get
+        Set(value As Boolean)
+            If Not value Then
+                Me.Text = "BlueBetter - " & value & " *"
+            Else
+                Me.Text = "BlueBetter - " & value
+            End If
+            _saved = value
+        End Set
+    End Property
     'Dim intsync As Boolean = False
     Private _current As String
     Private Property current As String
@@ -316,7 +330,7 @@ Public Class MainIDE
         Dim required As String() = {"\BlueBetter4.exe", "\bmain.blue"}
         For Each i In required
             If Not My.Computer.FileSystem.FileExists(Application.StartupPath & i) Then
-                MsgBox("BlueBetter environment file (" & i & ") not found!", MsgBoxStyle.Critical)
+                MsgBox("BlueBetter environmental file (" & i & ") not found!", MsgBoxStyle.Critical)
                 End
             End If
         Next
@@ -716,7 +730,7 @@ vsc:    lineJustEdit = currentline
     ''' <returns>True - Go on execution, False - Stop execution</returns>
     Public Function ClearCheck() As Boolean
         If Not saved Then
-            Dim r = MsgBox("Current file is not saved. Save?", MsgBoxStyle.YesNoCancel, "Prompt")
+            Dim r = MsgBox("Current file " & current & " is not saved. Save?", MsgBoxStyle.YesNoCancel, "Prompt")
             Select Case r
                 Case MsgBoxResult.Yes
                     LoadSave()

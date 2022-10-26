@@ -10,6 +10,20 @@ Public Class ProjectViewer
     ' Also, bold for all directories.
     Public Highlighted As Dictionary(Of String, Color) = New Dictionary(Of String, Color)
 
+    Private Cutting As Boolean = False
+    Private _CurrentFile As String
+    Private Property CurrentFile As String
+        Get
+            Return _CurrentFile
+        End Get
+        Set(value As String)
+            _CurrentFile = value
+            Dim en As Boolean = Trim(_CurrentFile) <> ""
+            PasteToolStripMenuItem.Enabled = en
+            CancelToolStripMenuItem.Enabled = en
+        End Set
+    End Property
+
     Private Sub LoadConstants()
         Highlighted.Add("html", Color.Red)
         Highlighted.Add("htm", Color.Red)
@@ -108,7 +122,11 @@ AfterNodeYielder: 'Must be found!
         End Get
     End Property
 
-    ' All directory included !
+    ''' <summary>
+    ''' Load all directories and files under a directory.
+    ''' </summary>
+    ''' <param name="Path">The directory.</param>
+    ''' <param name="CurrentNode">The node provided for the directory.</param>
     Public Sub RecesuiveUpload(Path As String, CurrentNode As TreeNode)
         For Each i In My.Computer.FileSystem.GetDirectories(Path)
             Dim c As TreeNode = CurrentNode.Nodes.Add(My.Computer.FileSystem.GetName(i))
@@ -223,7 +241,11 @@ AfterNodeYielder: 'Must be found!
 
 
     Private Sub FSWatcher_Created(sender As Object, e As FileSystemEventArgs) Handles FSWatcher.Created
-        FindTreeNode(e.FullPath)
+        Dim CurrentTreeNode = FindTreeNode(e.FullPath)
+        If My.Computer.FileSystem.DirectoryExists(e.FullPath) Then
+            CurrentTreeNode.ImageIndex = 0                  ' Directory!
+            RecesuiveUpload(e.FullPath, CurrentTreeNode)
+        End If
         HasUpdated = True ' For file and directory creater
     End Sub
 
@@ -319,4 +341,57 @@ AfterNodeYielder: 'Must be found!
     Public Function ConfirmMasterClose() As Boolean Implements IDEChildInterface.ConfirmMasterClose
         Return False
     End Function
+
+    Private Sub CutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CutToolStripMenuItem.Click
+        Dim tn As TreeNode = DocumentTree.SelectedNode
+        If Not IsNothing(tn) Then
+            Cutting = True
+            CurrentFile = tn.Tag
+        End If
+    End Sub
+
+    Private Sub CopyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyToolStripMenuItem.Click
+        Dim tn As TreeNode = DocumentTree.SelectedNode
+        If Not IsNothing(tn) Then
+            Cutting = False
+            CurrentFile = tn.Tag
+        End If
+    End Sub
+
+    Private Sub CancelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CancelToolStripMenuItem.Click
+        Cutting = False
+        CurrentFile = ""
+    End Sub
+
+    Private Sub PasteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PasteToolStripMenuItem.Click
+        Try
+            Dim tn As TreeNode = DocumentTree.SelectedNode
+            If Not IsNothing(tn) Then
+                With My.Computer.FileSystem
+                    Dim gn As String = .GetName(CurrentFile)
+                    Dim target As String = tn.Tag & "\" & gn
+                    If Cutting Then
+                        If .DirectoryExists(CurrentFile) Then
+                            .MoveDirectory(CurrentFile, target)
+                            CurrentFile = target
+                        Else
+                            .MoveFile(CurrentFile, tn.Tag & "\" & gn)
+                            CurrentFile = target
+                        End If
+                        Cutting = False ' Always copy then
+                    Else
+                        If .DirectoryExists(CurrentFile) Then
+                            .CopyDirectory(CurrentFile, target)
+                            CurrentFile = target
+                        Else
+                            .CopyFile(CurrentFile, target)
+                            CurrentFile = target
+                        End If
+                    End If
+                End With
+            End If
+        Catch ex As Exception
+            MsgBox("Error: cannot move or copy this file or directory!", MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
 End Class

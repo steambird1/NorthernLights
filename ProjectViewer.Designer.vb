@@ -25,13 +25,17 @@ Partial Class ProjectViewer
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProjectViewer))
         Me.DocumentTree = New System.Windows.Forms.TreeView()
+        Me.ImageProvider = New System.Windows.Forms.ImageList(Me.components)
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SearchContent = New System.Windows.Forms.TextBox()
         Me.FSWatcher = New System.IO.FileSystemWatcher()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.TreeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateDirectoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ImageProvider = New System.Windows.Forms.ImageList(Me.components)
+        Me.CutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CancelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.FSWatcher, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -49,6 +53,13 @@ Partial Class ProjectViewer
         Me.DocumentTree.SelectedImageIndex = 1
         Me.DocumentTree.Size = New System.Drawing.Size(531, 337)
         Me.DocumentTree.TabIndex = 0
+        '
+        'ImageProvider
+        '
+        Me.ImageProvider.ImageStream = CType(resources.GetObject("ImageProvider.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageProvider.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageProvider.Images.SetKeyName(0, "Folder.png")
+        Me.ImageProvider.Images.SetKeyName(1, "Empty.png")
         '
         'Label1
         '
@@ -86,7 +97,7 @@ Partial Class ProjectViewer
         '
         'TreeToolStripMenuItem
         '
-        Me.TreeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateDirectoryToolStripMenuItem})
+        Me.TreeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateDirectoryToolStripMenuItem, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.CancelToolStripMenuItem})
         Me.TreeToolStripMenuItem.Name = "TreeToolStripMenuItem"
         Me.TreeToolStripMenuItem.Size = New System.Drawing.Size(54, 24)
         Me.TreeToolStripMenuItem.Text = "Tree"
@@ -94,15 +105,39 @@ Partial Class ProjectViewer
         'CreateDirectoryToolStripMenuItem
         '
         Me.CreateDirectoryToolStripMenuItem.Name = "CreateDirectoryToolStripMenuItem"
-        Me.CreateDirectoryToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
+        Me.CreateDirectoryToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.CreateDirectoryToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.CreateDirectoryToolStripMenuItem.Text = "Create directory"
         '
-        'ImageProvider
+        'CutToolStripMenuItem
         '
-        Me.ImageProvider.ImageStream = CType(resources.GetObject("ImageProvider.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.ImageProvider.TransparentColor = System.Drawing.Color.Transparent
-        Me.ImageProvider.Images.SetKeyName(0, "Folder.png")
-        Me.ImageProvider.Images.SetKeyName(1, "Empty.png")
+        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
+        Me.CutToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
+        Me.CutToolStripMenuItem.Text = "Cut"
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        Me.CopyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
+        Me.CopyToolStripMenuItem.Text = "Copy"
+        '
+        'PasteToolStripMenuItem
+        '
+        Me.PasteToolStripMenuItem.Enabled = False
+        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
+        Me.PasteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
+        Me.PasteToolStripMenuItem.Text = "Paste"
+        '
+        'CancelToolStripMenuItem
+        '
+        Me.CancelToolStripMenuItem.Enabled = False
+        Me.CancelToolStripMenuItem.Name = "CancelToolStripMenuItem"
+        Me.CancelToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
+        Me.CancelToolStripMenuItem.Text = "Cancel"
         '
         'ProjectViewer
         '
@@ -132,4 +167,8 @@ Partial Class ProjectViewer
     Friend WithEvents TreeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CreateDirectoryToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ImageProvider As ImageList
+    Friend WithEvents CutToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CopyToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PasteToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CancelToolStripMenuItem As ToolStripMenuItem
 End Class
