@@ -26,9 +26,9 @@ Public Class MainIDE
         End Get
         Set(value As Boolean)
             If Not value Then
-                Me.Text = "BlueBetter - " & value & " *"
+                Me.Text = "BlueBetter - " & current & " *"
             Else
-                Me.Text = "BlueBetter - " & value
+                Me.Text = "BlueBetter - " & current
             End If
             _saved = value
         End Set
@@ -44,7 +44,7 @@ Public Class MainIDE
             If Trim(value) = "" Then
                 Me.Text = "BlueBetter"
             Else
-                Me.Text = "BlueBetter - " & value
+                Me.Text = "BlueBetter - " & _current
             End If
         End Set
     End Property

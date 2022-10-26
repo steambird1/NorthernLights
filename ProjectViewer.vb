@@ -10,6 +10,7 @@ Public Class ProjectViewer
     ' Also, bold for all directories.
     Public Highlighted As Dictionary(Of String, Color) = New Dictionary(Of String, Color)
 
+    Private JustMove As Boolean = False
     Private Cutting As Boolean = False
     Private _CurrentFile As String
     Private Property CurrentFile As String
@@ -87,7 +88,7 @@ Public Class ProjectViewer
                     Return Nothing
                 End If
                 curoot = curoot.Nodes.Add(cur)
-                curoot.Tag = sumi
+                curoot.Tag = ProjectDirectory & "\" & sumi
                 If My.Computer.FileSystem.DirectoryExists(sumi) Then
                     curoot.ImageIndex = 0
                 Else
@@ -129,17 +130,38 @@ AfterNodeYielder: 'Must be found!
     ''' <param name="CurrentNode">The node provided for the directory.</param>
     Public Sub RecesuiveUpload(Path As String, CurrentNode As TreeNode)
         For Each i In My.Computer.FileSystem.GetDirectories(Path)
-            Dim c As TreeNode = CurrentNode.Nodes.Add(My.Computer.FileSystem.GetName(i))
+            ' Don't add if it already exists ...
+            Dim exists As Boolean = False
+            Dim c As TreeNode
+            For Each j In CurrentNode.Nodes
+                Dim tj As TreeNode = j
+                If tj.Tag = i Then
+                    c = tj
+                    exists = True
+                    GoTo AfterFoundA
+                End If
+            Next
+            c = CurrentNode.Nodes.Add(My.Computer.FileSystem.GetName(i))
             c.ImageIndex = 0
             c.Tag = i
-            RecesuiveUpload(i, c)
+AfterFoundA: RecesuiveUpload(i, c)
         Next
         For Each i In My.Computer.FileSystem.GetFiles(Path)
             If i.IndexOf(SearchContent.Text) >= 0 Then
                 Dim gn As String = My.Computer.FileSystem.GetName(i)
                 Dim ge As String = GetExtension(gn)
-                Dim c As TreeNode = CurrentNode.Nodes.Add(gn)
-                c.ImageIndex = 1
+                Dim c As TreeNode
+                Dim exists As Boolean = False
+                For Each j In CurrentNode.Nodes
+                    Dim tj As TreeNode = j
+                    If tj.Tag = i Then
+                        c = tj
+                        exists = True
+                        GoTo AfterFoundB
+                    End If
+                Next
+                c = CurrentNode.Nodes.Add(gn)
+AfterFoundB:    c.ImageIndex = 1
                 If Environments.Contains(gn) Then
                     c.ForeColor = Color.Purple
                 ElseIf Highlighted.ContainsKey(ge) Then
@@ -243,7 +265,7 @@ AfterNodeYielder: 'Must be found!
     Private Sub FSWatcher_Created(sender As Object, e As FileSystemEventArgs) Handles FSWatcher.Created
         Dim CurrentTreeNode = FindTreeNode(e.FullPath)
         If My.Computer.FileSystem.DirectoryExists(e.FullPath) Then
-            CurrentTreeNode.ImageIndex = 0                  ' Directory!
+            CurrentTreeNode.ImageIndex = 0
             RecesuiveUpload(e.FullPath, CurrentTreeNode)
         End If
         HasUpdated = True ' For file and directory creater
