@@ -91,6 +91,7 @@ Public Class MainIDE
     Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:"})
     ' Only able to exist after removing vbTab
     Public commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden"})
+    Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c})
 
@@ -443,6 +444,7 @@ Public Class MainIDE
 
             Dim finder As Integer = lineJustEdit
             Dim is_blue As Boolean = isBluebetter
+            Dim is_postback As Boolean = False
             If (Not isBluebetter) AndAlso (Not IsPlainHTML) Then
                 While finder >= 0
                     Dim fcurrentbegin As Integer = CodeData.GetFirstCharIndexFromLine(finder)
@@ -450,8 +452,12 @@ Public Class MainIDE
                     CodeData.Select(fcurrentbegin, fcurrentend - fcurrentbegin)
                     Dim fallline As String = CodeData.SelectedText
                     Dim fbeg As Integer = fallline.LastIndexOf("<?blue")
+                    Dim fxbeg As Integer = fallline.LastIndexOf("<?blue postback")
                     Dim fend As Integer = fallline.LastIndexOf("?>")
                     If fbeg > fend Then
+                        If fxbeg > fend Then
+                            is_postback = True
+                        End If
                         is_blue = True
                         Exit While
                     ElseIf fbeg < fend Then
@@ -465,7 +471,18 @@ Public Class MainIDE
             ' Reselect...
             CodeData.Select(currentbegin, currentend - currentbegin)
 
-            If is_blue Then
+            If is_postback Then
+                For Each i In postbacking_keywords
+                    ' Requires at the beginning
+                    If totrim.IndexOf(i) = 0 Then
+                        Dim sp As Integer = allline.IndexOf(i)
+                        CodeData.SelectionStart = currentbegin + sp
+                        CodeData.SelectionLength = i.Length
+                        CodeData.SelectionColor = Color.Blue
+                        Exit For
+                    End If
+                Next
+            ElseIf is_blue Then
                 ' End of currentbegin-currentend selection !
                 ' 1. Keywords
                 If totrim.Length > 0 AndAlso totrim(0) = "#" Then
@@ -991,10 +1008,6 @@ vsc:    lineJustEdit = currentline
         Dim ac As Boolean = (Not (IsPlainHTML OrElse NoExecution)) AndAlso Me.isBluebetter
         RunToolStripMenuItem.Enabled = ac
         DebugCodedebugToolStripMenuItem.Enabled = ac
-    End Sub
-
-    Private Sub FileKindSelector_Enter(sender As Object, e As EventArgs) Handles FileKindSelector.Enter
-
     End Sub
 
     Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
