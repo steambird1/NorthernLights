@@ -8,7 +8,7 @@ Public Class MainIDE
     ' Data can be used for all systems
 
     Public HTMLKinds As HashSet(Of String) = New HashSet(Of String)({"htm", "html", "xml"})
-    Public StandardLibrary As List(Of String) = New List(Of String)({"bmain.blue", "WebHeader.blue", "algo.blue", "Postback.js"})
+    Public StandardLibrary As List(Of String) = New List(Of String)({"bmain.blue", "WebHeader.blue", "algo.blue"})
     Private IsPlainHTML As Boolean = False
     Private IsCreating As Boolean = False
     ' For plain file only
