@@ -88,7 +88,7 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:", "referof"})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref"})
     ' Only able to exist after removing vbTab
     Public commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load"})
@@ -549,26 +549,31 @@ Public Class MainIDE
                     If iobj.ObjectType <> "Class" Then
                         Continue For
                     End If
-                    Dim i As String = "new " & iobj.ObjectName   ' Must be EOL
-                    ' Only detects end of line
-                    ' 1. Add if here's tab
-                    Dim wline As String = allline
-                    ' Only 1 LF acceptable.
-
-                    Dim ai As Integer = wline.IndexOf(vbLf)
-                    If ai >= 0 Then
-                        wline = wline.Substring(0, ai)
-                    End If
-
-                    While wline.Length > 0 AndAlso (wline(wline.Length - 1) = vbLf Or wline(wline.Length - 1) = vbTab)
-                        wline = wline.Remove(wline.Length - 1)
-                    End While
-
-                    If (i.Length < wline.Length) AndAlso (wline.Substring(wline.Length - i.Length) = i) Then
-                        CodeData.SelectionStart = wline.Length - i.Length + currentbegin
+                    Dim i As String = "new " & iobj.ObjectName ' Everywhere, like operator
+                    Dim sp As Integer = 0
+                    'Dim _first As Boolean = False
+                    Dim previous As Integer = -2
+                    Do
+                        sp = allline.IndexOf(i, sp)
+                        If previous >= sp Or sp < 0 Then
+                            Exit Do
+                        End If
+                        previous = sp
+                        If (sp > 0 AndAlso (Not acceptable_near.Contains(allline(sp - 1)))) OrElse (sp < allline.Length - i.Length AndAlso (Not acceptable_near.Contains(allline(sp + i.Length)))) Then
+                            sp += i.Length + 1
+                            If sp > allline.Length Then
+                                Exit Do
+                            End If
+                            Continue Do ' Not filtered!
+                        End If
+                        CodeData.SelectionStart = sp + currentbegin
                         CodeData.SelectionLength = i.Length
                         CodeData.SelectionColor = Color.DarkCyan
-                    End If
+                        sp += i.Length + 1
+                        If sp > allline.Length Then
+                            Exit Do
+                        End If
+                    Loop
                 Next
                 Dim turned As Boolean = False
                 Dim instring As Boolean = False
