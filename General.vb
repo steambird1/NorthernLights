@@ -154,6 +154,16 @@ Public Class General
             For Each i In Environments
                 My.Computer.FileSystem.CopyFile(Application.StartupPath & "\" & i, CurrentProject & "\" & i, True)
             Next
+            Dim NormalErrorHandler As Boolean = False
+            For Each i In ErrorHandlers
+                If Not My.Computer.FileSystem.FileExists(CurrentProject & "\" & i) Then
+                    My.Computer.FileSystem.CopyFile(Application.StartupPath & "\" & i, CurrentProject & "\" & i)
+                    NormalErrorHandler = True
+                End If
+            Next
+            If NormalErrorHandler Then
+                MsgBox("The error handler files of MinServer 5, including 404.html and 500.html, have been automaticly copied into your project directory because you haven't created them." & vbCrLf & "The file won't be overridden if it exists.", MsgBoxStyle.Information, "Be Advised")
+            End If
             With CurrentWebProcess.StartInfo
                 .FileName = CurrentProject & "\VBWeb.exe"
                 .Arguments = Parameter
@@ -220,7 +230,7 @@ Public Class General
     End Sub
 
     Private Sub AboutIDEToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutIDEToolStripMenuItem.Click
-        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.5", MsgBoxStyle.Information, "About IDE")
+        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.6", MsgBoxStyle.Information, "About IDE")
     End Sub
 
     Private Sub AboutBlueBetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBlueBetterToolStripMenuItem.Click
@@ -233,6 +243,10 @@ Public Class General
 
     Private Sub ToolStripMenuItem8_Click(sender As Object, e As EventArgs) Handles DebugMenu.Click
         RunWebsite("--debug")
+    End Sub
+
+    Private Sub AboutMinserverTour_Click(sender As Object, e As EventArgs) Handles AboutMinserverTour.Click
+        ShowVersion("\VBWeb.exe")
     End Sub
 
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing

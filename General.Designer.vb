@@ -52,6 +52,7 @@ Partial Class General
         Me.AboutBluePageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutIDEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
+        Me.AboutMinserverTour = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -220,7 +221,7 @@ Partial Class General
         '
         'HelpToolStripMenuItem
         '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutIDEToolStripMenuItem})
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(56, 24)
         Me.HelpToolStripMenuItem.Text = "Help"
@@ -228,20 +229,26 @@ Partial Class General
         'AboutBlueBetterToolStripMenuItem
         '
         Me.AboutBlueBetterToolStripMenuItem.Name = "AboutBlueBetterToolStripMenuItem"
-        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutBlueBetterToolStripMenuItem.Text = "About BlueBetter"
         '
         'AboutBluePageToolStripMenuItem
         '
         Me.AboutBluePageToolStripMenuItem.Name = "AboutBluePageToolStripMenuItem"
-        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutBluePageToolStripMenuItem.Text = "About BluePage"
         '
         'AboutIDEToolStripMenuItem
         '
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
-        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
+        '
+        'AboutMinserverTour
+        '
+        Me.AboutMinserverTour.Name = "AboutMinserverTour"
+        Me.AboutMinserverTour.Size = New System.Drawing.Size(216, 26)
+        Me.AboutMinserverTour.Text = "About MinServer"
         '
         'General
         '
@@ -290,4 +297,5 @@ Partial Class General
     Friend WithEvents AboutBluePageToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AboutIDEToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DebugMenu As ToolStripMenuItem
+    Friend WithEvents AboutMinserverTour As ToolStripMenuItem
 End Class

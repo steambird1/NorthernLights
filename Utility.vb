@@ -1,5 +1,6 @@
 ﻿Module Utility
     Public Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe", "Postback.js"})
+    Public ErrorHandlers As List(Of String) = New List(Of String)({"500.html", "404.html"})
     Public Function GetExtension(Filename As String) As String
         Dim ext As String = Filename
         Try
