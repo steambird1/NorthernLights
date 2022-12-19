@@ -54,8 +54,6 @@ Partial Class General
         Me.AboutMinserverTour = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutIDEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.LibInstall = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenRecentWebsite = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenRecentFiles = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
@@ -232,7 +230,7 @@ Partial Class General
         '
         'HelpToolStripMenuItem
         '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LibInstall, Me.ToolStripSeparator4, Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem})
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
         Me.HelpToolStripMenuItem.Text = "Utility"
@@ -260,17 +258,6 @@ Partial Class General
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
         Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(213, 6)
-        '
-        'LibInstall
-        '
-        Me.LibInstall.Name = "LibInstall"
-        Me.LibInstall.Size = New System.Drawing.Size(216, 26)
-        Me.LibInstall.Text = "Library manager..."
         '
         'OpenRecentWebsite
         '
@@ -335,6 +322,4 @@ Partial Class General
     Friend WithEvents ProjectOptions As ToolStripMenuItem
     Friend WithEvents OpenRecentFiles As ToolStripMenuItem
     Friend WithEvents OpenRecentWebsite As ToolStripMenuItem
-    Friend WithEvents LibInstall As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
 End Class

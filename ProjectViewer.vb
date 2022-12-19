@@ -6,7 +6,7 @@ Public Class ProjectViewer
 
     Implements IDEChildInterface
 
-    Public AcceptableStarter As HashSet(Of String) = New HashSet(Of String)({"html", "htm", "xml", "blue", "bp", "txt", "log"})
+    Public AcceptableStarter As HashSet(Of String) = New HashSet(Of String)({"html", "htm", "xml", "blue", "bp", "txt", "log", "nlproj"})
     ' Also, bold for all directories.
     Public Highlighted As Dictionary(Of String, Color) = New Dictionary(Of String, Color)
 
@@ -33,6 +33,7 @@ Public Class ProjectViewer
         Highlighted.Add("bp", Color.Blue)
         Highlighted.Add("txt", Color.Green)
         Highlighted.Add("log", Color.Green)
+        Highlighted.Add("nlproj", Color.Magenta)
     End Sub
 
     Private SuppressUpdater As Boolean = False
@@ -440,5 +441,9 @@ AfterFoundB:    c.ImageIndex = 1
                 MsgBox("Error: cannot copy this file or directory!", MsgBoxStyle.Critical, "Error")
             End Try
         End If
+    End Sub
+
+    Public Sub OpeningSpecified(Filename As String) Implements IDEChildInterface.OpeningSpecified
+
     End Sub
 End Class

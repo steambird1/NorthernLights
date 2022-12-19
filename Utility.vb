@@ -1,4 +1,6 @@
-﻿Module Utility
+﻿Imports System.IO
+
+Public Module Utility
     Public Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe", "Postback.js"})
     Public ErrorHandlers As List(Of String) = New List(Of String)({"500.html", "404.html"})
 
@@ -31,4 +33,68 @@
         p.Close()
         MsgBox(res, MsgBoxStyle.Information, "About")
     End Sub
+
+
+    ''' <summary>
+    ''' A class that manages 'Recent files'.
+    ''' </summary>
+    Public Class RecentFilesList
+
+        Private BindingRecorder As String = ""
+        Public Shared ReadOnly Property CountOfRecents As Integer = 10
+        Private _RecentQueue As List(Of String) = New List(Of String)
+        Public Property RecentQueue As List(Of String)
+            Get
+                Return _RecentQueue
+            End Get
+            Private Set(value As List(Of String))
+                _RecentQueue = value
+            End Set
+        End Property
+
+        Public Sub New()
+
+        End Sub
+
+        Public Sub New(RecordPath As String)
+            BindingRecorder = RecordPath
+            Try
+                If Not My.Computer.FileSystem.FileExists(RecordPath) Then
+                    My.Computer.FileSystem.OpenTextFileWriter(RecordPath, False).Close()    ' Create this file simply.
+                Else
+                    Dim ReaderStream As StreamReader = My.Computer.FileSystem.OpenTextFileReader(RecordPath)
+                    Do Until ReaderStream.EndOfStream
+                        _RecentQueue.Add(ReaderStream.ReadLine())
+                    Loop
+                    ReaderStream.Close()
+                End If
+            Catch ex As Exception
+                ' Do nothing special ?
+            End Try
+        End Sub
+
+        Private Sub Flush()
+            If Trim(BindingRecorder) = "" Then
+                Exit Sub
+            End If
+            Dim Writer As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(BindingRecorder, False)
+            For i = _RecentQueue.Count - 1 To 0 Step -1
+                Writer.Write(_RecentQueue(i))
+                Writer.WriteLine()
+            Next
+            Writer.Close()
+        End Sub
+
+        Public Sub AddRecentFile(File As String)
+            If _RecentQueue.Contains(File) Then
+                Exit Sub
+            End If
+            While _RecentQueue.Count > CountOfRecents AndAlso RecentQueue.Count > 0
+                _RecentQueue.RemoveAt(0)
+            End While
+            _RecentQueue.Add(File)
+            Flush()
+        End Sub
+
+    End Class
 End Module

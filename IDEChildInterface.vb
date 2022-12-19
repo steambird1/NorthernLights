@@ -1,5 +1,6 @@
 ﻿Public Interface IDEChildInterface
     Sub Opening()
+    Sub OpeningSpecified(Filename As String)
     Sub Creating()
     Sub Saving()
     Sub SavingAs()
@@ -10,5 +11,4 @@
     Function ConfirmMasterClose() As Boolean            ' Return True to cancel
     ReadOnly Property HaveOwnCreator As Boolean
     ReadOnly Property IsViewer As Boolean
-    'Property SuppressConfirmer As Boolean
 End Interface

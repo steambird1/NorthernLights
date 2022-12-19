@@ -120,6 +120,12 @@
     <Compile Include="ProjectViewer.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SelectRecents.Designer.vb">
+      <DependentUpon>SelectRecents.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SelectRecents.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Utility.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectViewer.resx">
       <DependentUpon>ProjectViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectRecents.resx">
+      <DependentUpon>SelectRecents.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

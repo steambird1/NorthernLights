@@ -20,6 +20,8 @@ Public Class General
         End Set
     End Property
     Public Property CurrentProjectSettings As Dictionary(Of String, String) = New Dictionary(Of String, String)
+    Public Property RecentFile As RecentFilesList = New RecentFilesList(Application.StartupPath & "\recent_files.nlrecents")
+    Public Property RecentProject As RecentFilesList = New RecentFilesList(Application.StartupPath & "\recent_projects.nlrecents")
 
     Public ReadOnly Property HaveChildren As Boolean
         Get
@@ -100,7 +102,13 @@ Public Class General
         Catch ex As Exception
             ' The process is not running.
         End Try
-        CreatingOne().OpenFile(Filename)
+        If GetExtension(Filename) = "nlproj" Then
+            If My.Computer.FileSystem.GetParentPath(Filename) = CurrentProject Then
+                ProjectOptions_Click(New Object, New EventArgs)
+            End If
+        Else
+            CreatingOne().OpenFile(Filename)
+        End If
     End Sub
 
     Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
@@ -124,31 +132,40 @@ Public Class General
         End If
     End Sub
 
+    Private Sub LoadNewProject(ProjectPath As String)
+        If My.Computer.FileSystem.DirectoryExists(ProjectPath) Then
+            CurrentProject = ProjectPath
+            ResetDefaultProjectSettings()
+            If My.Computer.FileSystem.FileExists(ProjectPath & "\project.nlproj") Then
+                ' Read project settings
+                Dim ProjectReader As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(ProjectPath & "\project.nlproj")
+                Do Until ProjectReader.EndOfStream
+                    Dim CurrentLine As String = ProjectReader.ReadLine()
+                    Dim CurrentSplit As String() = Split(CurrentLine, "=", 2)
+                    If CurrentSplit.Count() < 2 Then
+                        Continue Do
+                    End If
+                    CurrentProjectSettings(CurrentSplit(0)) = CurrentSplit(1)
+                Loop
+                ProjectReader.Close()
+            End If
+            For Each i In Me.MdiChildren
+                Dim s As IDEChildInterface = i
+                If s.IsViewer Then
+                    s.Closing()
+                End If
+            Next
+            ProjectViews(New Object, New EventArgs)
+        Else
+            MsgBox("Project directory not found: " & ProjectPath, MsgBoxStyle.Critical, "Error")
+        End If
+    End Sub
+
     Private Sub NewProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewProjectToolStripMenuItem.Click
         If fbd.ShowDialog() = DialogResult.OK Then
             If My.Computer.FileSystem.DirectoryExists(fbd.SelectedPath) Then
-                CurrentProject = fbd.SelectedPath
-                ResetDefaultProjectSettings()
-                If My.Computer.FileSystem.FileExists(fbd.SelectedPath & "\project.nlproj") Then
-                    ' Read project settings
-                    Dim ProjectReader As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(fbd.SelectedPath & "\project.nlproj")
-                    Do Until ProjectReader.EndOfStream
-                        Dim CurrentLine As String = ProjectReader.ReadLine()
-                        Dim CurrentSplit As String() = Split(CurrentLine, "=", 2)
-                        If CurrentSplit.Count() < 2 Then
-                            Continue Do
-                        End If
-                        CurrentProjectSettings(CurrentSplit(0)) = CurrentSplit(1)
-                    Loop
-                    ProjectReader.Close()
-                End If
-                For Each i In Me.MdiChildren
-                    Dim s As IDEChildInterface = i
-                    If s.IsViewer Then
-                        s.Closing()
-                    End If
-                Next
-                ProjectViews(sender, e)
+                LoadNewProject(fbd.SelectedPath)
+                RecentProject.AddRecentFile(fbd.SelectedPath)
             End If
         End If
     End Sub
@@ -297,6 +314,24 @@ Public Class General
             NewWindow.Show()
         End If
 
+    End Sub
+
+    Private Sub OpenRecentWebsite_Click(sender As Object, e As EventArgs) Handles OpenRecentWebsite.Click
+        Dim RecSel As SelectRecents = New SelectRecents
+        RecSel.RecentList = RecentProject
+        RecSel.ShowDialog()
+        If Trim(RecSel.Result) <> "" Then
+            LoadNewProject(RecSel.Result)
+        End If
+    End Sub
+
+    Private Sub OpenRecentFiles_Click(sender As Object, e As EventArgs) Handles OpenRecentFiles.Click
+        Dim RecSel As SelectRecents = New SelectRecents
+        RecSel.RecentList = RecentFile
+        RecSel.ShowDialog()
+        If Trim(RecSel.Result) <> "" Then
+            CreatingOne().OpeningSpecified(RecSel.Result)
+        End If
     End Sub
 
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing

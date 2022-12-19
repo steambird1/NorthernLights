@@ -854,6 +854,8 @@ vsc:    lineJustEdit = currentline
         If ClearCheck() Then
             If ofd.ShowDialog() = DialogResult.OK Then
                 OpenFile(ofd.FileName)
+                Dim Gen As General = Me.MdiParent
+                Gen.RecentFile.AddRecentFile(ofd.FileName)
                 'CodeHUpdate()
                 'CodeData.Visible = True
             End If
@@ -1026,4 +1028,8 @@ vsc:    lineJustEdit = currentline
     Public Function ConfirmMasterClose() As Boolean Implements IDEChildInterface.ConfirmMasterClose
         Return Not ClearCheck()
     End Function
+
+    Public Sub OpeningSpecified(Filename As String) Implements IDEChildInterface.OpeningSpecified
+        OpenFile(Filename)
+    End Sub
 End Class

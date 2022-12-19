@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
+Imports NorthernLights
 
 Public Class ProjectSettings
     Implements IDEChildInterface
@@ -69,7 +70,7 @@ Public Class ProjectSettings
     ''' </summary>
     Public Function Checking() As Boolean
         If Modified Then
-            Dim r = MsgBox("Current file " & CurrentFileName & " is not saved. Save?", MsgBoxStyle.YesNoCancel, "Prompt")
+            Dim r = MsgBox("Current project config file " & CurrentFileName & " is not saved. Save?", MsgBoxStyle.YesNoCancel, "Prompt")
             Select Case r
                 Case MsgBoxResult.Yes
                     Me.Saving()
@@ -139,5 +140,9 @@ Public Class ProjectSettings
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
         Me.Saving()
+    End Sub
+
+    Public Sub OpeningSpecified(Filename As String) Implements IDEChildInterface.OpeningSpecified
+
     End Sub
 End Class
