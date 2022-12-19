@@ -416,4 +416,29 @@ AfterFoundB:    c.ImageIndex = 1
             MsgBox("Error: cannot move or copy this file or directory!", MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
+    Private Sub CopyHere_Click(sender As Object, e As EventArgs) Handles CopyHere.Click
+        Dim tn As TreeNode = DocumentTree.SelectedNode
+        If Not IsNothing(tn) Then
+            Dim MyFile As String = tn.Tag
+            Try
+                With My.Computer.FileSystem
+                    Dim Finder As Integer = 1
+                    Dim Prefixer As String = .GetParentPath(MyFile) & "\" & .GetName(MyFile) & "_Copy "
+                    Dim Exts As String = GetExtension(MyFile)
+                    While .FileExists(Prefixer & Finder & "." & Exts) OrElse .DirectoryExists(Prefixer & Finder & "." & Exts)
+                        Finder += 1
+                    End While
+                    If .FileExists(MyFile) Then
+                        .CopyFile(MyFile, Prefixer & Finder & "." & Exts)
+                    ElseIf .DirectoryExists(myfile) Then
+                        .CopyDirectory(MyFile, Prefixer & Finder & "." & Exts)
+                    End If
+
+                End With
+            Catch ex As Exception
+                MsgBox("Error: cannot copy this file or directory!", MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
+    End Sub
 End Class

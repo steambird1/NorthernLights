@@ -106,6 +106,7 @@ Public Class ProjectSettings
         Error500Path.Text = SelfParent.CurrentProjectSettings("Page500")
         Error404Path.Text = SelfParent.CurrentProjectSettings("Page404")
         ExtensionsData.Text = SelfParent.CurrentProjectSettings("Extension")
+        Modified = False
     End Sub
 
     Private Sub IDEChildInterface_Closing() Implements IDEChildInterface.Closing
@@ -134,5 +135,9 @@ Public Class ProjectSettings
 
     Private Sub ExtensionsData_TextChanged(sender As Object, e As EventArgs) Handles ExtensionsData.TextChanged
         Modified = True
+    End Sub
+
+    Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
+        Me.Saving()
     End Sub
 End Class

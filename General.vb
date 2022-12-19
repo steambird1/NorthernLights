@@ -232,6 +232,7 @@ Public Class General
         Dim avail As Boolean = Trim(CurrentProject) <> ""
         ToolStripMenuItem6.Enabled = avail
         RunWebsiteToolStripMenuItem.Enabled = avail
+        ProjectOptions.Enabled = avail
         DebugMenu.Enabled = avail
     End Sub
 
@@ -290,7 +291,11 @@ Public Class General
     End Sub
 
     Private Sub ProjectOptions_Click(sender As Object, e As EventArgs) Handles ProjectOptions.Click
-        Dim NewWindow As ProjectSettings = New ProjectSettings
+        If Trim(CurrentProject) <> "" Then
+            Dim NewWindow As ProjectSettings = New ProjectSettings
+            NewWindow.MdiParent = Me
+            NewWindow.Show()
+        End If
 
     End Sub
 

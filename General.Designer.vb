@@ -37,6 +37,7 @@ Partial Class General
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ProjectOptions = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.RunWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugMenu = New System.Windows.Forms.ToolStripMenuItem()
@@ -53,16 +54,17 @@ Partial Class General
         Me.AboutMinserverTour = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutIDEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InstallLibraryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ProjectOptions = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.LibInstall = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenRecentWebsite = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenRecentFiles = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ProjectToolStripMenuItem, Me.ToolStripMenuItem8, Me.WindowToolStripMenuItem, Me.HelpToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ProjectToolStripMenuItem, Me.WindowToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.MdiWindowListItem = Me.WindowToolStripMenuItem
         Me.MenuStrip1.Name = "MenuStrip1"
@@ -72,7 +74,7 @@ Partial Class General
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem7, Me.ToolStripMenuItem5, Me.ToolStripMenuItem4, Me.ToolStripSeparator1, Me.NewProjectToolStripMenuItem, Me.QuitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripMenuItem1, Me.OpenRecentFiles, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem7, Me.ToolStripMenuItem5, Me.ToolStripMenuItem4, Me.ToolStripSeparator1, Me.NewProjectToolStripMenuItem, Me.OpenRecentWebsite, Me.QuitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
         Me.FileToolStripMenuItem.Text = "File"
@@ -158,6 +160,12 @@ Partial Class General
         Me.ToolStripMenuItem6.Size = New System.Drawing.Size(359, 26)
         Me.ToolStripMenuItem6.Text = "Project viewer..."
         '
+        'ProjectOptions
+        '
+        Me.ProjectOptions.Name = "ProjectOptions"
+        Me.ProjectOptions.Size = New System.Drawing.Size(359, 26)
+        Me.ProjectOptions.Text = "Project options..."
+        '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
@@ -224,53 +232,57 @@ Partial Class General
         '
         'HelpToolStripMenuItem
         '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem})
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LibInstall, Me.ToolStripSeparator4, Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(56, 24)
-        Me.HelpToolStripMenuItem.Text = "Help"
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
+        Me.HelpToolStripMenuItem.Text = "Utility"
         '
         'AboutBlueBetterToolStripMenuItem
         '
         Me.AboutBlueBetterToolStripMenuItem.Name = "AboutBlueBetterToolStripMenuItem"
-        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutBlueBetterToolStripMenuItem.Text = "About BlueBetter"
         '
         'AboutBluePageToolStripMenuItem
         '
         Me.AboutBluePageToolStripMenuItem.Name = "AboutBluePageToolStripMenuItem"
-        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutBluePageToolStripMenuItem.Text = "About BluePage"
         '
         'AboutMinserverTour
         '
         Me.AboutMinserverTour.Name = "AboutMinserverTour"
-        Me.AboutMinserverTour.Size = New System.Drawing.Size(210, 26)
+        Me.AboutMinserverTour.Size = New System.Drawing.Size(216, 26)
         Me.AboutMinserverTour.Text = "About MinServer"
         '
         'AboutIDEToolStripMenuItem
         '
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
-        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
         '
-        'ToolStripMenuItem8
+        'ToolStripSeparator4
         '
-        Me.ToolStripMenuItem8.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InstallLibraryToolStripMenuItem})
-        Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(87, 24)
-        Me.ToolStripMenuItem8.Text = "Methods"
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(213, 6)
         '
-        'InstallLibraryToolStripMenuItem
+        'LibInstall
         '
-        Me.InstallLibraryToolStripMenuItem.Name = "InstallLibraryToolStripMenuItem"
-        Me.InstallLibraryToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
-        Me.InstallLibraryToolStripMenuItem.Text = "Install library..."
+        Me.LibInstall.Name = "LibInstall"
+        Me.LibInstall.Size = New System.Drawing.Size(216, 26)
+        Me.LibInstall.Text = "Library manager..."
         '
-        'ProjectOptions
+        'OpenRecentWebsite
         '
-        Me.ProjectOptions.Name = "ProjectOptions"
-        Me.ProjectOptions.Size = New System.Drawing.Size(359, 26)
-        Me.ProjectOptions.Text = "Project options..."
+        Me.OpenRecentWebsite.Name = "OpenRecentWebsite"
+        Me.OpenRecentWebsite.Size = New System.Drawing.Size(356, 26)
+        Me.OpenRecentWebsite.Text = "Open Recent Website..."
+        '
+        'OpenRecentFiles
+        '
+        Me.OpenRecentFiles.Name = "OpenRecentFiles"
+        Me.OpenRecentFiles.Size = New System.Drawing.Size(356, 26)
+        Me.OpenRecentFiles.Text = "Open Recent Files..."
         '
         'General
         '
@@ -321,6 +333,8 @@ Partial Class General
     Friend WithEvents DebugMenu As ToolStripMenuItem
     Friend WithEvents AboutMinserverTour As ToolStripMenuItem
     Friend WithEvents ProjectOptions As ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem8 As ToolStripMenuItem
-    Friend WithEvents InstallLibraryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenRecentFiles As ToolStripMenuItem
+    Friend WithEvents OpenRecentWebsite As ToolStripMenuItem
+    Friend WithEvents LibInstall As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
 End Class

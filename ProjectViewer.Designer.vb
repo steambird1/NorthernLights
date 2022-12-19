@@ -36,6 +36,8 @@ Partial Class ProjectViewer
         Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CancelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyHere = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         CType(Me.FSWatcher, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -97,7 +99,7 @@ Partial Class ProjectViewer
         '
         'TreeToolStripMenuItem
         '
-        Me.TreeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateDirectoryToolStripMenuItem, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.CancelToolStripMenuItem})
+        Me.TreeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateDirectoryToolStripMenuItem, Me.CopyHere, Me.ToolStripSeparator1, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.CancelToolStripMenuItem})
         Me.TreeToolStripMenuItem.Name = "TreeToolStripMenuItem"
         Me.TreeToolStripMenuItem.Size = New System.Drawing.Size(54, 24)
         Me.TreeToolStripMenuItem.Text = "Tree"
@@ -139,6 +141,17 @@ Partial Class ProjectViewer
         Me.CancelToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.CancelToolStripMenuItem.Text = "Cancel"
         '
+        'CopyHere
+        '
+        Me.CopyHere.Name = "CopyHere"
+        Me.CopyHere.Size = New System.Drawing.Size(305, 26)
+        Me.CopyHere.Text = "Copy one here"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(302, 6)
+        '
         'ProjectViewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -171,4 +184,6 @@ Partial Class ProjectViewer
     Friend WithEvents CopyToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PasteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CancelToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CopyHere As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
 End Class
