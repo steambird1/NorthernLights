@@ -65,7 +65,7 @@ Partial Class Intelli
         Me.Controls.Add(Me.ElemViewer)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
         Me.Name = "Intelli"
-        Me.Text = "Intelli"
+        Me.Text = "Intelligent Analyzer"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

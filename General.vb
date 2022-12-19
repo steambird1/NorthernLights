@@ -19,6 +19,7 @@ Public Class General
             End If
         End Set
     End Property
+    Public Property CurrentProjectSettings As Dictionary(Of String, String) = New Dictionary(Of String, String)
 
     Public ReadOnly Property HaveChildren As Boolean
         Get
@@ -40,6 +41,14 @@ Public Class General
         If Trim(alert) <> "" Then
             MsgBox("Warning: Following files are not found in the application directory:" & vbCrLf & alert & vbCrLf & vbCrLf & "Without these files, the editor can be runned, but you may not able to run BlueBetter program or website.", MsgBoxStyle.Exclamation, "Warning")
         End If
+    End Sub
+
+    Public Sub ResetDefaultProjectSettings()
+        CurrentProjectSettings.Clear()
+        CurrentProjectSettings("Port") = "80"
+        CurrentProjectSettings("Page500") = "500.html"
+        CurrentProjectSettings("Page404") = "404.html"
+        CurrentProjectSettings("Extension") = ""
     End Sub
 
     Private Function CreatingOne() As MainIDE
@@ -80,7 +89,11 @@ Public Class General
                 If ViewSpecified.Checked Then
                     ' Getting the resolve
                     Dim suffix As String = Filename.Substring(Filename.IndexOf(CurrentProject) + CurrentProject.Length)
-                    System.Diagnostics.Process.Start("http://localhost" & suffix.Replace("\"c, "/"c))
+                    Dim PortDescriber As String = ""
+                    If CurrentProjectSettings("Port") <> "80" Then
+                        PortDescriber = ":" & CurrentProjectSettings("Port")
+                    End If
+                    System.Diagnostics.Process.Start("http://localhost" & PortDescriber & suffix.Replace("\"c, "/"c))
                     Exit Sub
                 End If
             End If
@@ -115,6 +128,20 @@ Public Class General
         If fbd.ShowDialog() = DialogResult.OK Then
             If My.Computer.FileSystem.DirectoryExists(fbd.SelectedPath) Then
                 CurrentProject = fbd.SelectedPath
+                ResetDefaultProjectSettings()
+                If My.Computer.FileSystem.FileExists(fbd.SelectedPath & "\project.nlproj") Then
+                    ' Read project settings
+                    Dim ProjectReader As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(fbd.SelectedPath & "\project.nlproj")
+                    Do Until ProjectReader.EndOfStream
+                        Dim CurrentLine As String = ProjectReader.ReadLine()
+                        Dim CurrentSplit As String() = Split(CurrentLine, "=", 2)
+                        If CurrentSplit.Count() < 2 Then
+                            Continue Do
+                        End If
+                        CurrentProjectSettings(CurrentSplit(0)) = CurrentSplit(1)
+                    Loop
+                    ProjectReader.Close()
+                End If
                 For Each i In Me.MdiChildren
                     Dim s As IDEChildInterface = i
                     If s.IsViewer Then
@@ -164,9 +191,22 @@ Public Class General
             If NormalErrorHandler Then
                 MsgBox("The error handler files of MinServer 5, including 404.html and 500.html, have been automaticly copied into your project directory because you haven't created them." & vbCrLf & "The file won't be overridden if it exists.", MsgBoxStyle.Information, "Be Advised")
             End If
+            Dim RealParameter As String = Parameter & " --port:" & CurrentProjectSettings("Port") & " --500:" & CurrentProjectSettings("Page500") & " --404:" & CurrentProjectSettings("Page404")
+            If CurrentProjectSettings("Extension").Length > 0 Then
+                Try
+                    Dim ExtSpl As String() = Split(CurrentProjectSettings("Extension"), ";")
+                    For Each i In ExtSpl
+                        RealParameter &= " --extension:" & i
+                    Next
+                Catch ex As Exception
+                    MsgBox("Incorrect format of 'extension' parameter!", MsgBoxStyle.Critical, "Error")
+                    Exit Sub
+                End Try
+            End If
             With CurrentWebProcess.StartInfo
                 .FileName = CurrentProject & "\VBWeb.exe"
-                .Arguments = Parameter
+                ' Automaticly insert the rest of parameters:
+                .Arguments = RealParameter
                 .UseShellExecute = True
                 .RedirectStandardError = False
                 .RedirectStandardInput = False
@@ -247,6 +287,11 @@ Public Class General
 
     Private Sub AboutMinserverTour_Click(sender As Object, e As EventArgs) Handles AboutMinserverTour.Click
         ShowVersion("\VBWeb.exe")
+    End Sub
+
+    Private Sub ProjectOptions_Click(sender As Object, e As EventArgs) Handles ProjectOptions.Click
+        Dim NewWindow As ProjectSettings = New ProjectSettings
+
     End Sub
 
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
