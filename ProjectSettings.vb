@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports NorthernLights
 Imports System.IO
 
 Public Class ProjectSettings
