@@ -214,31 +214,31 @@ Partial Class General
         'CascadeToolStripMenuItem
         '
         Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.CascadeToolStripMenuItem.Text = "Cascade"
         '
         'TiltToolStripMenuItem
         '
         Me.TiltToolStripMenuItem.Name = "TiltToolStripMenuItem"
-        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.TiltToolStripMenuItem.Text = "Tilt Horizontal"
         '
         'TiltVerticalToolStripMenuItem
         '
         Me.TiltVerticalToolStripMenuItem.Name = "TiltVerticalToolStripMenuItem"
-        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.TiltVerticalToolStripMenuItem.Text = "Tilt Vertical"
         '
         'ArrangeIconsToolStripMenuItem
         '
         Me.ArrangeIconsToolStripMenuItem.Name = "ArrangeIconsToolStripMenuItem"
-        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
         Me.ArrangeIconsToolStripMenuItem.Text = "Arrange Icons"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(213, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
         '
         'HelpToolStripMenuItem
         '

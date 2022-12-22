@@ -1042,4 +1042,8 @@ vsc:    lineJustEdit = currentline
     Public Sub OpeningSpecified(Filename As String) Implements IDEChildInterface.OpeningSpecified
         OpenFile(Filename)
     End Sub
+
+    Private Sub SaveANSIFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveANSIFileToolStripMenuItem.Click
+        SaveThisTo(current, True, System.Text.Encoding.Default)
+    End Sub
 End Class
