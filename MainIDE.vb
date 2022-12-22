@@ -726,7 +726,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Public Sub SaveThisTo(filename As String, Optional noSaved As Boolean = False)
-        Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False)
+        Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False, System.Text.Encoding.Default)
         s.Write(CodeData.Text)
         s.Close()
         If Not noSaved Then
@@ -771,7 +771,7 @@ vsc:    lineJustEdit = currentline
 
     Public Sub Creating() Implements IDEChildInterface.Creating
         IsCreating = True
-        ShowFileSelector()
+        FileKindSelector.Visible = True
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
@@ -826,6 +826,7 @@ vsc:    lineJustEdit = currentline
         suspendScroller = False
         saved = True                    ' Initial time
     End Sub
+
 
     Public Sub OpenFile(Filename As String) Implements IDEChildInterface.OpenFile
         If ClearCheck() Then
