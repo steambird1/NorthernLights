@@ -60,6 +60,7 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.OpeningPrompt = New System.Windows.Forms.Label()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -94,7 +95,7 @@ Partial Class MainIDE
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -102,7 +103,7 @@ Partial Class MainIDE
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.OpenToolStripMenuItem.Text = "Open..."
         '
         'SaveToolStripMenuItem
@@ -110,20 +111,20 @@ Partial Class MainIDE
         Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'SaveAsToolStripMenuItem
         '
         Me.SaveAsToolStripMenuItem.Enabled = False
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.SaveAsToolStripMenuItem.Text = "Save as..."
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'EditToolStripMenuItem
@@ -316,6 +317,7 @@ Partial Class MainIDE
         Me.FileKindSelector.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FileKindSelector.Controls.Add(Me.OpeningPrompt)
         Me.FileKindSelector.Controls.Add(Me.PlainFile)
         Me.FileKindSelector.Controls.Add(Me.HTMLFile)
         Me.FileKindSelector.Controls.Add(Me.CancelOpening)
@@ -334,7 +336,7 @@ Partial Class MainIDE
         'PlainFile
         '
         Me.PlainFile.AutoSize = True
-        Me.PlainFile.Location = New System.Drawing.Point(61, 154)
+        Me.PlainFile.Location = New System.Drawing.Point(60, 180)
         Me.PlainFile.Name = "PlainFile"
         Me.PlainFile.Size = New System.Drawing.Size(108, 19)
         Me.PlainFile.TabIndex = 6
@@ -344,7 +346,7 @@ Partial Class MainIDE
         'HTMLFile
         '
         Me.HTMLFile.AutoSize = True
-        Me.HTMLFile.Location = New System.Drawing.Point(61, 129)
+        Me.HTMLFile.Location = New System.Drawing.Point(60, 155)
         Me.HTMLFile.Name = "HTMLFile"
         Me.HTMLFile.Size = New System.Drawing.Size(316, 19)
         Me.HTMLFile.TabIndex = 5
@@ -354,7 +356,7 @@ Partial Class MainIDE
         '
         'CancelOpening
         '
-        Me.CancelOpening.Location = New System.Drawing.Point(395, 220)
+        Me.CancelOpening.Location = New System.Drawing.Point(394, 246)
         Me.CancelOpening.Name = "CancelOpening"
         Me.CancelOpening.Size = New System.Drawing.Size(123, 41)
         Me.CancelOpening.TabIndex = 4
@@ -364,7 +366,7 @@ Partial Class MainIDE
         '
         'ConfirmOpening
         '
-        Me.ConfirmOpening.Location = New System.Drawing.Point(524, 220)
+        Me.ConfirmOpening.Location = New System.Drawing.Point(523, 246)
         Me.ConfirmOpening.Name = "ConfirmOpening"
         Me.ConfirmOpening.Size = New System.Drawing.Size(123, 41)
         Me.ConfirmOpening.TabIndex = 3
@@ -374,7 +376,7 @@ Partial Class MainIDE
         'PageFile
         '
         Me.PageFile.AutoSize = True
-        Me.PageFile.Location = New System.Drawing.Point(61, 104)
+        Me.PageFile.Location = New System.Drawing.Point(60, 130)
         Me.PageFile.Name = "PageFile"
         Me.PageFile.Size = New System.Drawing.Size(180, 19)
         Me.PageFile.TabIndex = 2
@@ -385,7 +387,7 @@ Partial Class MainIDE
         'BlueFile
         '
         Me.BlueFile.AutoSize = True
-        Me.BlueFile.Location = New System.Drawing.Point(61, 79)
+        Me.BlueFile.Location = New System.Drawing.Point(60, 105)
         Me.BlueFile.Name = "BlueFile"
         Me.BlueFile.Size = New System.Drawing.Size(212, 19)
         Me.BlueFile.TabIndex = 1
@@ -396,11 +398,19 @@ Partial Class MainIDE
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(14, 44)
+        Me.Label3.Location = New System.Drawing.Point(60, 72)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
+        '
+        'OpeningPrompt
+        '
+        Me.OpeningPrompt.AutoSize = True
+        Me.OpeningPrompt.Location = New System.Drawing.Point(63, 38)
+        Me.OpeningPrompt.Name = "OpeningPrompt"
+        Me.OpeningPrompt.Size = New System.Drawing.Size(0, 15)
+        Me.OpeningPrompt.TabIndex = 7
         '
         'MainIDE
         '
@@ -464,4 +474,5 @@ Partial Class MainIDE
     Friend WithEvents CancelOpening As Button
     Friend WithEvents PlainFile As RadioButton
     Friend WithEvents HTMLFile As RadioButton
+    Friend WithEvents OpeningPrompt As Label
 End Class

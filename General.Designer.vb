@@ -27,6 +27,7 @@ Partial Class General
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenRecentFiles = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
@@ -34,6 +35,7 @@ Partial Class General
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.NewProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenRecentWebsite = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem()
@@ -54,8 +56,6 @@ Partial Class General
         Me.AboutMinserverTour = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutIDEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
-        Me.OpenRecentWebsite = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenRecentFiles = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -90,6 +90,12 @@ Partial Class General
         Me.ToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.ToolStripMenuItem1.Size = New System.Drawing.Size(356, 26)
         Me.ToolStripMenuItem1.Text = "Open file..."
+        '
+        'OpenRecentFiles
+        '
+        Me.OpenRecentFiles.Name = "OpenRecentFiles"
+        Me.OpenRecentFiles.Size = New System.Drawing.Size(356, 26)
+        Me.OpenRecentFiles.Text = "Open Recent Files..."
         '
         'ToolStripMenuItem2
         '
@@ -136,6 +142,12 @@ Partial Class General
             Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.NewProjectToolStripMenuItem.Size = New System.Drawing.Size(356, 26)
         Me.NewProjectToolStripMenuItem.Text = "Open/Create Website..."
+        '
+        'OpenRecentWebsite
+        '
+        Me.OpenRecentWebsite.Name = "OpenRecentWebsite"
+        Me.OpenRecentWebsite.Size = New System.Drawing.Size(356, 26)
+        Me.OpenRecentWebsite.Text = "Open Recent Website..."
         '
         'QuitToolStripMenuItem
         '
@@ -258,18 +270,6 @@ Partial Class General
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
         Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
-        '
-        'OpenRecentWebsite
-        '
-        Me.OpenRecentWebsite.Name = "OpenRecentWebsite"
-        Me.OpenRecentWebsite.Size = New System.Drawing.Size(356, 26)
-        Me.OpenRecentWebsite.Text = "Open Recent Website..."
-        '
-        'OpenRecentFiles
-        '
-        Me.OpenRecentFiles.Name = "OpenRecentFiles"
-        Me.OpenRecentFiles.Size = New System.Drawing.Size(356, 26)
-        Me.OpenRecentFiles.Text = "Open Recent Files..."
         '
         'General
         '

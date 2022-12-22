@@ -52,6 +52,10 @@ Public Class MainIDE
 
     'End Function
 
+    Private Sub ShowFileSelector()
+        OpeningPrompt.Text = ""
+        FileKindSelector.Visible = True
+    End Sub
 
     Public Structure BObject
         Public ObjectType As String
@@ -767,7 +771,7 @@ vsc:    lineJustEdit = currentline
 
     Public Sub Creating() Implements IDEChildInterface.Creating
         IsCreating = True
-        FileKindSelector.Visible = True
+        ShowFileSelector()
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
@@ -841,7 +845,8 @@ vsc:    lineJustEdit = currentline
                         OpenHTML()
                     Else
                         IsCreating = False
-                        FileKindSelector.Visible = True
+                        ShowFileSelector()
+                        OpeningPrompt.Text = "You are opening file " & Filename
                         Exit Sub
                     End If
 
