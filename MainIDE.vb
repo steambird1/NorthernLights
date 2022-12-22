@@ -441,6 +441,7 @@ Public Class MainIDE
             CodeData.Select(currentbegin, currentend - currentbegin)
             Dim allline As String = CodeData.SelectedText
             CodeData.SelectionColor = Color.Black
+            CodeData.SelectionFont = New Font("Lucida Sans Typewriter", 11) ' Always use this!
             Dim totrim As String = Trim(allline)
             While totrim.Length > 0 AndAlso totrim(0) = vbTab
                 totrim = totrim.Remove(0, 1)
@@ -725,8 +726,11 @@ vsc:    lineJustEdit = currentline
         End If
     End Sub
 
-    Public Sub SaveThisTo(filename As String, Optional noSaved As Boolean = False)
-        Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False, System.Text.Encoding.Default)
+    Public Sub SaveThisTo(filename As String, Optional noSaved As Boolean = False, Optional ByVal encoder As System.Text.Encoding = Nothing)
+        If IsNothing(encoder) Then
+            encoder = System.Text.Encoding.UTF8
+        End If
+        Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False, encoder)
         s.Write(CodeData.Text)
         s.Close()
         If Not noSaved Then
@@ -811,7 +815,7 @@ vsc:    lineJustEdit = currentline
     Private _TmpFilename As String
     Private Sub FurtherOpener()
         Dim Filename = _TmpFilename
-        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename)
+        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, System.Text.Encoding.UTF8)
         'CodeData.Visible = False
         CodeData.Text = d.ReadToEnd()
         current = Filename
@@ -893,7 +897,7 @@ vsc:    lineJustEdit = currentline
     Private PreparePath As String = Application.StartupPath & "\tcode.blue"
 
     Private Sub PrepareCurrentProgram()
-        SaveThisTo(PreparePath, True)
+        SaveThisTo(PreparePath, True, System.Text.Encoding.Default)
     End Sub
 
     Private Sub RunCurrentProgram(Optional parameter As String = "")
