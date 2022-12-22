@@ -722,7 +722,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Public Sub SaveThisTo(filename As String, Optional noSaved As Boolean = False)
-        Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False, System.Text.Encoding.Default)
+        Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False, System.Text.Encoding.UTF8)
         s.Write(CodeData.Text)
         s.Close()
         If Not noSaved Then
@@ -807,7 +807,7 @@ vsc:    lineJustEdit = currentline
     Private _TmpFilename As String
     Private Sub FurtherOpener()
         Dim Filename = _TmpFilename
-        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename)
+        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, System.Text.Encoding.UTF8)
         'CodeData.Visible = False
         CodeData.Text = d.ReadToEnd()
         current = Filename
