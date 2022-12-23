@@ -334,6 +334,7 @@ Public Class General
         End If
     End Sub
 
+
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Not e.Cancel Then
             End

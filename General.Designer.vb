@@ -28,6 +28,8 @@ Partial Class General
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenRecentFiles = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AlwaysAskFileType = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem()
@@ -72,7 +74,7 @@ Partial Class General
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripMenuItem1, Me.OpenRecentFiles, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem7, Me.ToolStripMenuItem5, Me.ToolStripMenuItem4, Me.ToolStripSeparator1, Me.NewProjectToolStripMenuItem, Me.OpenRecentWebsite, Me.QuitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripMenuItem1, Me.OpenRecentFiles, Me.AlwaysAskFileType, Me.ToolStripSeparator4, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem7, Me.ToolStripMenuItem5, Me.ToolStripMenuItem4, Me.ToolStripSeparator1, Me.NewProjectToolStripMenuItem, Me.OpenRecentWebsite, Me.QuitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
         Me.FileToolStripMenuItem.Text = "File"
@@ -96,6 +98,18 @@ Partial Class General
         Me.OpenRecentFiles.Name = "OpenRecentFiles"
         Me.OpenRecentFiles.Size = New System.Drawing.Size(356, 26)
         Me.OpenRecentFiles.Text = "Open Recent Files..."
+        '
+        'AlwaysAskFileType
+        '
+        Me.AlwaysAskFileType.CheckOnClick = True
+        Me.AlwaysAskFileType.Name = "AlwaysAskFileType"
+        Me.AlwaysAskFileType.Size = New System.Drawing.Size(356, 26)
+        Me.AlwaysAskFileType.Text = "Always ask if use ANSI"
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(353, 6)
         '
         'ToolStripMenuItem2
         '
@@ -250,25 +264,25 @@ Partial Class General
         'AboutBlueBetterToolStripMenuItem
         '
         Me.AboutBlueBetterToolStripMenuItem.Name = "AboutBlueBetterToolStripMenuItem"
-        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.AboutBlueBetterToolStripMenuItem.Text = "About BlueBetter"
         '
         'AboutBluePageToolStripMenuItem
         '
         Me.AboutBluePageToolStripMenuItem.Name = "AboutBluePageToolStripMenuItem"
-        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.AboutBluePageToolStripMenuItem.Text = "About BluePage"
         '
         'AboutMinserverTour
         '
         Me.AboutMinserverTour.Name = "AboutMinserverTour"
-        Me.AboutMinserverTour.Size = New System.Drawing.Size(216, 26)
+        Me.AboutMinserverTour.Size = New System.Drawing.Size(210, 26)
         Me.AboutMinserverTour.Text = "About MinServer"
         '
         'AboutIDEToolStripMenuItem
         '
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
-        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
         '
         'General
@@ -322,4 +336,6 @@ Partial Class General
     Friend WithEvents ProjectOptions As ToolStripMenuItem
     Friend WithEvents OpenRecentFiles As ToolStripMenuItem
     Friend WithEvents OpenRecentWebsite As ToolStripMenuItem
+    Friend WithEvents AlwaysAskFileType As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
 End Class

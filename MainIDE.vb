@@ -54,6 +54,8 @@ Public Class MainIDE
 
     Private Sub ShowFileSelector()
         OpeningPrompt.Text = ""
+        RegardAsANSI.Visible = False
+        RegardAsANSI.Checked = False
         FileKindSelector.Visible = True
     End Sub
 
@@ -739,10 +741,12 @@ vsc:    lineJustEdit = currentline
 
     End Sub
 
-    Public Sub SelectSave(Optional ByVal encoder As System.Text.Encoding = Nothing)
+    Public Sub SelectSave(Optional ByVal updateCurrent As Boolean = True, Optional ByVal encoder As System.Text.Encoding = Nothing)
         If sfd.ShowDialog() = DialogResult.OK Then
             SaveThisTo(sfd.FileName, False, encoder)
-            current = sfd.FileName
+            If updateCurrent Then
+                current = sfd.FileName
+            End If
         End If
     End Sub
 
@@ -815,7 +819,11 @@ vsc:    lineJustEdit = currentline
     Private _TmpFilename As String
     Private Sub FurtherOpener()
         Dim Filename = _TmpFilename
-        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, System.Text.Encoding.UTF8)
+        Dim CurrentEncoder = System.Text.Encoding.UTF8
+        If RegardAsANSI.Checked Then
+            CurrentEncoder = System.Text.Encoding.Default
+        End If
+        Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, CurrentEncoder)
         'CodeData.Visible = False
         CodeData.Text = d.ReadToEnd()
         current = Filename
@@ -831,6 +839,12 @@ vsc:    lineJustEdit = currentline
         saved = True                    ' Initial time
     End Sub
 
+    Private Sub OpenFileDialoger(Filename As String)
+        IsCreating = False
+        ShowFileSelector()
+        RegardAsANSI.Visible = True
+        OpeningPrompt.Text = "You are opening file " & Filename
+    End Sub
 
     Public Sub OpenFile(Filename As String) Implements IDEChildInterface.OpenFile
         If ClearCheck() Then
@@ -839,24 +853,28 @@ vsc:    lineJustEdit = currentline
             CodeFieldVisible = True
             IsPlainHTML = False
             Dim ext As String = GetExtension(Filename)
-            Select Case ext
-                Case "blue"
-                    SelectAKind(True)
-                Case "bp"
-                    SelectAKind(False)
-                Case Else
-                    If HTMLKinds.Contains(ext) Then
-                        ' Process as HTML
-                        OpenHTML()
-                    Else
-                        IsCreating = False
-                        ShowFileSelector()
-                        OpeningPrompt.Text = "You are opening file " & Filename
-                        Exit Sub
-                    End If
+            Dim parenter As General = Me.MdiParent
+            If IsNothing(parenter) OrElse (Not parenter.AlwaysAskFileType.Checked) Then
+                Select Case ext
+                    Case "blue"
+                        SelectAKind(True)
+                    Case "bp"
+                        SelectAKind(False)
+                    Case Else
+                        If HTMLKinds.Contains(ext) Then
+                            ' Process as HTML
+                            OpenHTML()
+                        Else
+                            OpenFileDialoger(Filename)
+                            Exit Sub
+                        End If
 
-            End Select
-            FurtherOpener()
+                End Select
+                FurtherOpener()
+            Else
+                OpenFileDialoger(Filename)
+            End If
+
         End If
     End Sub
 
@@ -1045,6 +1063,6 @@ vsc:    lineJustEdit = currentline
 
     Private Sub SaveANSIFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveANSIFileToolStripMenuItem.Click
         'SaveThisTo(current, True, System.Text.Encoding.Default)
-        SelectSave(System.Text.Encoding.Default)
+        SelectSave(False, System.Text.Encoding.Default)
     End Sub
 End Class

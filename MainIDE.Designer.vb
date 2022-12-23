@@ -25,16 +25,18 @@ Partial Class MainIDE
         Me.components = New System.ComponentModel.Container()
         Dim UpdateTimer As System.Windows.Forms.Timer
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddStaticFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SaveANSIFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.SearchClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AddStaticFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunCodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugCodedebugToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -61,8 +63,7 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.SaveANSIFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RegardAsANSI = New System.Windows.Forms.CheckBox()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -78,56 +79,12 @@ Partial Class MainIDE
         'MenuStrip1
         '
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditToolStripMenuItem, Me.FileToolStripMenuItem, Me.RunToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.RunToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(861, 28)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
-        '
-        'FileToolStripMenuItem
-        '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.QuitToolStripMenuItem})
-        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
-        Me.FileToolStripMenuItem.Text = "File"
-        Me.FileToolStripMenuItem.Visible = False
-        '
-        'NewToolStripMenuItem
-        '
-        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
-        Me.NewToolStripMenuItem.Text = "New"
-        Me.NewToolStripMenuItem.Visible = False
-        '
-        'OpenToolStripMenuItem
-        '
-        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
-        Me.OpenToolStripMenuItem.Text = "Open..."
-        '
-        'SaveToolStripMenuItem
-        '
-        Me.SaveToolStripMenuItem.Enabled = False
-        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
-        Me.SaveToolStripMenuItem.Text = "Save"
-        '
-        'SaveAsToolStripMenuItem
-        '
-        Me.SaveAsToolStripMenuItem.Enabled = False
-        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
-        Me.SaveAsToolStripMenuItem.Text = "Save as..."
-        '
-        'QuitToolStripMenuItem
-        '
-        Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(194, 26)
-        Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'EditToolStripMenuItem
         '
@@ -154,6 +111,61 @@ Partial Class MainIDE
         Me.AddStaticFileToolStripMenuItem.Name = "AddStaticFileToolStripMenuItem"
         Me.AddStaticFileToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
         Me.AddStaticFileToolStripMenuItem.Text = "Add static file..."
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(275, 6)
+        '
+        'SaveANSIFileToolStripMenuItem
+        '
+        Me.SaveANSIFileToolStripMenuItem.Name = "SaveANSIFileToolStripMenuItem"
+        Me.SaveANSIFileToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
+        Me.SaveANSIFileToolStripMenuItem.Text = "Save ANSI File..."
+        '
+        'FileToolStripMenuItem
+        '
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.QuitToolStripMenuItem})
+        Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
+        Me.FileToolStripMenuItem.Text = "File"
+        Me.FileToolStripMenuItem.Visible = False
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.NewToolStripMenuItem.Text = "New"
+        Me.NewToolStripMenuItem.Visible = False
+        '
+        'OpenToolStripMenuItem
+        '
+        Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        Me.OpenToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.OpenToolStripMenuItem.Text = "Open..."
+        '
+        'SaveToolStripMenuItem
+        '
+        Me.SaveToolStripMenuItem.Enabled = False
+        Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
+        Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.SaveToolStripMenuItem.Text = "Save"
+        '
+        'SaveAsToolStripMenuItem
+        '
+        Me.SaveAsToolStripMenuItem.Enabled = False
+        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.SaveAsToolStripMenuItem.Text = "Save as..."
+        '
+        'QuitToolStripMenuItem
+        '
+        Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.QuitToolStripMenuItem.Text = "Quit"
         '
         'RunToolStripMenuItem
         '
@@ -319,6 +331,7 @@ Partial Class MainIDE
         Me.FileKindSelector.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FileKindSelector.Controls.Add(Me.RegardAsANSI)
         Me.FileKindSelector.Controls.Add(Me.OpeningPrompt)
         Me.FileKindSelector.Controls.Add(Me.PlainFile)
         Me.FileKindSelector.Controls.Add(Me.HTMLFile)
@@ -408,22 +421,22 @@ Partial Class MainIDE
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(60, 72)
+        Me.Label3.Location = New System.Drawing.Point(57, 77)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
         '
-        'ToolStripSeparator1
+        'RegardAsANSI
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(275, 6)
-        '
-        'SaveANSIFileToolStripMenuItem
-        '
-        Me.SaveANSIFileToolStripMenuItem.Name = "SaveANSIFileToolStripMenuItem"
-        Me.SaveANSIFileToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
-        Me.SaveANSIFileToolStripMenuItem.Text = "Save ANSI File..."
+        Me.RegardAsANSI.AutoSize = True
+        Me.RegardAsANSI.Location = New System.Drawing.Point(61, 205)
+        Me.RegardAsANSI.Name = "RegardAsANSI"
+        Me.RegardAsANSI.Size = New System.Drawing.Size(285, 19)
+        Me.RegardAsANSI.TabIndex = 8
+        Me.RegardAsANSI.Text = "Regard current file as ANSI file"
+        Me.RegardAsANSI.UseVisualStyleBackColor = True
+        Me.RegardAsANSI.Visible = False
         '
         'MainIDE
         '
@@ -490,4 +503,5 @@ Partial Class MainIDE
     Friend WithEvents OpeningPrompt As Label
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents SaveANSIFileToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RegardAsANSI As CheckBox
 End Class
