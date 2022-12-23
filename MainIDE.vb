@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports NorthernLights
+Imports System.Text
 
 Public Class MainIDE
     Implements IDEChildInterface
@@ -13,6 +14,15 @@ Public Class MainIDE
     Private IsCreating As Boolean = False
     ' For plain file only
     Private NoExecution As Boolean = False
+    Private ReadOnly Property DefaultEncoder As Encoding
+        Get
+            If UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked Then
+                Return Encoding.Default
+            Else
+                Return Encoding.UTF8
+            End If
+        End Get
+    End Property
 
     '[DllImport("user32.dll", EntryPoint = "SendMessage")]
     'Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As IntPtr) As Integer
@@ -673,14 +683,19 @@ vsc:    lineJustEdit = currentline
         End If
     End Sub
 
+    Private DuringUpdating As Boolean = False
+
     Private Sub CodeData_TextChanged(sender As Object, e As EventArgs) Handles CodeData.TextChanged
         upd = True
         sync = False
 
         ' Update my stuff here.
-
-        saved = False
+        If Not DuringUpdating Then
+            saved = False
+        End If
+        'DuringUpdating = True
         CodeData_VScroll(sender, e)
+        'DuringUpdating = False
     End Sub
 
     Private ReadOnly skipper As List(Of Char) = New List(Of Char)({vbTab, vbCr, vbLf})
@@ -730,7 +745,7 @@ vsc:    lineJustEdit = currentline
 
     Public Sub SaveThisTo(filename As String, Optional noSaved As Boolean = False, Optional ByVal encoder As System.Text.Encoding = Nothing)
         If IsNothing(encoder) Then
-            encoder = System.Text.Encoding.UTF8
+            encoder = DefaultEncoder
         End If
         Dim s As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(filename, False, encoder)
         s.Write(CodeData.Text)
@@ -819,14 +834,14 @@ vsc:    lineJustEdit = currentline
     Private _TmpFilename As String
     Private Sub FurtherOpener()
         Dim Filename = _TmpFilename
-        Dim CurrentEncoder = System.Text.Encoding.UTF8
+        Dim CurrentEncoder = Me.DefaultEncoder
         If RegardAsANSI.Checked Then
             CurrentEncoder = System.Text.Encoding.Default
+            UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked = True
         End If
         Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, CurrentEncoder)
-        'CodeData.Visible = False
-        CodeData.Text = d.ReadToEnd()
         current = Filename
+        CodeData.Text = d.ReadToEnd()
         d.Close()
         suspendScroller = True
         CodeData.Enabled = False
@@ -872,6 +887,16 @@ vsc:    lineJustEdit = currentline
                 End Select
                 FurtherOpener()
             Else
+                Select Case ext
+                    Case "blue"
+                        BlueFile.Checked = True
+                    Case "bp"
+                        PageFile.Checked = True
+                    Case "html", "html", "xml"
+                        HTMLFile.Checked = True
+                    Case Else
+                        PlainFile.Checked = True
+                End Select
                 OpenFileDialoger(Filename)
             End If
 
@@ -969,7 +994,9 @@ vsc:    lineJustEdit = currentline
 
     Private Sub CodeData_SelectionChanged(sender As Object, e As EventArgs) Handles CodeData.SelectionChanged
         If Not suspendScroller Then
+            DuringUpdating = True
             LinearUpdate()
+            DuringUpdating = False
         End If
 
     End Sub
@@ -1061,8 +1088,16 @@ vsc:    lineJustEdit = currentline
         OpenFile(Filename)
     End Sub
 
-    Private Sub SaveANSIFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveANSIFileToolStripMenuItem.Click
-        'SaveThisTo(current, True, System.Text.Encoding.Default)
-        SelectSave(False, System.Text.Encoding.Default)
+    Private Sub UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Click
+        ' The state must be changed!
+        saved = False
+    End Sub
+
+    Private Sub ANSIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ANSIToolStripMenuItem.Click
+        SelectSave(False, Encoding.Default)
+    End Sub
+
+    Private Sub UTF8ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UTF8ToolStripMenuItem.Click
+        SelectSave(False, Encoding.UTF8)
     End Sub
 End Class
