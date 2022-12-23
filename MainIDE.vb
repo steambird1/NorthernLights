@@ -1,6 +1,7 @@
-﻿Imports System.ComponentModel
+Imports System.ComponentModel
 Imports NorthernLights
 Imports System.Text
+Imports System.IO
 
 Public Class MainIDE
     Implements IDEChildInterface
@@ -838,6 +839,10 @@ vsc:    lineJustEdit = currentline
         If RegardAsANSI.Checked Then
             CurrentEncoder = System.Text.Encoding.Default
             UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked = True
+        Else
+                                ' Will judge that kid of file it is
+                                ' Read first character of it.
+                                Dim tryReader as IO.StreamReader = new BinaryReader(File.Open()
         End If
         Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, CurrentEncoder)
         current = Filename
