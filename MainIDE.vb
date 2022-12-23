@@ -739,9 +739,9 @@ vsc:    lineJustEdit = currentline
 
     End Sub
 
-    Public Sub SelectSave()
+    Public Sub SelectSave(Optional ByVal encoder As System.Text.Encoding = Nothing)
         If sfd.ShowDialog() = DialogResult.OK Then
-            SaveThisTo(sfd.FileName)
+            SaveThisTo(sfd.FileName, False, encoder)
             current = sfd.FileName
         End If
     End Sub
@@ -1044,6 +1044,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Private Sub SaveANSIFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveANSIFileToolStripMenuItem.Click
-        SaveThisTo(current, True, System.Text.Encoding.Default)
+        'SaveThisTo(current, True, System.Text.Encoding.Default)
+        SelectSave(System.Text.Encoding.Default)
     End Sub
 End Class
