@@ -840,23 +840,23 @@ vsc:    lineJustEdit = currentline
             CurrentEncoder = System.Text.Encoding.Default
             UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked = True
         Else
-                                ' Will judge that kid of file it is
-                                ' Read first character of it.
-                                Dim tryReader as IO.StreamReader = new BinaryReader(File.Open(Filename, FileMode.Open))
-                                Dim firsts() as Byte() = tryReader.ReadBytes(3)
-                                If firsts(0) >= 239 Then
-                                    ' EF Header of file.
-                                    ' Do nothing!
-                                ElseIf firsts(0) = 254 AndAlso firsts(1) = 255 Then
-                                    CurrentEncoder = System.Text.Encoding.BigEndianUnicode
-                                ElseIf firsts(0) = 255 AndAlso firsts(1) = 254 Then
-                                    CurrentEncoder = System.Text.Encoding.Unicode
-                                Else
-                                    ' ANSI Here!
-                                    CurrentEncoder = System.Text.Encoding.Default
-                                    UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked = True
-                                End If
-                                tryReader.Close()
+            ' Will judge that kid of file it is
+            ' Read first character of it.
+            Dim tryReader As IO.BinaryReader = New BinaryReader(File.Open(Filename, FileMode.Open))
+            Dim firsts() As Byte = tryReader.ReadBytes(3)
+            If firsts(0) >= 239 Then
+                ' EF Header of file.
+                ' Do nothing!
+            ElseIf firsts(0) = 254 AndAlso firsts(1) = 255 Then
+                CurrentEncoder = System.Text.Encoding.BigEndianUnicode
+            ElseIf firsts(0) = 255 AndAlso firsts(1) = 254 Then
+                CurrentEncoder = System.Text.Encoding.Unicode
+            Else
+                ' ANSI Here!
+                CurrentEncoder = System.Text.Encoding.Default
+                UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked = True
+            End If
+            tryReader.Close()
         End If
         Dim d As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Filename, CurrentEncoder)
         current = Filename
