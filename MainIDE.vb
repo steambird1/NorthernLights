@@ -463,6 +463,9 @@ Public Class MainIDE
             Dim finder As Integer = lineJustEdit
             Dim is_blue As Boolean = isBluebetter
             Dim is_postback As Boolean = False
+            Dim is_comment As Boolean = False
+            Dim comment_check As Boolean = True
+
             If (Not isBluebetter) AndAlso (Not IsPlainHTML) Then
                 While finder >= 0
                     Dim fcurrentbegin As Integer = CodeData.GetFirstCharIndexFromLine(finder)
@@ -486,10 +489,33 @@ Public Class MainIDE
                 End While
             End If
 
+            finder = lineJustEdit
+
+            If (Not isBluebetter) AndAlso (Not is_blue) Then
+                While finder >= 0
+                    Dim fcurrentbegin As Integer = CodeData.GetFirstCharIndexFromLine(finder)
+                    Dim fcurrentend As Integer = CodeData.GetFirstCharIndexFromLine(finder + 1) - 1
+                    CodeData.Select(fcurrentbegin, fcurrentend - fcurrentbegin)
+                    Dim fallline As String = CodeData.SelectedText
+                    Dim cend As Integer = fallline.LastIndexOf("-->")
+                    Dim cbegin As Integer = fallline.LastIndexOf("<!--")
+                    If cbegin > cend Then
+                        is_comment = True
+                        Exit While
+                    ElseIf cbegin < cend Then
+                        is_comment = False
+                        Exit While
+                    End If
+                    finder -= 1
+                End While
+            End If
+
             ' Reselect...
             CodeData.Select(currentbegin, currentend - currentbegin)
 
-            If is_postback Then
+            If is_comment Then
+                CodeData.SelectionColor = Color.DarkGreen
+            ElseIf is_postback Then
                 For Each i In postbacking_keywords
                     ' Requires at the beginning
                     If totrim.IndexOf(i) = 0 Then
@@ -621,63 +647,63 @@ Public Class MainIDE
             Else
                 ' HTML mode
                 Dim inside_tag As Boolean = False
-                Dim previous_tag As Integer = -1
-                For i = 0 To allline.Length - 1
+                    Dim previous_tag As Integer = -1
+                    For i = 0 To allline.Length - 1
                     If allline(i) = "<"c Then
                         If Not inside_tag Then
                             previous_tag = i
                             inside_tag = True
                         End If
-                    ElseIf allline(i) = ">"c Then
+                    ElseIf allline(i) = ">"c AndAlso ((i = 0) OrElse (Not allline(i - 1) = "?"c)) Then
                         inside_tag = False
-                        Dim cs As Integer = currentbegin + previous_tag
-                        CodeData.SelectionStart = cs
-                        ' i+1: Current '>' character
-                        CodeData.SelectionLength = i + 1 - previous_tag
-                        Dim tagtext As String = CodeData.SelectedText
-                        Dim hinstring As Boolean = False
-                        Dim start_html As Boolean = False
-                        CodeData.SelectionColor = Color.Blue
-                        For j = 0 To tagtext.Length - 1
-                            If tagtext(j) = """"c Or hinstring Then
-                                If Not start_html Then
-                                    Continue For
+                            Dim cs As Integer = currentbegin + previous_tag
+                            CodeData.SelectionStart = cs
+                            ' i+1: Current '>' character
+                            CodeData.SelectionLength = i + 1 - previous_tag
+                            Dim tagtext As String = CodeData.SelectedText
+                            Dim hinstring As Boolean = False
+                            Dim start_html As Boolean = False
+                            CodeData.SelectionColor = Color.Blue
+                            For j = 0 To tagtext.Length - 1
+                                If tagtext(j) = """"c Or hinstring Then
+                                    If Not start_html Then
+                                        Continue For
+                                    End If
+                                    CodeData.SelectionStart = cs + j
+                                    CodeData.SelectionLength = 1
+                                    CodeData.SelectionColor = Color.DarkGray
+                                    If tagtext(j) = """"c Then
+                                        hinstring = Not hinstring
+                                    End If
+                                ElseIf tagtext(j) = " "c AndAlso (Not start_html) Then
+                                    start_html = True
+                                ElseIf (tagtext(j) <> "="c) AndAlso (tagtext(j) <> ">"c) AndAlso (tagtext(j) <> "/"c) Then
+                                    If Not start_html Then
+                                        Continue For
+                                    End If
+                                    CodeData.SelectionStart = cs + j
+                                    CodeData.SelectionLength = 1
+                                    CodeData.SelectionColor = Color.Red         ' Properties
+                                ElseIf (tagtext(j) = ">"c) OrElse (tagtext(j) = "/"c) Then
+                                    CodeData.SelectionStart = cs + j
+                                    CodeData.SelectionLength = 1
+                                    CodeData.SelectionColor = Color.Blue
+                                ElseIf tagtext(j) = "="c Then
+                                    CodeData.SelectionStart = cs + j
+                                    CodeData.SelectionLength = 1
+                                    CodeData.SelectionColor = Color.Black
                                 End If
-                                CodeData.SelectionStart = cs + j
-                                CodeData.SelectionLength = 1
-                                CodeData.SelectionColor = Color.DarkGray
-                                If tagtext(j) = """"c Then
-                                    hinstring = Not hinstring
-                                End If
-                            ElseIf tagtext(j) = " "c AndAlso (Not start_html) Then
-                                start_html = True
-                            ElseIf (tagtext(j) <> "="c) AndAlso (tagtext(j) <> ">"c) AndAlso (tagtext(j) <> "/"c) Then
-                                If Not start_html Then
-                                    Continue For
-                                End If
-                                CodeData.SelectionStart = cs + j
-                                CodeData.SelectionLength = 1
-                                CodeData.SelectionColor = Color.Red         ' Properties
-                            ElseIf (tagtext(j) = ">"c) OrElse (tagtext(j) = "/"c) Then
-                                CodeData.SelectionStart = cs + j
-                                CodeData.SelectionLength = 1
-                                CodeData.SelectionColor = Color.Blue
-                            ElseIf tagtext(j) = "="c Then
-                                CodeData.SelectionStart = cs + j
-                                CodeData.SelectionLength = 1
-                                CodeData.SelectionColor = Color.Black
-                            End If
-                        Next
-                    End If
-                Next
+                            Next
+                        End If
+                    Next
+                End If
+                ' After all override our quotes (It's common for all kinds.)
+
+FinishA:        CodeData.Select(usercur, 0)
+                CodeData.SelectionColor = Color.Black
+
+                suspendScroller = False
             End If
-            ' After all override our quotes (It's common for all kinds.)
-
-FinishA:    CodeData.Select(usercur, 0)
-            CodeData.SelectionColor = Color.Black
-
-            suspendScroller = False
-        End If
 vsc:    lineJustEdit = currentline
         If suspendScroller Then
             suspendScroller = False
@@ -1119,4 +1145,5 @@ vsc:    lineJustEdit = currentline
     Private Sub UTF8ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UTF8ToolStripMenuItem.Click
         SelectSave(False, Encoding.UTF8)
     End Sub
+
 End Class
