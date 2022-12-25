@@ -219,7 +219,7 @@ Partial Class MainIDE
         Me.CodeData.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CodeData.Font = New System.Drawing.Font("Lucida Sans Typewriter", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CodeData.Font = New System.Drawing.Font("宋体", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CodeData.Location = New System.Drawing.Point(52, 31)
         Me.CodeData.Name = "CodeData"
         Me.CodeData.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth
@@ -332,7 +332,7 @@ Partial Class MainIDE
         Me.LineLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.LineLabel.BackColor = System.Drawing.Color.LightGray
-        Me.LineLabel.Font = New System.Drawing.Font("新宋体", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LineLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LineLabel.Location = New System.Drawing.Point(0, 31)
         Me.LineLabel.Name = "LineLabel"
         Me.LineLabel.ReadOnly = True

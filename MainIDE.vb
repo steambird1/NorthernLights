@@ -8,7 +8,7 @@ Public Class MainIDE
 
     ' Load class information and library information
     ' Data can be used for all systems
-
+    Public Property GeneralFont As String = "TESTTEST" '"ËÎÌו"
     Public HTMLKinds As HashSet(Of String) = New HashSet(Of String)({"htm", "html", "xml"})
     Public StandardLibrary As List(Of String) = New List(Of String)({"bmain.blue", "WebHeader.blue", "algo.blue"})
     Private IsPlainHTML As Boolean = False
@@ -352,8 +352,16 @@ Public Class MainIDE
                 End
             End If
         Next
+        ' Load general font
+        If FontExists("ËÎÌו") Then
+            GeneralFont = "ËÎÌו"
+        Else
+            GeneralFont = "Microsoft Sans Serif"
+        End If
+        CodeData.Font = New Font(GeneralFont, 11)
+        LineLabel.Font = New Font(GeneralFont, 11)
         CodeData_VScroll(New Object, New EventArgs)
-        CodeData.LanguageOption = RichTextBoxLanguageOptions.UIFonts    '?
+        'CodeData.LanguageOption = RichTextBoxLanguageOptions.UIFonts    'For some system it works strangely.
         Dim failure As String = ""
         For Each i In StandardLibrary
             Try
@@ -454,7 +462,7 @@ Public Class MainIDE
             CodeData.Select(currentbegin, currentend - currentbegin)
             Dim allline As String = CodeData.SelectedText
             CodeData.SelectionColor = Color.Black
-            CodeData.SelectionFont = New Font("Lucida Sans Typewriter", 11) ' Always use this!
+            CodeData.SelectionFont = New Font(GeneralFont, 11) ' Always use this!
             Dim totrim As String = Trim(allline)
             While totrim.Length > 0 AndAlso totrim(0) = vbTab
                 totrim = totrim.Remove(0, 1)
@@ -715,7 +723,7 @@ vsc:    lineJustEdit = currentline
     Private Sub CodeData_TextChanged(sender As Object, e As EventArgs) Handles CodeData.TextChanged
         upd = True
         sync = False
-
+        CodeData.Font = New Font(GeneralFont, 11)
         ' Update my stuff here.
         If Not DuringUpdating Then
             saved = False
@@ -1022,7 +1030,7 @@ vsc:    lineJustEdit = currentline
         Dim showend = CodeData.GetCharIndexFromPosition(New Point(CodeData.ClientSize.Width, CodeData.ClientSize.Height))
         Dim beginline = CodeData.GetLineFromCharIndex(showbegin)
         Dim endline = CodeData.GetLineFromCharIndex(showend)
-        LineLabel.Font = CodeData.Font
+        'LineLabel.Font = New Font(GeneralFont, 11)
         LineLabel.Text = ""
         For i = beginline To endline
             LineLabel.Text = LineLabel.Text & Format(i + 1, "000") & vbCrLf

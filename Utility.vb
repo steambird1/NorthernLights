@@ -97,4 +97,9 @@ Public Module Utility
         End Sub
 
     End Class
+
+    Public Function FontExists(Name As String) As Boolean
+        Dim Tester As Font = New Font(Name, 11)
+        Return Tester.OriginalFontName = Tester.Name
+    End Function
 End Module
