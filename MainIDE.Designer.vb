@@ -37,6 +37,8 @@ Partial Class MainIDE
         Me.AddStaticFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsEncodingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ANSIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UTF8ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RunCodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -65,8 +67,6 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.ANSIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UTF8ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -173,6 +173,18 @@ Partial Class MainIDE
         Me.SaveAsEncodingToolStripMenuItem.Size = New System.Drawing.Size(431, 26)
         Me.SaveAsEncodingToolStripMenuItem.Text = "Save as encoding"
         '
+        'ANSIToolStripMenuItem
+        '
+        Me.ANSIToolStripMenuItem.Name = "ANSIToolStripMenuItem"
+        Me.ANSIToolStripMenuItem.Size = New System.Drawing.Size(127, 26)
+        Me.ANSIToolStripMenuItem.Text = "ANSI"
+        '
+        'UTF8ToolStripMenuItem
+        '
+        Me.UTF8ToolStripMenuItem.Name = "UTF8ToolStripMenuItem"
+        Me.UTF8ToolStripMenuItem.Size = New System.Drawing.Size(127, 26)
+        Me.UTF8ToolStripMenuItem.Text = "UTF-8"
+        '
         'UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem
         '
         Me.UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.CheckOnClick = True
@@ -215,6 +227,7 @@ Partial Class MainIDE
         Me.CodeData.TabIndex = 1
         Me.CodeData.Text = ""
         Me.CodeData.Visible = False
+        Me.CodeData.WordWrap = False
         '
         'Searcher
         '
@@ -450,18 +463,6 @@ Partial Class MainIDE
         Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
-        '
-        'ANSIToolStripMenuItem
-        '
-        Me.ANSIToolStripMenuItem.Name = "ANSIToolStripMenuItem"
-        Me.ANSIToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
-        Me.ANSIToolStripMenuItem.Text = "ANSI"
-        '
-        'UTF8ToolStripMenuItem
-        '
-        Me.UTF8ToolStripMenuItem.Name = "UTF8ToolStripMenuItem"
-        Me.UTF8ToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
-        Me.UTF8ToolStripMenuItem.Text = "UTF-8"
         '
         'MainIDE
         '

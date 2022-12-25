@@ -32,6 +32,9 @@
                 root.Nodes(root.Nodes.Count - 1).Tag = i.LinePosition
             ElseIf i.ObjectType = "Inheritance" Then
                 root.Nodes.Add("Inheritance" & mytab & i.ObjectName)
+                With root
+                    .Nodes(.Nodes.Count - 1).ForeColor = Color.Red
+                End With
                 InheritanceUpdate(i, root.Nodes(root.Nodes.Count - 1))
             End If
         Next

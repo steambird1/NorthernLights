@@ -353,7 +353,7 @@ Public Class MainIDE
             End If
         Next
         CodeData_VScroll(New Object, New EventArgs)
-
+        CodeData.LanguageOption = RichTextBoxLanguageOptions.UIFonts    '?
         Dim failure As String = ""
         For Each i In StandardLibrary
             Try
