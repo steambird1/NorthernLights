@@ -110,7 +110,7 @@ Public Class MainIDE
     Public commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
-    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c})
+    Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c})
 
     Public Sub LoadObjectInfo(Data As String, Optional ToStatic As Boolean = False, Optional NoLine As Boolean = False)
         Dim sp As String() = Split(Data, vbLf)
@@ -398,8 +398,22 @@ Public Class MainIDE
 
     Dim starter As Integer = 0
 
+    Private ReadOnly Property FindParameters As RichTextBoxFinds
+        Get
+            Dim options As Integer = RichTextBoxFinds.None
+            If WholeWords.Checked Then
+                options += RichTextBoxFinds.WholeWord
+            End If
+            If CaseSens.Checked Then
+                options += RichTextBoxFinds.MatchCase
+            End If
+            Return CType(options, RichTextBoxFinds)
+        End Get
+    End Property
+
     Private Sub SchPush_Click(sender As Object, e As EventArgs) Handles SchPush.Click
-        starter = CodeData.Find(SearchBox.Text, starter, RichTextBoxFinds.None)
+
+        starter = CodeData.Find(SearchBox.Text, starter, FindParameters)
         If starter < 0 Then
             starter = 0
             Dim sel = MsgBox("Already reaches the end of text! Restart searching?", MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Search")
@@ -418,7 +432,7 @@ Public Class MainIDE
     Private Sub Replacer_Click(sender As Object, e As EventArgs) Handles Replacer.Click
         Dim cursor As Integer = 0
         Do ' Until cursor < 0
-            cursor = CodeData.Find(SearchBox.Text, cursor, RichTextBoxFinds.None)
+            cursor = CodeData.Find(SearchBox.Text, cursor, FindParameters)
             If cursor < 0 Then
                 Exit Do
             End If

@@ -67,6 +67,8 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.WholeWords = New System.Windows.Forms.CheckBox()
+        Me.CaseSens = New System.Windows.Forms.CheckBox()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -233,6 +235,8 @@ Partial Class MainIDE
         '
         Me.Searcher.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Searcher.Controls.Add(Me.CaseSens)
+        Me.Searcher.Controls.Add(Me.WholeWords)
         Me.Searcher.Controls.Add(Me.Closer)
         Me.Searcher.Controls.Add(Me.Replacer)
         Me.Searcher.Controls.Add(Me.SchPush)
@@ -240,9 +244,9 @@ Partial Class MainIDE
         Me.Searcher.Controls.Add(Me.Label2)
         Me.Searcher.Controls.Add(Me.SearchBox)
         Me.Searcher.Controls.Add(Me.Label1)
-        Me.Searcher.Location = New System.Drawing.Point(0, 399)
+        Me.Searcher.Location = New System.Drawing.Point(0, 369)
         Me.Searcher.Name = "Searcher"
-        Me.Searcher.Size = New System.Drawing.Size(861, 52)
+        Me.Searcher.Size = New System.Drawing.Size(861, 82)
         Me.Searcher.TabIndex = 2
         Me.Searcher.TabStop = False
         Me.Searcher.Text = "Search and replace"
@@ -250,8 +254,8 @@ Partial Class MainIDE
         '
         'Closer
         '
-        Me.Closer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Closer.Location = New System.Drawing.Point(838, 0)
+        Me.Closer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Closer.Location = New System.Drawing.Point(826, 0)
         Me.Closer.Name = "Closer"
         Me.Closer.Size = New System.Drawing.Size(23, 23)
         Me.Closer.TabIndex = 6
@@ -464,6 +468,26 @@ Partial Class MainIDE
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
         '
+        'WholeWords
+        '
+        Me.WholeWords.AutoSize = True
+        Me.WholeWords.Location = New System.Drawing.Point(13, 55)
+        Me.WholeWords.Name = "WholeWords"
+        Me.WholeWords.Size = New System.Drawing.Size(157, 19)
+        Me.WholeWords.TabIndex = 7
+        Me.WholeWords.Text = "Match whole word"
+        Me.WholeWords.UseVisualStyleBackColor = True
+        '
+        'CaseSens
+        '
+        Me.CaseSens.AutoSize = True
+        Me.CaseSens.Location = New System.Drawing.Point(180, 55)
+        Me.CaseSens.Name = "CaseSens"
+        Me.CaseSens.Size = New System.Drawing.Size(141, 19)
+        Me.CaseSens.TabIndex = 8
+        Me.CaseSens.Text = "Case Sensitive"
+        Me.CaseSens.UseVisualStyleBackColor = True
+        '
         'MainIDE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -533,4 +557,6 @@ Partial Class MainIDE
     Friend WithEvents UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ANSIToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UTF8ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CaseSens As CheckBox
+    Friend WithEvents WholeWords As CheckBox
 End Class
