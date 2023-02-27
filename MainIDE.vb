@@ -107,7 +107,7 @@ Public Class MainIDE
 
     Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref"})
     ' Only able to exist after removing vbTab
-    Public commanding_keywords As List(Of String) = New List(Of String)({"true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare"})
+    Public commanding_keywords As List(Of String) = New List(Of String)({"null", "true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c})
