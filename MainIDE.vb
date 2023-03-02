@@ -15,6 +15,42 @@ Public Class MainIDE
     Private IsCreating As Boolean = False
     ' For plain file only
     Private NoExecution As Boolean = False
+    Private OverridenExtension As String = ""
+    Private ReadOnly Property CurrentExtension As String
+        Get
+            If OverridenExtension <> "" Then
+                Return "." & OverridenExtension
+            ElseIf current = "" Then
+                Return ""
+            Else
+                Return "." & GetExtension(current)
+            End If
+        End Get
+    End Property
+    Private ReadOnly Property CurrentFilterIndex As Integer
+        Get
+            ' Filter is:
+            ' BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML File|*.xml|Text file|*.txt|CSV Table file|*.csv|All files|*.*
+            Select Case CurrentExtension
+                Case ".blue"
+                    Return 1
+                Case ".bp"
+                    Return 2
+                Case ".html"
+                    Return 3
+                Case ".htm"
+                    Return 4
+                Case ".xml"
+                    Return 5
+                Case ".txt"
+                    Return 6
+                Case ".csv"
+                    Return 7
+                Case Else
+                    Return 8
+            End Select
+        End Get
+    End Property
     Private ReadOnly Property DefaultEncoder As Encoding
         Get
             If UseANSIAsDefaultEncodinginsteadOfUTF8ToolStripMenuItem.Checked Then
@@ -806,6 +842,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Public Sub SelectSave(Optional ByVal updateCurrent As Boolean = True, Optional ByVal encoder As System.Text.Encoding = Nothing)
+        sfd.FilterIndex = CurrentFilterIndex
         If sfd.ShowDialog() = DialogResult.OK Then
             SaveThisTo(sfd.FileName, False, encoder)
             If updateCurrent Then
@@ -971,6 +1008,7 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Public Sub Opening() Implements IDEChildInterface.Opening
+        ofd.FilterIndex = CurrentFilterIndex
         If ClearCheck() Then
             If ofd.ShowDialog() = DialogResult.OK Then
                 OpenFile(ofd.FileName)
@@ -1091,12 +1129,16 @@ vsc:    lineJustEdit = currentline
     Private Sub ConfirmOpening_Click(sender As Object, e As EventArgs) Handles ConfirmOpening.Click
         If ClearCheck() Then
             If BlueFile.Checked Then
+                OverridenExtension = "blue"
                 SelectAKind(True)
             ElseIf PageFile.Checked Then
+                OverridenExtension = "bp"
                 SelectAKind(False)
             ElseIf HTMLFile.Checked Then
+                OverridenExtension = "html"
                 OpenHTML()
             ElseIf PlainFile.Checked Then
+                OverridenExtension = "txt"
                 NoExecution = True
                 SelectAKind(False)
             Else
