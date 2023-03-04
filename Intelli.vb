@@ -18,7 +18,7 @@
         For Each i In inheritw.ClassFunction
             If i.ObjectType = "Function" Then
                 Dim desc As String = i.ObjectType & mytab & i.ObjectName & mytab
-                If i.ObjectType = "Function" Then
+                If i.ObjectType = "Function" OrElse i.ObjectType.IndexOf("Property") = 0 Then
                     'desc &= i.FunctionParameter
                     Dim spls As String() = Split(i.FunctionParameter)
                     For Each j In spls
@@ -30,6 +30,9 @@
                 End If
                 root.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
                 root.Nodes(root.Nodes.Count - 1).Tag = i.LinePosition
+                If i.ObjectType.IndexOf("Property") = 0 Then
+                    root.Nodes(root.Nodes.Count - 1).ForeColor = Color.DarkMagenta
+                End If
             ElseIf i.ObjectType = "Inheritance" Then
                 root.Nodes.Add("Inheritance" & mytab & i.ObjectName)
                 With root
@@ -48,7 +51,7 @@
             End If
             If i.ObjectName.Contains(SearchMask.Text) Then
                 Dim desc As String = i.ObjectType & mytab & i.ObjectName & mytab
-                If i.ObjectType = "Function" Then
+                If i.ObjectType = "Function" OrElse i.ObjectType.IndexOf("Property") = 0 Then
                     'desc &= i.FunctionParameter
                     Dim spls As String() = Split(i.FunctionParameter)
                     For Each j In spls
@@ -62,6 +65,9 @@
                 With ElemViewer.Nodes(ElemViewer.Nodes.Count - 1)
                     .Tag = i.LinePosition
                     .ForeColor = Color.Black        ' No special thing for functions
+                    If i.ObjectType.IndexOf("Property") = 0 Then
+                        .ForeColor = Color.DarkMagenta
+                    End If
                 End With
                 If i.ObjectType = "Class" Then
                     ' Add sub nodes...
@@ -89,6 +95,8 @@
                                     .ForeColor = Color.Black
                                     If j.ObjectType = "Variable" Then
                                         .ForeColor = Color.Blue
+                                    ElseIf j.ObjectType.IndexOf("Property") = 0 Then
+                                        .ForeColor = Color.DarkMagenta
                                     End If
                                     .Tag = j.LinePosition
                                 End With

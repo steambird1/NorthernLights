@@ -141,9 +141,9 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref"})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"null", "true", "false", "serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref", "const "})
     ' Only able to exist after removing vbTab
-    Public commanding_keywords As List(Of String) = New List(Of String)({"null", "true", "false", "class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return ", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare"})
+    Public commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare", "property get", "property set"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c})
@@ -237,7 +237,14 @@ Public Class MainIDE
                         r_class.ClassFunction.Add(m)
                     End If
                 End If
-            ElseIf arg(0) = "function" Then
+            ElseIf arg(0) = "function" OrElse arg(0) = "property" Then
+                ' If it's a property ...
+                Dim ActualObjectType As String = "Function"
+                If arg(0) = "property" Then
+                    Dim rs() As String = Split(arg(1), " ", 2)
+                    ActualObjectType = "Property " & StrConv(rs(0), VbStrConv.ProperCase)
+                    arg(1) = rs(1)          ' Name
+                End If
                 Dim argz As String = ""
                 Dim fn As String = ""
                 Try
@@ -250,7 +257,7 @@ Public Class MainIDE
                 End Try
                 Dim b As BObject = New BObject
                 b.Attributes = New List(Of String)
-                b.ObjectType = "Function"
+                b.ObjectType = ActualObjectType
                 b.FunctionParameter = argz
                 b.ObjectName = fn
                 If fn.Length > 0 AndAlso fn(fn.Length - 1) = ":"c Then
