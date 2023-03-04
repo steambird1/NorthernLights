@@ -288,7 +288,7 @@ Public Class General
     End Sub
 
     Private Sub AboutIDEToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutIDEToolStripMenuItem.Click
-        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.14", MsgBoxStyle.Information, "About IDE")
+        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.15", MsgBoxStyle.Information, "About IDE")
     End Sub
 
     Private Sub AboutBlueBetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBlueBetterToolStripMenuItem.Click
