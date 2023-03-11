@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 
 Public Module Utility
-    Public Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe", "Postback.js"})
+    Public Environments As List(Of String) = New List(Of String)({"BlueBetter4.exe", "bmain.blue", "algo.blue", "WebHeader.blue", "document.blue", "BluePage.blue", "BluePage.exe", "VBWeb.exe", "Postback.js", "math.blue"})
     Public ErrorHandlers As List(Of String) = New List(Of String)({"500.html", "404.html"})
 
     ''' <summary>
