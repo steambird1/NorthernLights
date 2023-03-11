@@ -50,7 +50,9 @@ Public Class General
         CurrentProjectSettings("Port") = "80"
         CurrentProjectSettings("Page500") = "500.html"
         CurrentProjectSettings("Page404") = "404.html"
+        CurrentProjectSettings("Page403") = "403.html"
         CurrentProjectSettings("Extension") = ""
+        CurrentProjectSettings("Disallows") = ""
     End Sub
 
     Private Function CreatingOne() As MainIDE
@@ -206,9 +208,9 @@ Public Class General
                 End If
             Next
             If NormalErrorHandler Then
-                MsgBox("The error handler files of MinServer 5, including 404.html and 500.html, have been automaticly copied into your project directory because you haven't created them." & vbCrLf & "The file won't be overridden if it exists.", MsgBoxStyle.Information, "Be Advised")
+                MsgBox("The error handler files of MinServer 5, including 403.html, 404.html and 500.html, have been automaticly copied into your project directory because you haven't created them." & vbCrLf & "The file won't be overridden if it exists.", MsgBoxStyle.Information, "Be Advised")
             End If
-            Dim RealParameter As String = Parameter & " --port:" & CurrentProjectSettings("Port") & " --500:" & CurrentProjectSettings("Page500") & " --404:" & CurrentProjectSettings("Page404")
+            Dim RealParameter As String = Parameter & " --port:" & CurrentProjectSettings("Port") & " --500:" & CurrentProjectSettings("Page500") & " --404:" & CurrentProjectSettings("Page404") & " --403:" & CurrentProjectSettings("Page403")
             If CurrentProjectSettings("Extension").Length > 0 Then
                 Try
                     Dim ExtSpl As String() = Split(CurrentProjectSettings("Extension"), ";")
@@ -217,6 +219,19 @@ Public Class General
                     Next
                 Catch ex As Exception
                     MsgBox("Incorrect format of 'extension' parameter!", MsgBoxStyle.Critical, "Error")
+                    Exit Sub
+                End Try
+            End If
+            If CurrentProjectSettings("Disallows").Length > 0 Then
+                Try
+                    Dim ExtSpl As String() = Split(CurrentProjectSettings("Disallows"), ";")
+                    For Each i In ExtSpl
+                        If Trim(i) <> "" Then
+                            RealParameter &= " --disallow:" & i
+                        End If
+                    Next
+                Catch ex As Exception
+                    MsgBox("Incorrect format of 'disallows' parameter!", MsgBoxStyle.Critical, "Error")
                     Exit Sub
                 End Try
             End If
@@ -288,7 +303,7 @@ Public Class General
     End Sub
 
     Private Sub AboutIDEToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutIDEToolStripMenuItem.Click
-        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.15", MsgBoxStyle.Information, "About IDE")
+        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.16", MsgBoxStyle.Information, "About IDE")
     End Sub
 
     Private Sub AboutBlueBetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBlueBetterToolStripMenuItem.Click

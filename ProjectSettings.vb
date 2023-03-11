@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports NorthernLights
+Imports System.Text.RegularExpressions
 
 Public Class ProjectSettings
     Implements IDEChildInterface
@@ -60,7 +61,9 @@ Public Class ProjectSettings
         SelfParent.CurrentProjectSettings("Port") = PortData.Text
         SelfParent.CurrentProjectSettings("Page500") = Error500Path.Text
         SelfParent.CurrentProjectSettings("Page404") = Error404Path.Text
+        SelfParent.CurrentProjectSettings("Page403") = Error403Path.Text
         SelfParent.CurrentProjectSettings("Extension") = ExtensionsData.Text
+        SelfParent.CurrentProjectSettings("Disallows") = DisallowsBox.Text
         SaveFileTo(CurrentFileName)
         Modified = False
     End Sub
@@ -106,7 +109,9 @@ Public Class ProjectSettings
         PortData.Text = SelfParent.CurrentProjectSettings("Port")
         Error500Path.Text = SelfParent.CurrentProjectSettings("Page500")
         Error404Path.Text = SelfParent.CurrentProjectSettings("Page404")
+        Error403Path.Text = SelfParent.CurrentProjectSettings("Page403")
         ExtensionsData.Text = SelfParent.CurrentProjectSettings("Extension")
+        DisallowsBox.Text = SelfParent.CurrentProjectSettings("Disallows")
         Modified = False
     End Sub
 
@@ -144,5 +149,31 @@ Public Class ProjectSettings
 
     Public Sub OpeningSpecified(Filename As String) Implements IDEChildInterface.OpeningSpecified
 
+    End Sub
+
+    Private Sub DisallowTest_Click(sender As Object, e As EventArgs) Handles DisallowTest.Click
+        Dim ToCheck As String = InputBox("Input expression to test:", "Tester")
+        If Trim(ToCheck) <> "" Then
+            Try
+                Dim ExtSpl As String() = Split(DisallowsBox.Text, ";")
+                For Each i In ExtSpl
+                    If Trim(i) = "" Then
+                        Continue For
+                    End If
+                    If Regex.IsMatch(ToCheck, i, RegexOptions.IgnoreCase) Then
+                        MsgBox("The path " & ToCheck & vbCrLf & "Matches: " & i, MsgBoxStyle.Exclamation, "Match!")
+                        Exit Sub
+                    End If
+                Next
+            Catch ex As Exception
+                MsgBox("Incorrect format of 'disallows' parameter!", MsgBoxStyle.Critical, "Error")
+                Exit Sub
+            End Try
+            MsgBox("The path doesn't match anything.", MsgBoxStyle.Information, "Disallow-test")
+        End If
+    End Sub
+
+    Private Sub DisallowsBox_TextChanged(sender As Object, e As EventArgs) Handles DisallowsBox.TextChanged
+        Modified = True
     End Sub
 End Class
