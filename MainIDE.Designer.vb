@@ -45,6 +45,8 @@ Partial Class MainIDE
         Me.DebugCodedebugToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CodeData = New System.Windows.Forms.RichTextBox()
         Me.Searcher = New System.Windows.Forms.GroupBox()
+        Me.CaseSens = New System.Windows.Forms.CheckBox()
+        Me.WholeWords = New System.Windows.Forms.CheckBox()
         Me.Closer = New System.Windows.Forms.Button()
         Me.Replacer = New System.Windows.Forms.Button()
         Me.SchPush = New System.Windows.Forms.Button()
@@ -67,8 +69,6 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.WholeWords = New System.Windows.Forms.CheckBox()
-        Me.CaseSens = New System.Windows.Forms.CheckBox()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -251,6 +251,26 @@ Partial Class MainIDE
         Me.Searcher.TabStop = False
         Me.Searcher.Text = "Search and replace"
         Me.Searcher.Visible = False
+        '
+        'CaseSens
+        '
+        Me.CaseSens.AutoSize = True
+        Me.CaseSens.Location = New System.Drawing.Point(180, 55)
+        Me.CaseSens.Name = "CaseSens"
+        Me.CaseSens.Size = New System.Drawing.Size(141, 19)
+        Me.CaseSens.TabIndex = 8
+        Me.CaseSens.Text = "Case Sensitive"
+        Me.CaseSens.UseVisualStyleBackColor = True
+        '
+        'WholeWords
+        '
+        Me.WholeWords.AutoSize = True
+        Me.WholeWords.Location = New System.Drawing.Point(13, 55)
+        Me.WholeWords.Name = "WholeWords"
+        Me.WholeWords.Size = New System.Drawing.Size(157, 19)
+        Me.WholeWords.TabIndex = 7
+        Me.WholeWords.Text = "Match whole word"
+        Me.WholeWords.UseVisualStyleBackColor = True
         '
         'Closer
         '
@@ -467,26 +487,6 @@ Partial Class MainIDE
         Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
-        '
-        'WholeWords
-        '
-        Me.WholeWords.AutoSize = True
-        Me.WholeWords.Location = New System.Drawing.Point(13, 55)
-        Me.WholeWords.Name = "WholeWords"
-        Me.WholeWords.Size = New System.Drawing.Size(157, 19)
-        Me.WholeWords.TabIndex = 7
-        Me.WholeWords.Text = "Match whole word"
-        Me.WholeWords.UseVisualStyleBackColor = True
-        '
-        'CaseSens
-        '
-        Me.CaseSens.AutoSize = True
-        Me.CaseSens.Location = New System.Drawing.Point(180, 55)
-        Me.CaseSens.Name = "CaseSens"
-        Me.CaseSens.Size = New System.Drawing.Size(141, 19)
-        Me.CaseSens.TabIndex = 8
-        Me.CaseSens.Text = "Case Sensitive"
-        Me.CaseSens.UseVisualStyleBackColor = True
         '
         'MainIDE
         '

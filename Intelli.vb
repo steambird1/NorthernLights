@@ -67,6 +67,8 @@
                     .ForeColor = Color.Black        ' No special thing for functions
                     If i.ObjectType.IndexOf("Property") = 0 Then
                         .ForeColor = Color.DarkMagenta
+                    ElseIf i.ObjectType = "Variable" Then
+                        .ForeColor = Color.Blue
                     End If
                 End With
                 If i.ObjectType = "Class" Then

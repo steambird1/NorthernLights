@@ -143,7 +143,7 @@ Public Class MainIDE
 
     Public ReadOnly keywords As List(Of String) = New List(Of String)({"null", "true", "false", "serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref", "const "})
     ' Only able to exist after removing vbTab
-    Public commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare", "property get", "property set", "property noget", "property noset"})
+    Public commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare", "property get", "property set", "property noget", "property noset", "thread test", "thread new", "thread join", "thread detach", "mutex test", "mutex make", "mutex wait", "mutex release", "preset"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load", "progressive"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c})
@@ -237,6 +237,28 @@ Public Class MainIDE
                         r_class.ClassFunction.Add(m)
                     End If
                 End If
+            ElseIf arg(0) = "preset" Then
+                Dim m As BObject = New BObject
+                m.ObjectType = "Variable"
+                Dim EqIndex = arg(1).IndexOf("="c)
+                If EqIndex < 0 Then
+                    EqIndex = arg(1).Length
+                End If
+                m.ObjectName = arg(1).Substring(0, EqIndex)
+                m.Attributes = New List(Of String)({"Shared", "Pre-Initalize"})
+                If Not NoLine Then
+                    m.LinePosition = line_id
+                End If
+                If count = 0 Then
+                    If ToStatic Then
+                        StaticInfo.Add(m)
+                    Else
+                        ObjectInfo.Add(m)
+                    End If
+                Else
+                    r_class.ClassFunction.Add(m)
+                End If
+
             ElseIf arg(0) = "function" OrElse arg(0) = "property" Then
                 ' If it's a property ...
                 Dim ActualObjectType As String = "Function"
