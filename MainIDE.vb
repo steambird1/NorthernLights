@@ -143,7 +143,7 @@ Public Class MainIDE
 
     Public ReadOnly keywords As List(Of String) = New List(Of String)({"null", "true", "false", "serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref", "const "})
     ' Only able to exist after removing vbTab
-    Public commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare", "property get", "property set", "property noget", "property noset", "thread test", "thread new", "thread join", "thread detach", "mutex test", "mutex make", "mutex wait", "mutex release", "preset"})
+    Public commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare", "property get", "property set", "property noget", "property noset", "thread test", "thread new", "thread join", "thread detach", "mutex test", "mutex make", "mutex wait", "mutex release", "preset", "prerun"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load", "progressive"})
     Public static_func As List(Of String) = New List(Of String) ' To match as mag.
     Public ReadOnly acceptable_near As SortedSet(Of Char) = New SortedSet(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c})
@@ -734,8 +734,8 @@ Public Class MainIDE
             Else
                 ' HTML mode
                 Dim inside_tag As Boolean = False
-                    Dim previous_tag As Integer = -1
-                    For i = 0 To allline.Length - 1
+                Dim previous_tag As Integer = -1
+                For i = 0 To allline.Length - 1
                     If allline(i) = "<"c Then
                         If Not inside_tag Then
                             previous_tag = i
@@ -743,54 +743,54 @@ Public Class MainIDE
                         End If
                     ElseIf allline(i) = ">"c AndAlso ((i = 0) OrElse (Not allline(i - 1) = "?"c)) Then
                         inside_tag = False
-                            Dim cs As Integer = currentbegin + previous_tag
-                            CodeData.SelectionStart = cs
-                            ' i+1: Current '>' character
-                            CodeData.SelectionLength = i + 1 - previous_tag
-                            Dim tagtext As String = CodeData.SelectedText
-                            Dim hinstring As Boolean = False
-                            Dim start_html As Boolean = False
-                            CodeData.SelectionColor = Color.Blue
-                            For j = 0 To tagtext.Length - 1
-                                If tagtext(j) = """"c Or hinstring Then
-                                    If Not start_html Then
-                                        Continue For
-                                    End If
-                                    CodeData.SelectionStart = cs + j
-                                    CodeData.SelectionLength = 1
-                                    CodeData.SelectionColor = Color.DarkGray
-                                    If tagtext(j) = """"c Then
-                                        hinstring = Not hinstring
-                                    End If
-                                ElseIf tagtext(j) = " "c AndAlso (Not start_html) Then
-                                    start_html = True
-                                ElseIf (tagtext(j) <> "="c) AndAlso (tagtext(j) <> ">"c) AndAlso (tagtext(j) <> "/"c) Then
-                                    If Not start_html Then
-                                        Continue For
-                                    End If
-                                    CodeData.SelectionStart = cs + j
-                                    CodeData.SelectionLength = 1
-                                    CodeData.SelectionColor = Color.Red         ' Properties
-                                ElseIf (tagtext(j) = ">"c) OrElse (tagtext(j) = "/"c) Then
-                                    CodeData.SelectionStart = cs + j
-                                    CodeData.SelectionLength = 1
-                                    CodeData.SelectionColor = Color.Blue
-                                ElseIf tagtext(j) = "="c Then
-                                    CodeData.SelectionStart = cs + j
-                                    CodeData.SelectionLength = 1
-                                    CodeData.SelectionColor = Color.Black
+                        Dim cs As Integer = currentbegin + previous_tag
+                        CodeData.SelectionStart = cs
+                        ' i+1: Current '>' character
+                        CodeData.SelectionLength = i + 1 - previous_tag
+                        Dim tagtext As String = CodeData.SelectedText
+                        Dim hinstring As Boolean = False
+                        Dim start_html As Boolean = False
+                        CodeData.SelectionColor = Color.Blue
+                        For j = 0 To tagtext.Length - 1
+                            If tagtext(j) = """"c Or hinstring Then
+                                If Not start_html Then
+                                    Continue For
                                 End If
-                            Next
-                        End If
-                    Next
-                End If
-                ' After all override our quotes (It's common for all kinds.)
-
-FinishA:        CodeData.Select(usercur, 0)
-                CodeData.SelectionColor = Color.Black
-
-                suspendScroller = False
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.DarkGray
+                                If tagtext(j) = """"c Then
+                                    hinstring = Not hinstring
+                                End If
+                            ElseIf tagtext(j) = " "c AndAlso (Not start_html) Then
+                                start_html = True
+                            ElseIf (tagtext(j) <> "="c) AndAlso (tagtext(j) <> ">"c) AndAlso (tagtext(j) <> "/"c) Then
+                                If Not start_html Then
+                                    Continue For
+                                End If
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.Red         ' Properties
+                            ElseIf (tagtext(j) = ">"c) OrElse (tagtext(j) = "/"c) Then
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.Blue
+                            ElseIf tagtext(j) = "="c Then
+                                CodeData.SelectionStart = cs + j
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.Black
+                            End If
+                        Next
+                    End If
+                Next
             End If
+            ' After all override our quotes (It's common for all kinds.)
+
+FinishA:    CodeData.Select(usercur, 0)
+            CodeData.SelectionColor = Color.Black
+
+            suspendScroller = False
+        End If
 vsc:    lineJustEdit = currentline
         If suspendScroller Then
             suspendScroller = False
