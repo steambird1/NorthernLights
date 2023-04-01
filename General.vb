@@ -43,6 +43,30 @@ Public Class General
         If Trim(alert) <> "" Then
             MsgBox("Warning: Following files are not found in the application directory:" & vbCrLf & alert & vbCrLf & vbCrLf & "Without these files, the editor can be runned, but you may not able to run BlueBetter program or website.", MsgBoxStyle.Exclamation, "Warning")
         End If
+        ' Open certain file for normal types or its directory for .nlproj
+        With My.Application
+            Try
+                If .CommandLineArgs(0) = "--version" Then
+                    VersionDisplay()
+                    End
+                Else
+                    Dim ActualFilename As String = .CommandLineArgs(0)
+                    For i = 1 To .CommandLineArgs.Count - 1
+                        ActualFilename &= " " & .CommandLineArgs(i)
+                    Next
+                    If GetExtension(ActualFilename) = "nlproj" Then
+                        OpenOrLoadProject(My.Computer.FileSystem.GetParentPath(ActualFilename))
+                    Else
+                        CreatingOne().OpenFile(ActualFilename)
+                    End If
+                End If
+            Catch ex As IndexOutOfRangeException
+
+            Catch ex As ArgumentException
+
+            End Try
+
+        End With
     End Sub
 
     Public Sub ResetDefaultProjectSettings()
@@ -163,12 +187,16 @@ Public Class General
         End If
     End Sub
 
+    Public Sub OpenOrLoadProject(Directory As String)
+        If My.Computer.FileSystem.DirectoryExists(Directory) Then
+            LoadNewProject(Directory)
+            RecentProject.AddRecentFile(Directory)
+        End If
+    End Sub
+
     Private Sub NewProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewProjectToolStripMenuItem.Click
         If fbd.ShowDialog() = DialogResult.OK Then
-            If My.Computer.FileSystem.DirectoryExists(fbd.SelectedPath) Then
-                LoadNewProject(fbd.SelectedPath)
-                RecentProject.AddRecentFile(fbd.SelectedPath)
-            End If
+            OpenOrLoadProject(fbd.SelectedPath)
         End If
     End Sub
 
@@ -302,7 +330,7 @@ Public Class General
         End If
     End Sub
 
-    Private Sub AboutIDEToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutIDEToolStripMenuItem.Click
+    Private Sub VersionDisplay(Optional sender As Object = Nothing, Optional e As EventArgs = Nothing) Handles AboutIDEToolStripMenuItem.Click
         MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.16b", MsgBoxStyle.Information, "About IDE")
     End Sub
 

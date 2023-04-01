@@ -995,6 +995,10 @@ vsc:    lineJustEdit = currentline
     End Sub
 
     Public Sub OpenFile(Filename As String) Implements IDEChildInterface.OpenFile
+        If Not My.Computer.FileSystem.FileExists(Filename) Then
+            MsgBox("Specified file " & Filename & " does not exist!", MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End If
         If ClearCheck() Then
             _TmpFilename = Filename
             FileKindSelector.Visible = False
