@@ -16,7 +16,7 @@
             root.Nodes.Add("<Too much inherits!>")
         End If
         For Each i In inheritw.ClassFunction
-            If i.ObjectType = "Function" Then
+            If i.ObjectType = "Function" OrElse i.ObjectType.IndexOf("Property") = 0 Then
                 Dim desc As String = i.ObjectType & mytab & i.ObjectName & mytab
                 If i.ObjectType = "Function" OrElse i.ObjectType.IndexOf("Property") = 0 Then
                     'desc &= i.FunctionParameter
@@ -33,6 +33,13 @@
                 If i.ObjectType.IndexOf("Property") = 0 Then
                     root.Nodes(root.Nodes.Count - 1).ForeColor = Color.DarkMagenta
                 End If
+            ElseIf i.ObjectType = "Variable" Then
+                Dim desc As String = i.ObjectType & mytab & i.ObjectName & mytab
+                root.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
+                With root.Nodes(root.Nodes.Count - 1)
+                    .Tag = i.LinePosition
+                    .ForeColor = Color.Blue
+                End With
             ElseIf i.ObjectType = "Inheritance" Then
                 root.Nodes.Add("Inheritance" & mytab & i.ObjectName)
                 With root
