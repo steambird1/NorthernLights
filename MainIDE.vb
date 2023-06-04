@@ -141,7 +141,7 @@ Public Class MainIDE
     Public StaticInfo As List(Of BObject) = New List(Of BObject)
     Public ObjectInfo As List(Of BObject) = New List(Of BObject)
 
-    Public ReadOnly keywords As List(Of String) = New List(Of String)({"undefined", "null", "true", "false", "serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref", "const "})
+    Public ReadOnly keywords As List(Of String) = New List(Of String)({"undefined", "null", "true", "false", "serial ", "object ", "ishave ", "new ", "this.", "this:", "referof", "copyof", "isref", "const ", "preserve "})
     ' Only able to exist after removing vbTab
     Public commanding_keywords As List(Of String) = New List(Of String)({"class ", "function ", "if ", "elif ", "else:", "while ", "for ", "set ", "setstr ", "init:", "print ", "file ", "break", "continue", "run ", "dump", "debugger", "import ", "inherits ", "return", "global ", "call ", "shared ", "shared class", "must_inherit", "no_inherit", "raise ", "error_handler:", "hidden", "declare", "property get", "property set", "property noget", "property noset", "thread test", "thread new", "thread join", "thread detach", "mutex test", "mutex make", "mutex wait", "mutex release", "preset", "prerun"})
     Public postbacking_keywords As List(Of String) = New List(Of String)({"listen", "postback", "before_send", "after_send", "on_load", "progressive"})
