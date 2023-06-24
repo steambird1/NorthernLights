@@ -1102,10 +1102,12 @@ vsc:    lineJustEdit = currentline
     Public Sub ForceRefresh()
         suspendScroller = True
         CodeData.Enabled = False
+        DuringUpdating = True
         For i = 0 To CodeData.GetLineFromCharIndex(CodeData.TextLength - 1)
             lineJustEdit = i
             LinearUpdate(True)
         Next
+        DuringUpdating = False
         CodeData.Enabled = True
         suspendScroller = False
     End Sub
