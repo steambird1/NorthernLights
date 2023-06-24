@@ -159,6 +159,8 @@ Public Class MainIDE
 
     ' For JavaScript: (Reserved keywords are not here.)
     Public js_keywords As List(Of String) = New List(Of String)({"break", "case", "catch", "continue", "default", "delete", "do", "else", "finally", "for", "function", "if", "in", "instanceof", "new", "return", "switch", "this", "throw", "try", "typeof", "var", "void", "while", "with", "let"})
+    Public js_operators As List(Of Char) = New List(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c, "["c, "]"c, "{"c, "}"c, "!"c, "?"c, "."c})   ' Only for expression, not for Intelligent analyzer
+    Public js_string_liked As List(Of String) = New List(Of String)({""""c, "/"c})
     'Public js_classes As List(Of String) = New List(Of String)({"document", "window", "XMLHttpRequest"})    ' These are what we usually use
 
     Private Function ShrinkDot(Str As String) As String
@@ -707,15 +709,49 @@ Public Class MainIDE
                         If previous >= sp Or sp < 0 Then
                             Exit Do
                         End If
+
+                        ' Require acceptable splitor, at least BEFORE it
+
+
                         previous = sp
-                        CodeData.SelectionStart = sp + currentbegin
-                        CodeData.SelectionLength = i.Length
-                        CodeData.SelectionColor = Color.Blue
+                        If sp = 0 OrElse js_operators.Contains(allline(sp - 1)) Then
+                            CodeData.SelectionStart = sp + currentbegin
+                            CodeData.SelectionLength = i.Length
+                            CodeData.SelectionColor = Color.Blue
+                        End If
                         sp += i.Length + 1
                         If sp > allline.Length Then
                             Exit Do
                         End If
                     Loop
+                    For Each str_mask In js_string_liked
+                        Dim turned As Boolean = False
+                        Dim instring As Boolean = False
+                        Dim justturn As Boolean = False
+                        For iter = 0 To allline.Length - 1
+                            justturn = False
+                            If allline(iter) = str_mask Or instring Then
+                                CodeData.SelectionStart = iter + currentbegin
+                                CodeData.SelectionLength = 1
+                                CodeData.SelectionColor = Color.DarkGray
+                                If allline(iter) = str_mask Then
+                                    If Not turned Then
+                                        instring = Not instring
+                                    End If
+                                End If
+                            End If
+                            If allline(iter) = "\"c Then
+                                If Not turned Then
+                                    turned = True
+                                    justturn = True
+                                End If
+                            End If
+                            If turned And (Not justturn) Then
+                                turned = False
+                            End If
+                        Next
+                    Next
+
                 Next
             ElseIf is_blue Then
                 ' End of currentbegin-currentend selection !
