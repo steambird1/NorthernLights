@@ -35,6 +35,7 @@ Partial Class MainIDE
         Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddStaticFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RefreshHighlightToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsEncodingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ANSIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -69,6 +70,9 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.JSFile = New System.Windows.Forms.RadioButton()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.AutoCompletionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -137,7 +141,7 @@ Partial Class MainIDE
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindToolStripMenuItem, Me.SearchClassToolStripMenuItem, Me.AddStaticFileToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindToolStripMenuItem, Me.SearchClassToolStripMenuItem, Me.AddStaticFileToolStripMenuItem, Me.ToolStripSeparator1, Me.RefreshHighlightToolStripMenuItem, Me.AutoCompletionToolStripMenuItem})
         Me.EditToolStripMenuItem.Enabled = False
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
@@ -160,6 +164,13 @@ Partial Class MainIDE
         Me.AddStaticFileToolStripMenuItem.Name = "AddStaticFileToolStripMenuItem"
         Me.AddStaticFileToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
         Me.AddStaticFileToolStripMenuItem.Text = "Add static file..."
+        '
+        'RefreshHighlightToolStripMenuItem
+        '
+        Me.RefreshHighlightToolStripMenuItem.Name = "RefreshHighlightToolStripMenuItem"
+        Me.RefreshHighlightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.RefreshHighlightToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
+        Me.RefreshHighlightToolStripMenuItem.Text = "Refresh Highlight"
         '
         'ToolStripMenuItem1
         '
@@ -335,12 +346,12 @@ Partial Class MainIDE
         'ofd
         '
         Me.ofd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML Fil" &
-    "e|*.xml|Text file|*.txt|CSV Table file|*.csv|All files|*.*"
+    "e|*.xml|Text file|*.txt|CSV Table file|*.csv|JavaScript File|*.js|All files|*.*"
         '
         'sfd
         '
         Me.sfd.Filter = "BlueBetter file|*.blue|BluePage file|*.bp|HTML File|*.html|HTM File|*.htm|XML Fil" &
-    "e|*.xml|Text file|*.txt|CSV Table file|*.csv|All files|*.*"
+    "e|*.xml|Text file|*.txt|CSV Table file|*.csv|JavaScript File|*.js|All files|*.*"
         '
         'LineLabel0
         '
@@ -381,6 +392,7 @@ Partial Class MainIDE
         Me.FileKindSelector.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FileKindSelector.Controls.Add(Me.JSFile)
         Me.FileKindSelector.Controls.Add(Me.RegardAsANSI)
         Me.FileKindSelector.Controls.Add(Me.OpeningPrompt)
         Me.FileKindSelector.Controls.Add(Me.PlainFile)
@@ -401,7 +413,7 @@ Partial Class MainIDE
         'RegardAsANSI
         '
         Me.RegardAsANSI.AutoSize = True
-        Me.RegardAsANSI.Location = New System.Drawing.Point(61, 205)
+        Me.RegardAsANSI.Location = New System.Drawing.Point(60, 240)
         Me.RegardAsANSI.Name = "RegardAsANSI"
         Me.RegardAsANSI.Size = New System.Drawing.Size(285, 19)
         Me.RegardAsANSI.TabIndex = 8
@@ -420,7 +432,7 @@ Partial Class MainIDE
         'PlainFile
         '
         Me.PlainFile.AutoSize = True
-        Me.PlainFile.Location = New System.Drawing.Point(60, 180)
+        Me.PlainFile.Location = New System.Drawing.Point(60, 204)
         Me.PlainFile.Name = "PlainFile"
         Me.PlainFile.Size = New System.Drawing.Size(108, 19)
         Me.PlainFile.TabIndex = 6
@@ -440,7 +452,7 @@ Partial Class MainIDE
         '
         'CancelOpening
         '
-        Me.CancelOpening.Location = New System.Drawing.Point(394, 246)
+        Me.CancelOpening.Location = New System.Drawing.Point(394, 273)
         Me.CancelOpening.Name = "CancelOpening"
         Me.CancelOpening.Size = New System.Drawing.Size(123, 41)
         Me.CancelOpening.TabIndex = 4
@@ -450,7 +462,7 @@ Partial Class MainIDE
         '
         'ConfirmOpening
         '
-        Me.ConfirmOpening.Location = New System.Drawing.Point(523, 246)
+        Me.ConfirmOpening.Location = New System.Drawing.Point(523, 273)
         Me.ConfirmOpening.Name = "ConfirmOpening"
         Me.ConfirmOpening.Size = New System.Drawing.Size(123, 41)
         Me.ConfirmOpening.TabIndex = 3
@@ -487,6 +499,27 @@ Partial Class MainIDE
         Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
+        '
+        'JSFile
+        '
+        Me.JSFile.AutoSize = True
+        Me.JSFile.Location = New System.Drawing.Point(60, 180)
+        Me.JSFile.Name = "JSFile"
+        Me.JSFile.Size = New System.Drawing.Size(148, 19)
+        Me.JSFile.TabIndex = 9
+        Me.JSFile.Text = "JavaScript File"
+        Me.JSFile.UseVisualStyleBackColor = True
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(275, 6)
+        '
+        'AutoCompletionToolStripMenuItem
+        '
+        Me.AutoCompletionToolStripMenuItem.Name = "AutoCompletionToolStripMenuItem"
+        Me.AutoCompletionToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
+        Me.AutoCompletionToolStripMenuItem.Text = "Auto Completion..."
         '
         'MainIDE
         '
@@ -559,4 +592,8 @@ Partial Class MainIDE
     Friend WithEvents UTF8ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CaseSens As CheckBox
     Friend WithEvents WholeWords As CheckBox
+    Friend WithEvents RefreshHighlightToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents JSFile As RadioButton
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents AutoCompletionToolStripMenuItem As ToolStripMenuItem
 End Class

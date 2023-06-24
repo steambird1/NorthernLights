@@ -6,7 +6,7 @@ Public Class ProjectViewer
 
     Implements IDEChildInterface
 
-    Public AcceptableStarter As HashSet(Of String) = New HashSet(Of String)({"html", "htm", "xml", "blue", "bp", "txt", "log", "nlproj"})
+    Public AcceptableStarter As HashSet(Of String) = New HashSet(Of String)({"html", "htm", "xml", "blue", "bp", "txt", "log", "nlproj", "js"})
     ' Also, bold for all directories.
     Public Highlighted As Dictionary(Of String, Color) = New Dictionary(Of String, Color)
 
@@ -31,6 +31,7 @@ Public Class ProjectViewer
         Highlighted.Add("xml", Color.Red)
         Highlighted.Add("blue", Color.Blue)
         Highlighted.Add("bp", Color.Blue)
+        Highlighted.Add("js", Color.DarkOrange)
         Highlighted.Add("txt", Color.Green)
         Highlighted.Add("log", Color.Green)
         Highlighted.Add("nlproj", Color.Magenta)

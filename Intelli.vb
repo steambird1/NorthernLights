@@ -11,6 +11,17 @@
         Return String.Join(",", obj.Attributes)
     End Function
 
+    Public Structure TreeTagData
+        Public LineID As Integer
+        Public Name, Description As String
+
+        Public Sub New(CopyFrom As MainIDE.BObject)
+            Me.Name = CopyFrom.ObjectName
+            Me.LineID = CopyFrom.LinePosition
+            Me.Description = CopyFrom.ObjectDescription
+        End Sub
+    End Structure
+
     Private Sub InheritanceUpdate(inheritw As MainIDE.BObject, ByRef root As TreeNode, Optional layer As Integer = 0)
         If layer > 16 Then
             root.Nodes.Add("<Too much inherits!>")
@@ -29,7 +40,10 @@
                     End If
                 End If
                 root.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
-                root.Nodes(root.Nodes.Count - 1).Tag = i.LinePosition
+                With root.Nodes(root.Nodes.Count - 1)
+                    '.Tag = i.LinePosition
+                    .Tag = New TreeTagData(i)
+                End With
                 If i.ObjectType.IndexOf("Property") = 0 Then
                     root.Nodes(root.Nodes.Count - 1).ForeColor = Color.DarkMagenta
                 End If
@@ -37,7 +51,8 @@
                 Dim desc As String = i.ObjectType & mytab & i.ObjectName & mytab
                 root.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
                 With root.Nodes(root.Nodes.Count - 1)
-                    .Tag = i.LinePosition
+                    '.Tag = i.LinePosition
+                    .Tag = New TreeTagData(i)
                     .ForeColor = Color.Blue
                 End With
             ElseIf i.ObjectType = "Inheritance" Then
@@ -70,7 +85,8 @@
                 End If
                 ElemViewer.Nodes.Add(desc & mytab & GenerateAttributeDescription(i))
                 With ElemViewer.Nodes(ElemViewer.Nodes.Count - 1)
-                    .Tag = i.LinePosition
+                    '.Tag = i.LinePosition
+                    .Tag = New TreeTagData(i)
                     .ForeColor = Color.Black        ' No special thing for functions
                     If i.ObjectType.IndexOf("Property") = 0 Then
                         .ForeColor = Color.DarkMagenta
@@ -107,7 +123,8 @@
                                     ElseIf j.ObjectType.IndexOf("Property") = 0 Then
                                         .ForeColor = Color.DarkMagenta
                                     End If
-                                    .Tag = j.LinePosition
+                                    '.Tag = j.LinePosition
+                                    .Tag = New TreeTagData(j)
                                 End With
                             End With
                         End If
@@ -122,13 +139,19 @@
     End Sub
 
     Private Sub ElemViewer_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles ElemViewer.AfterSelect
-        If e.Node.Tag > 0 Then
-            Try
-                CurrentParent.CodeData.Select(CurrentParent.CodeData.GetFirstCharIndexFromLine(e.Node.Tag - 1), 0)
-                CurrentParent.CodeData.Select()
-            Catch ex As Exception
 
-            End Try
-        End If
+        Try
+            DetName.Text = e.Node.Tag.Name
+            DetDisplayer.Text = e.Node.Tag.Description
+            If e.Node.Tag.LineID > 0 Then
+                CurrentParent.CodeData.Select(CurrentParent.CodeData.GetFirstCharIndexFromLine(e.Node.Tag.LineID - 1), 0)
+                CurrentParent.CodeData.Select()
+            End If
+        Catch ex As NullReferenceException
+            DetName.Text = ""
+            DetDisplayer.Text = ""
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
