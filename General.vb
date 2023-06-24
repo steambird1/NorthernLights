@@ -377,6 +377,9 @@ Public Class General
         End If
     End Sub
 
+    Private Sub GithubWebsiteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GithubWebsiteToolStripMenuItem.Click
+        System.Diagnostics.Process.Start("https://github.com/steambird1/NorthernLights/")
+    End Sub
 
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Not e.Cancel Then

@@ -1155,6 +1155,8 @@ vsc:    lineJustEdit = currentline
                 OpenFile(ofd.FileName)
                 Dim Gen As General = Me.MdiParent
                 Gen.RecentFile.AddRecentFile(ofd.FileName)
+                EditorStateUpdate()
+                RunnerStateUpdate()
                 'CodeHUpdate()
                 'CodeData.Visible = True
             End If
@@ -1261,6 +1263,7 @@ vsc:    lineJustEdit = currentline
         ClearCheck()
         CodeData.Text = ""
         current = ""
+        NoExecution = True
         CodeFieldVisible = True
         RunCodeToolStripMenuItem.Enabled = IsBlueBetter
         DebugCodedebugToolStripMenuItem.Enabled = IsBlueBetter
@@ -1291,6 +1294,8 @@ vsc:    lineJustEdit = currentline
                 MsgBox("Please select a file type!")
                 Exit Sub
             End If
+            EditorStateUpdate()
+            RunnerStateUpdate()
         End If
     End Sub
 
@@ -1314,14 +1319,14 @@ vsc:    lineJustEdit = currentline
 
     End Sub
 
-    Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click, EditToolStripMenuItem.MouseMove
+    Private Sub EditorStateUpdate(Optional sender As Object = Nothing, Optional e As EventArgs = Nothing) Handles EditToolStripMenuItem.Click, EditToolStripMenuItem.MouseMove
         ' ...
         Dim ac As Boolean = Not (IsPlainHTML OrElse NoExecution)
         SearchClassToolStripMenuItem.Enabled = ac
         AddStaticFileToolStripMenuItem.Enabled = ac
     End Sub
 
-    Private Sub RunToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RunToolStripMenuItem.Click, RunToolStripMenuItem.MouseMove
+    Private Sub RunnerStateUpdate(Optional sender As Object = Nothing, Optional e As EventArgs = Nothing) Handles RunToolStripMenuItem.Click, RunToolStripMenuItem.MouseMove
         Dim ac As Boolean = (Not (IsPlainHTML OrElse NoExecution)) AndAlso Me.isBluebetter
         RunToolStripMenuItem.Enabled = ac
         DebugCodedebugToolStripMenuItem.Enabled = ac

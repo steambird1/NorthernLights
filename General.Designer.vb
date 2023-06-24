@@ -58,6 +58,8 @@ Partial Class General
         Me.AboutMinserverTour = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutIDEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
+        Me.GithubWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -228,35 +230,35 @@ Partial Class General
         'CascadeToolStripMenuItem
         '
         Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.CascadeToolStripMenuItem.Text = "Cascade"
         '
         'TiltToolStripMenuItem
         '
         Me.TiltToolStripMenuItem.Name = "TiltToolStripMenuItem"
-        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.TiltToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.TiltToolStripMenuItem.Text = "Tilt Horizontal"
         '
         'TiltVerticalToolStripMenuItem
         '
         Me.TiltVerticalToolStripMenuItem.Name = "TiltVerticalToolStripMenuItem"
-        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.TiltVerticalToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.TiltVerticalToolStripMenuItem.Text = "Tilt Vertical"
         '
         'ArrangeIconsToolStripMenuItem
         '
         Me.ArrangeIconsToolStripMenuItem.Name = "ArrangeIconsToolStripMenuItem"
-        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(187, 26)
+        Me.ArrangeIconsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.ArrangeIconsToolStripMenuItem.Text = "Arrange Icons"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(213, 6)
         '
         'HelpToolStripMenuItem
         '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem})
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutBlueBetterToolStripMenuItem, Me.AboutBluePageToolStripMenuItem, Me.AboutMinserverTour, Me.AboutIDEToolStripMenuItem, Me.ToolStripSeparator5, Me.GithubWebsiteToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
         Me.HelpToolStripMenuItem.Text = "Utility"
@@ -264,26 +266,37 @@ Partial Class General
         'AboutBlueBetterToolStripMenuItem
         '
         Me.AboutBlueBetterToolStripMenuItem.Name = "AboutBlueBetterToolStripMenuItem"
-        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutBlueBetterToolStripMenuItem.Text = "About BlueBetter"
         '
         'AboutBluePageToolStripMenuItem
         '
         Me.AboutBluePageToolStripMenuItem.Name = "AboutBluePageToolStripMenuItem"
-        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutBluePageToolStripMenuItem.Text = "About BluePage"
         '
         'AboutMinserverTour
         '
         Me.AboutMinserverTour.Name = "AboutMinserverTour"
-        Me.AboutMinserverTour.Size = New System.Drawing.Size(210, 26)
+        Me.AboutMinserverTour.Size = New System.Drawing.Size(216, 26)
         Me.AboutMinserverTour.Text = "About MinServer"
         '
         'AboutIDEToolStripMenuItem
         '
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
-        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
+        '
+        'GithubWebsiteToolStripMenuItem
+        '
+        Me.GithubWebsiteToolStripMenuItem.Name = "GithubWebsiteToolStripMenuItem"
+        Me.GithubWebsiteToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.GithubWebsiteToolStripMenuItem.Text = "Github Website"
+        '
+        'ToolStripSeparator5
+        '
+        Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(213, 6)
         '
         'General
         '
@@ -338,4 +351,6 @@ Partial Class General
     Friend WithEvents OpenRecentWebsite As ToolStripMenuItem
     Friend WithEvents AlwaysAskFileType As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator5 As ToolStripSeparator
+    Friend WithEvents GithubWebsiteToolStripMenuItem As ToolStripMenuItem
 End Class
