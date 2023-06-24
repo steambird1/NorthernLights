@@ -1294,8 +1294,6 @@ vsc:    lineJustEdit = currentline
                 MsgBox("Please select a file type!")
                 Exit Sub
             End If
-            EditorStateUpdate()
-            RunnerStateUpdate()
         End If
     End Sub
 
