@@ -185,6 +185,7 @@ Public Class MainIDE
             Dim line_id As Integer = 0
             Dim is_blue As Boolean = False
             Dim PreparedComment As StringBuilder = New StringBuilder
+            Dim CurrentRemarkPosition As Integer = -1
             For Each i In sp
                 line_id += 1
                 ' Skip non-BlueBetter lines
@@ -226,6 +227,10 @@ Public Class MainIDE
                     End If
                 End If
                 If arg(0)(0) = "#"c Then
+                    If CurrentRemarkPosition <> count Then
+                        PreparedComment.Clear()
+                        CurrentRemarkPosition = count
+                    End If
                     If i.Length > 1 Then
                         PreparedComment.Append(i.Substring(count + 1))
                     End If
@@ -237,7 +242,9 @@ Public Class MainIDE
                         r_class.ObjectType = "Class"
                         r_class.ObjectName = ShrinkDot(arg(1))
                         r_class.Attributes = New List(Of String)
-                        r_class.ObjectDescription = PreparedComment.ToString()
+                        If CurrentRemarkPosition = count Then
+                            r_class.ObjectDescription = PreparedComment.ToString()
+                        End If
                         PreparedComment.Clear()
 
                         If (Not ToStatic) And (Not NoLine) Then
@@ -276,138 +283,146 @@ Public Class MainIDE
                     End If
                     m.ObjectName = arg(1).Substring(0, EqIndex)
                     m.Attributes = New List(Of String)({"Shared", "Pre-Initalize"})
-                    m.ObjectDescription = PreparedComment.ToString()
-                    PreparedComment.Clear()
-                    If Not NoLine Then
-                        m.LinePosition = line_id
+                    If CurrentRemarkPosition = count Then
+                        m.ObjectDescription = PreparedComment.ToString()
                     End If
-                    If count = 0 Then
-                        If ToStatic Then
-                            StaticInfo.Add(m)
-                        Else
-                            ObjectInfo.Add(m)
+                    PreparedComment.Clear()
+                        If Not NoLine Then
+                            m.LinePosition = line_id
                         End If
-                    Else
-                        r_class.ClassFunction.Add(m)
-                    End If
-
-                ElseIf arg(0) = "function" OrElse arg(0) = "property" Then
-                    ' If it's a property ...
-                    Dim ActualObjectType As String = "Function"
-                    If arg(0) = "property" Then
-                        Dim rs() As String = Split(arg(1), " ", 2)
-                        ActualObjectType = "Property " & StrConv(rs(0), VbStrConv.ProperCase)
-                        arg(1) = rs(1)          ' Name
-                    End If
-                    Dim argz As String = ""
-                    Dim fn As String = ""
-                    Try
-                        'arg(1).Remove(0, 1)
-                        Dim argw As String() = Split(arg(1), " ", 2)
-                        fn = argw(0)
-                        argz = argw(1)
-                    Catch ex As Exception
-
-                    End Try
-                    Dim b As BObject = New BObject
-                    b.Attributes = New List(Of String)
-                    b.ObjectType = ActualObjectType
-                    b.FunctionParameter = argz
-                    b.ObjectName = ShrinkDot(fn)
-                    b.ObjectDescription = PreparedComment.ToString()
-                    PreparedComment.Clear()
-                    If fn.Length > 0 AndAlso fn(fn.Length - 1) = ":"c Then
-                        fn = fn.Remove(fn.Length - 1)
-                    End If
-                    If count = 0 Then
-                        If ToStatic Then
-                            StaticInfo.Add(b)
-                            If static_func.IndexOf(fn) < 0 Then
-                                static_func.Add(fn)
+                        If count = 0 Then
+                            If ToStatic Then
+                                StaticInfo.Add(m)
+                            Else
+                                ObjectInfo.Add(m)
                             End If
                         Else
+                            r_class.ClassFunction.Add(m)
+                        End If
+
+                    ElseIf arg(0) = "function" OrElse arg(0) = "property" Then
+                        ' If it's a property ...
+                        Dim ActualObjectType As String = "Function"
+                        If arg(0) = "property" Then
+                            Dim rs() As String = Split(arg(1), " ", 2)
+                            ActualObjectType = "Property " & StrConv(rs(0), VbStrConv.ProperCase)
+                            arg(1) = rs(1)          ' Name
+                        End If
+                        Dim argz As String = ""
+                        Dim fn As String = ""
+                        Try
+                            'arg(1).Remove(0, 1)
+                            Dim argw As String() = Split(arg(1), " ", 2)
+                            fn = argw(0)
+                            argz = argw(1)
+                        Catch ex As Exception
+
+                        End Try
+                        Dim b As BObject = New BObject
+                        b.Attributes = New List(Of String)
+                        b.ObjectType = ActualObjectType
+                        b.FunctionParameter = argz
+                    b.ObjectName = ShrinkDot(fn)
+                    If CurrentRemarkPosition = count Then
+                        b.ObjectDescription = PreparedComment.ToString()
+                    End If
+                    PreparedComment.Clear()
+                        If fn.Length > 0 AndAlso fn(fn.Length - 1) = ":"c Then
+                            fn = fn.Remove(fn.Length - 1)
+                        End If
+                        If count = 0 Then
+                            If ToStatic Then
+                                StaticInfo.Add(b)
+                                If static_func.IndexOf(fn) < 0 Then
+                                    static_func.Add(fn)
+                                End If
+                            Else
+                                If Not NoLine Then
+                                    b.LinePosition = line_id
+                                End If
+                                ObjectInfo.Add(b)
+                            End If
+                        Else
+                            ' Must be class
                             If Not NoLine Then
                                 b.LinePosition = line_id
                             End If
+                            r_class.ClassFunction.Add(b)
+                        End If
+                    ElseIf arg(0) = "init:" Then
+                        If r_class.Vaild() Then
+                            Dim b As BObject = New BObject
+                            b.ObjectType = "Function"
+                            b.FunctionParameter = ""
+                            b.ObjectName = "(Initalizer)"
+                        b.LinePosition = line_id
+                        If CurrentRemarkPosition = count Then
+                            b.ObjectDescription = PreparedComment.ToString()
+                        End If
+                        PreparedComment.Clear()
+                            r_class.ClassFunction.Add(b)
+                        End If
+                    ElseIf arg(0) = "error_handler:" Then
+                        Dim b As BObject = New BObject
+                        b.Clear()
+                        b.Attributes = New List(Of String)
+                        b.ClassFunction = New List(Of BObject)
+                        b.FunctionParameter = ""
+                        b.LinePosition = line_id
+                        b.ObjectName = "(Error Handler)"
+                        b.ObjectType = "Function"
+                    If CurrentRemarkPosition = count Then
+                        b.ObjectDescription = PreparedComment.ToString()
+                    End If
+                    PreparedComment.Clear()
+                        If ToStatic Then
+
+                            StaticInfo.Add(b)
+                        Else
                             ObjectInfo.Add(b)
                         End If
-                    Else
-                        ' Must be class
-                        If Not NoLine Then
-                            b.LinePosition = line_id
-                        End If
-                        r_class.ClassFunction.Add(b)
-                    End If
-                ElseIf arg(0) = "init:" Then
-                    If r_class.Vaild() Then
-                        Dim b As BObject = New BObject
-                        b.ObjectType = "Function"
-                        b.FunctionParameter = ""
-                        b.ObjectName = "(Initalizer)"
-                        b.LinePosition = line_id
-                        b.ObjectDescription = PreparedComment.ToString()
-                        PreparedComment.Clear()
-                        r_class.ClassFunction.Add(b)
-                    End If
-                ElseIf arg(0) = "error_handler:" Then
-                    Dim b As BObject = New BObject
-                    b.Clear()
-                    b.Attributes = New List(Of String)
-                    b.ClassFunction = New List(Of BObject)
-                    b.FunctionParameter = ""
-                    b.LinePosition = line_id
-                    b.ObjectName = "(Error Handler)"
-                    b.ObjectType = "Function"
-                    b.ObjectDescription = PreparedComment.ToString()
-                    PreparedComment.Clear()
-                    If ToStatic Then
+                    ElseIf arg(0) = "import" Then
+                        Try
+                            Dim f As String
+                            Dim fd As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Application.StartupPath & "\" & arg(1))
+                            f = fd.ReadToEnd()
+                            fd.Close()
+                            LoadObjectInfo(f, False, True)
+                        Catch ex As Exception
 
-                        StaticInfo.Add(b)
-                    Else
-                        ObjectInfo.Add(b)
-                    End If
-                ElseIf arg(0) = "import" Then
-                    Try
-                        Dim f As String
-                        Dim fd As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Application.StartupPath & "\" & arg(1))
-                        f = fd.ReadToEnd()
-                        fd.Close()
-                        LoadObjectInfo(f, False, True)
-                    Catch ex As Exception
-
-                    End Try
-                ElseIf arg(0) = "inherits" Then
-                    If r_class.Vaild() Then
-                        Dim gotClass As BObject = New BObject
-                        gotClass.Clear()
-                        For Each a In ObjectInfo
-                            If a.ObjectType = "Class" And a.ObjectName = arg(1) Then
-                                gotClass = a
-                            End If
-                        Next
-                        If Not gotClass.Vaild() Then
-                            For Each a In StaticInfo
+                        End Try
+                    ElseIf arg(0) = "inherits" Then
+                        If r_class.Vaild() Then
+                            Dim gotClass As BObject = New BObject
+                            gotClass.Clear()
+                            For Each a In ObjectInfo
                                 If a.ObjectType = "Class" And a.ObjectName = arg(1) Then
                                     gotClass = a
                                 End If
                             Next
+                            If Not gotClass.Vaild() Then
+                                For Each a In StaticInfo
+                                    If a.ObjectType = "Class" And a.ObjectName = arg(1) Then
+                                        gotClass = a
+                                    End If
+                                Next
+                            End If
+                            Dim inh_flag As BObject = New BObject
+                            inh_flag.Clear()
+                            inh_flag.ObjectType = "Inheritance"
+                            inh_flag.ObjectName = gotClass.ObjectName
+                            inh_flag.LinePosition = gotClass.LinePosition
+                            For Each a In gotClass.ClassFunction
+                                inh_flag.ClassFunction.Add(a)
+                            Next
+                            r_class.ClassFunction.Add(inh_flag)
                         End If
-                        Dim inh_flag As BObject = New BObject
-                        inh_flag.Clear()
-                        inh_flag.ObjectType = "Inheritance"
-                        inh_flag.ObjectName = gotClass.ObjectName
-                        inh_flag.LinePosition = gotClass.LinePosition
-                        For Each a In gotClass.ClassFunction
-                            inh_flag.ClassFunction.Add(a)
-                        Next
-                        r_class.ClassFunction.Add(inh_flag)
-                    End If
-                ElseIf arg(0) = "no_inherit" Then
-                    r_class.Attributes.Add("No Inheriting")
-                ElseIf arg(0) = "must_inherit" Then
-                    r_class.Attributes.Add("Must Inherit")
-                Else
-                    PreparedComment.Clear()
+                    ElseIf arg(0) = "no_inherit" Then
+                        r_class.Attributes.Add("No Inheriting")
+                    ElseIf arg(0) = "must_inherit" Then
+                        r_class.Attributes.Add("Must Inherit")
+                    Else
+                        PreparedComment.Clear()
                 End If
             Next
             If r_class.Vaild() Then
@@ -590,7 +605,7 @@ Public Class MainIDE
                 totrim = totrim.Remove(0, 1)
             End While
 
-            Dim finder As Integer = lineJustEdit
+            Dim finder As Integer = lineJustEdit - 1    ' For <?blue test, NOT from the current line
             Dim is_blue As Boolean = isBluebetter
             Dim is_js As Boolean = isJS             ' May support JS opening in the future
             Dim is_postback As Boolean = False
@@ -620,7 +635,7 @@ Public Class MainIDE
                 End While
             End If
 
-            finder = lineJustEdit
+            finder = lineJustEdit   ' This requires the first line match
 
             ' HTML Commons
             If (Not isBluebetter) AndAlso (Not is_blue) Then
@@ -641,7 +656,7 @@ Public Class MainIDE
                     finder -= 1
                 End While
                 If Not is_comment Then
-                    finder = lineJustEdit
+                    finder = lineJustEdit - 1   ' Ibld...
                     While finder >= 0
                         Dim fcurrentbegin As Integer = CodeData.GetFirstCharIndexFromLine(finder)
                         Dim fcurrentend As Integer = CodeData.GetFirstCharIndexFromLine(finder + 1) - 1
@@ -748,6 +763,38 @@ Public Class MainIDE
                         selc = Color.DarkMagenta
                     ElseIf it.ObjectType = "Variable" Then
                         selc = Color.DarkOrange
+                    ElseIf it.ObjectType = "Class" Then
+                        ' Originally another
+                        Dim iobj As BObject = it
+                        If iobj.ObjectType <> "Class" Then
+                            Continue For
+                        End If
+                        Dim ifinder As String = "new " & iobj.ObjectName ' Everywhere, like operator
+                        Dim sposition As Integer = 0
+                        'Dim _first As Boolean = False
+                        Dim prevpos As Integer = -2
+                        Do
+                            sposition = allline.IndexOf(ifinder, sposition)
+                            If prevpos >= sposition Or sposition < 0 Then
+                                Exit Do
+                            End If
+                            prevpos = sposition
+                            If (sposition > 0 AndAlso (Not acceptable_near.Contains(allline(sposition - 1)))) OrElse (sposition < allline.Length - ifinder.Length AndAlso (Not acceptable_near.Contains(allline(sposition + ifinder.Length)))) Then
+                                sposition += ifinder.Length + 1
+                                If sposition > allline.Length Then
+                                    Exit Do
+                                End If
+                                Continue Do ' Not filtered!
+                            End If
+                            CodeData.SelectionStart = sposition + currentbegin
+                            CodeData.SelectionLength = ifinder.Length
+                            CodeData.SelectionColor = Color.DarkCyan
+                            sposition += ifinder.Length + 1
+                            If sposition > allline.Length Then
+                                Exit Do
+                            End If
+                        Loop
+                        Continue For
                     Else
                         Continue For
                     End If
@@ -770,36 +817,6 @@ Public Class MainIDE
                         CodeData.SelectionStart = sp + currentbegin
                         CodeData.SelectionLength = i.Length
                         CodeData.SelectionColor = selc
-                        sp += i.Length + 1
-                        If sp > allline.Length Then
-                            Exit Do
-                        End If
-                    Loop
-                Next
-                For Each iobj In StaticInfo
-                    If iobj.ObjectType <> "Class" Then
-                        Continue For
-                    End If
-                    Dim i As String = "new " & iobj.ObjectName ' Everywhere, like operator
-                    Dim sp As Integer = 0
-                    'Dim _first As Boolean = False
-                    Dim previous As Integer = -2
-                    Do
-                        sp = allline.IndexOf(i, sp)
-                        If previous >= sp Or sp < 0 Then
-                            Exit Do
-                        End If
-                        previous = sp
-                        If (sp > 0 AndAlso (Not acceptable_near.Contains(allline(sp - 1)))) OrElse (sp < allline.Length - i.Length AndAlso (Not acceptable_near.Contains(allline(sp + i.Length)))) Then
-                            sp += i.Length + 1
-                            If sp > allline.Length Then
-                                Exit Do
-                            End If
-                            Continue Do ' Not filtered!
-                        End If
-                        CodeData.SelectionStart = sp + currentbegin
-                        CodeData.SelectionLength = i.Length
-                        CodeData.SelectionColor = Color.DarkCyan
                         sp += i.Length + 1
                         If sp > allline.Length Then
                             Exit Do
@@ -1263,7 +1280,7 @@ vsc:    lineJustEdit = currentline
         ClearCheck()
         CodeData.Text = ""
         current = ""
-        NoExecution = True
+        'NoExecution = True '' CANNOT USE THIS !!!!!!!!!!
         CodeFieldVisible = True
         RunCodeToolStripMenuItem.Enabled = IsBlueBetter
         DebugCodedebugToolStripMenuItem.Enabled = IsBlueBetter
@@ -1319,13 +1336,13 @@ vsc:    lineJustEdit = currentline
 
     Private Sub EditorStateUpdate(Optional sender As Object = Nothing, Optional e As EventArgs = Nothing) Handles EditToolStripMenuItem.Click, EditToolStripMenuItem.MouseMove
         ' ...
-        Dim ac As Boolean = Not (IsPlainHTML OrElse NoExecution)
+        Dim ac As Boolean = Not (IsPlainHTML OrElse NoExecution OrElse isJS)
         SearchClassToolStripMenuItem.Enabled = ac
         AddStaticFileToolStripMenuItem.Enabled = ac
     End Sub
 
     Private Sub RunnerStateUpdate(Optional sender As Object = Nothing, Optional e As EventArgs = Nothing) Handles RunToolStripMenuItem.Click, RunToolStripMenuItem.MouseMove
-        Dim ac As Boolean = (Not (IsPlainHTML OrElse NoExecution)) AndAlso Me.isBluebetter
+        Dim ac As Boolean = (Not (IsPlainHTML OrElse NoExecution OrElse isJS)) AndAlso Me.isBluebetter
         RunToolStripMenuItem.Enabled = ac
         DebugCodedebugToolStripMenuItem.Enabled = ac
     End Sub
