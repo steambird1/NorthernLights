@@ -72,7 +72,6 @@ Partial Class MainIDE
         Me.Label3 = New System.Windows.Forms.Label()
         Me.JSFile = New System.Windows.Forms.RadioButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.AutoCompletionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -141,7 +140,7 @@ Partial Class MainIDE
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindToolStripMenuItem, Me.SearchClassToolStripMenuItem, Me.AddStaticFileToolStripMenuItem, Me.ToolStripSeparator1, Me.RefreshHighlightToolStripMenuItem, Me.AutoCompletionToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FindToolStripMenuItem, Me.SearchClassToolStripMenuItem, Me.AddStaticFileToolStripMenuItem, Me.ToolStripSeparator1, Me.RefreshHighlightToolStripMenuItem})
         Me.EditToolStripMenuItem.Enabled = False
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
@@ -515,12 +514,6 @@ Partial Class MainIDE
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(275, 6)
         '
-        'AutoCompletionToolStripMenuItem
-        '
-        Me.AutoCompletionToolStripMenuItem.Name = "AutoCompletionToolStripMenuItem"
-        Me.AutoCompletionToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
-        Me.AutoCompletionToolStripMenuItem.Text = "Auto Completion..."
-        '
         'MainIDE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 15.0!)
@@ -595,5 +588,4 @@ Partial Class MainIDE
     Friend WithEvents RefreshHighlightToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents JSFile As RadioButton
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-    Friend WithEvents AutoCompletionToolStripMenuItem As ToolStripMenuItem
 End Class
