@@ -202,7 +202,7 @@ Public Class MainIDE
                     Continue For
                 End If
                 Dim arg As String() = Split(i, " ", 2)
-                If arg.Count() <= 0 OrElse arg(0).Length <= 0 Then
+                If arg.Count() <= 0 Then
                     Continue For
                 End If
                 Dim count As Integer = 0
@@ -210,6 +210,9 @@ Public Class MainIDE
                     arg(0) = arg(0).Remove(0, 1)
                     count += 1
                 End While
+                If arg(0).Length <= 0 Then
+                    Continue For
+                End If
                 If count = 0 Then
                     If r_class.Vaild() Then
                         If ToStatic Then
@@ -289,142 +292,142 @@ Public Class MainIDE
                         m.ObjectDescription = PreparedComment.ToString()
                     End If
                     PreparedComment.Clear()
-                        If Not NoLine Then
-                            m.LinePosition = line_id
-                        End If
-                        If count = 0 Then
-                            If ToStatic Then
-                                StaticInfo.Add(m)
-                            Else
-                                ObjectInfo.Add(m)
-                            End If
+                    If Not NoLine Then
+                        m.LinePosition = line_id
+                    End If
+                    If count = 0 Then
+                        If ToStatic Then
+                            StaticInfo.Add(m)
                         Else
-                            r_class.ClassFunction.Add(m)
+                            ObjectInfo.Add(m)
                         End If
+                    Else
+                        r_class.ClassFunction.Add(m)
+                    End If
 
-                    ElseIf arg(0) = "function" OrElse arg(0) = "property" Then
-                        ' If it's a property ...
-                        Dim ActualObjectType As String = "Function"
-                        If arg(0) = "property" Then
-                            Dim rs() As String = Split(arg(1), " ", 2)
-                            ActualObjectType = "Property " & StrConv(rs(0), VbStrConv.ProperCase)
-                            arg(1) = rs(1)          ' Name
-                        End If
-                        Dim argz As String = ""
-                        Dim fn As String = ""
-                        Try
-                            'arg(1).Remove(0, 1)
-                            Dim argw As String() = Split(arg(1), " ", 2)
-                            fn = argw(0)
-                            argz = argw(1)
-                        Catch ex As Exception
+                ElseIf arg(0) = "function" OrElse arg(0) = "property" Then
+                    ' If it's a property ...
+                    Dim ActualObjectType As String = "Function"
+                    If arg(0) = "property" Then
+                        Dim rs() As String = Split(arg(1), " ", 2)
+                        ActualObjectType = "Property " & StrConv(rs(0), VbStrConv.ProperCase)
+                        arg(1) = rs(1)          ' Name
+                    End If
+                    Dim argz As String = ""
+                    Dim fn As String = ""
+                    Try
+                        'arg(1).Remove(0, 1)
+                        Dim argw As String() = Split(arg(1), " ", 2)
+                        fn = argw(0)
+                        argz = argw(1)
+                    Catch ex As Exception
 
-                        End Try
-                        Dim b As BObject = New BObject
-                        b.Attributes = New List(Of String)
-                        b.ObjectType = ActualObjectType
-                        b.FunctionParameter = argz
+                    End Try
+                    Dim b As BObject = New BObject
+                    b.Attributes = New List(Of String)
+                    b.ObjectType = ActualObjectType
+                    b.FunctionParameter = argz
                     b.ObjectName = ShrinkDot(fn)
                     If CurrentRemarkPosition = count Then
                         b.ObjectDescription = PreparedComment.ToString()
                     End If
                     PreparedComment.Clear()
-                        If fn.Length > 0 AndAlso fn(fn.Length - 1) = ":"c Then
-                            fn = fn.Remove(fn.Length - 1)
-                        End If
-                        If count = 0 Then
-                            If ToStatic Then
-                                StaticInfo.Add(b)
-                                If static_func.IndexOf(fn) < 0 Then
-                                    static_func.Add(fn)
-                                End If
-                            Else
-                                If Not NoLine Then
-                                    b.LinePosition = line_id
-                                End If
-                                ObjectInfo.Add(b)
+                    If fn.Length > 0 AndAlso fn(fn.Length - 1) = ":"c Then
+                        fn = fn.Remove(fn.Length - 1)
+                    End If
+                    If count = 0 Then
+                        If ToStatic Then
+                            StaticInfo.Add(b)
+                            If static_func.IndexOf(fn) < 0 Then
+                                static_func.Add(fn)
                             End If
                         Else
-                            ' Must be class
                             If Not NoLine Then
                                 b.LinePosition = line_id
                             End If
-                            r_class.ClassFunction.Add(b)
+                            ObjectInfo.Add(b)
                         End If
-                    ElseIf arg(0) = "init:" Then
-                        If r_class.Vaild() Then
-                            Dim b As BObject = New BObject
-                            b.ObjectType = "Function"
-                            b.FunctionParameter = ""
-                            b.ObjectName = "(Initalizer)"
+                    Else
+                        ' Must be class
+                        If Not NoLine Then
+                            b.LinePosition = line_id
+                        End If
+                        r_class.ClassFunction.Add(b)
+                    End If
+                ElseIf arg(0) = "init:" Then
+                    If r_class.Vaild() Then
+                        Dim b As BObject = New BObject
+                        b.ObjectType = "Function"
+                        b.FunctionParameter = ""
+                        b.ObjectName = "(Initalizer)"
                         b.LinePosition = line_id
                         If CurrentRemarkPosition = count Then
                             b.ObjectDescription = PreparedComment.ToString()
                         End If
                         PreparedComment.Clear()
-                            r_class.ClassFunction.Add(b)
-                        End If
-                    ElseIf arg(0) = "error_handler:" Then
-                        Dim b As BObject = New BObject
-                        b.Clear()
-                        b.Attributes = New List(Of String)
-                        b.ClassFunction = New List(Of BObject)
-                        b.FunctionParameter = ""
-                        b.LinePosition = line_id
-                        b.ObjectName = "(Error Handler)"
-                        b.ObjectType = "Function"
+                        r_class.ClassFunction.Add(b)
+                    End If
+                ElseIf arg(0) = "error_handler:" Then
+                    Dim b As BObject = New BObject
+                    b.Clear()
+                    b.Attributes = New List(Of String)
+                    b.ClassFunction = New List(Of BObject)
+                    b.FunctionParameter = ""
+                    b.LinePosition = line_id
+                    b.ObjectName = "(Error Handler)"
+                    b.ObjectType = "Function"
                     If CurrentRemarkPosition = count Then
                         b.ObjectDescription = PreparedComment.ToString()
                     End If
                     PreparedComment.Clear()
-                        If ToStatic Then
+                    If ToStatic Then
 
-                            StaticInfo.Add(b)
-                        Else
-                            ObjectInfo.Add(b)
-                        End If
-                    ElseIf arg(0) = "import" Then
-                        Try
-                            Dim f As String
-                            Dim fd As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Application.StartupPath & "\" & arg(1))
-                            f = fd.ReadToEnd()
-                            fd.Close()
-                            LoadObjectInfo(f, False, True)
-                        Catch ex As Exception
+                        StaticInfo.Add(b)
+                    Else
+                        ObjectInfo.Add(b)
+                    End If
+                ElseIf arg(0) = "import" Then
+                    Try
+                        Dim f As String
+                        Dim fd As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(Application.StartupPath & "\" & arg(1))
+                        f = fd.ReadToEnd()
+                        fd.Close()
+                        LoadObjectInfo(f, False, True)
+                    Catch ex As Exception
 
-                        End Try
-                    ElseIf arg(0) = "inherits" Then
-                        If r_class.Vaild() Then
-                            Dim gotClass As BObject = New BObject
-                            gotClass.Clear()
-                            For Each a In ObjectInfo
+                    End Try
+                ElseIf arg(0) = "inherits" Then
+                    If r_class.Vaild() Then
+                        Dim gotClass As BObject = New BObject
+                        gotClass.Clear()
+                        For Each a In ObjectInfo
+                            If a.ObjectType = "Class" And a.ObjectName = arg(1) Then
+                                gotClass = a
+                            End If
+                        Next
+                        If Not gotClass.Vaild() Then
+                            For Each a In StaticInfo
                                 If a.ObjectType = "Class" And a.ObjectName = arg(1) Then
                                     gotClass = a
                                 End If
                             Next
-                            If Not gotClass.Vaild() Then
-                                For Each a In StaticInfo
-                                    If a.ObjectType = "Class" And a.ObjectName = arg(1) Then
-                                        gotClass = a
-                                    End If
-                                Next
-                            End If
-                            Dim inh_flag As BObject = New BObject
-                            inh_flag.Clear()
-                            inh_flag.ObjectType = "Inheritance"
-                            inh_flag.ObjectName = gotClass.ObjectName
-                            inh_flag.LinePosition = gotClass.LinePosition
-                            For Each a In gotClass.ClassFunction
-                                inh_flag.ClassFunction.Add(a)
-                            Next
-                            r_class.ClassFunction.Add(inh_flag)
                         End If
-                    ElseIf arg(0) = "no_inherit" Then
-                        r_class.Attributes.Add("No Inheriting")
-                    ElseIf arg(0) = "must_inherit" Then
-                        r_class.Attributes.Add("Must Inherit")
-                    Else
-                        PreparedComment.Clear()
+                        Dim inh_flag As BObject = New BObject
+                        inh_flag.Clear()
+                        inh_flag.ObjectType = "Inheritance"
+                        inh_flag.ObjectName = gotClass.ObjectName
+                        inh_flag.LinePosition = gotClass.LinePosition
+                        For Each a In gotClass.ClassFunction
+                            inh_flag.ClassFunction.Add(a)
+                        Next
+                        r_class.ClassFunction.Add(inh_flag)
+                    End If
+                ElseIf arg(0) = "no_inherit" Then
+                    r_class.Attributes.Add("No Inheriting")
+                ElseIf arg(0) = "must_inherit" Then
+                    r_class.Attributes.Add("Must Inherit")
+                Else
+                    PreparedComment.Clear()
                 End If
             Next
             If r_class.Vaild() Then
@@ -435,7 +438,7 @@ Public Class MainIDE
                 End If
                 r_class.Clear()
             End If
-        Catch ex As Exception
+        Catch ex As Exception ' To make everything broken
             ' Because everything can happen during the accidental processor
         End Try
     End Sub
@@ -1142,6 +1145,7 @@ vsc:    lineJustEdit = currentline
         current = Filename
         CodeData.Text = d.ReadToEnd()
         d.Close()
+        LoadObjectInfo(CodeData.Text)
         ForceRefresh()
         saved = True                    ' Initial time
     End Sub
