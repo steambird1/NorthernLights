@@ -381,6 +381,10 @@ Public Class General
         System.Diagnostics.Process.Start("https://github.com/steambird1/NorthernLights/")
     End Sub
 
+    Private Sub ConsoleStarter_Click(sender As Object, e As EventArgs) Handles ConsoleStarter.Click
+        Shell(Application.StartupPath & "\BlueBetter4.exe", AppWinStyle.NormalFocus)
+    End Sub
+
     Private Sub General_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Not e.Cancel Then
             End

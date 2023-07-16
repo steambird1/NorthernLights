@@ -26,8 +26,8 @@ Partial Class Intelli
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SearchMask = New System.Windows.Forms.TextBox()
         Me.InfoBox = New System.Windows.Forms.GroupBox()
-        Me.DetName = New System.Windows.Forms.Label()
         Me.DetDisplayer = New System.Windows.Forms.Label()
+        Me.DetName = New System.Windows.Forms.Label()
         Me.InfoBox.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -61,6 +61,9 @@ Partial Class Intelli
         '
         'InfoBox
         '
+        Me.InfoBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.InfoBox.Controls.Add(Me.DetDisplayer)
         Me.InfoBox.Controls.Add(Me.DetName)
         Me.InfoBox.Location = New System.Drawing.Point(531, 41)
@@ -70,6 +73,17 @@ Partial Class Intelli
         Me.InfoBox.TabStop = False
         Me.InfoBox.Text = "Details"
         '
+        'DetDisplayer
+        '
+        Me.DetDisplayer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DetDisplayer.Location = New System.Drawing.Point(22, 72)
+        Me.DetDisplayer.Name = "DetDisplayer"
+        Me.DetDisplayer.Size = New System.Drawing.Size(188, 259)
+        Me.DetDisplayer.TabIndex = 1
+        Me.DetDisplayer.Text = "Select something from the left to show details."
+        '
         'DetName
         '
         Me.DetName.AutoSize = True
@@ -78,14 +92,6 @@ Partial Class Intelli
         Me.DetName.Name = "DetName"
         Me.DetName.Size = New System.Drawing.Size(0, 15)
         Me.DetName.TabIndex = 0
-        '
-        'DetDisplayer
-        '
-        Me.DetDisplayer.Location = New System.Drawing.Point(22, 72)
-        Me.DetDisplayer.Name = "DetDisplayer"
-        Me.DetDisplayer.Size = New System.Drawing.Size(188, 259)
-        Me.DetDisplayer.TabIndex = 1
-        Me.DetDisplayer.Text = "Select something from the left to show details."
         '
         'Intelli
         '
