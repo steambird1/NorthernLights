@@ -717,7 +717,7 @@ Public Class MainIDE
 
 
                         previous = sp
-                        If (sp = 0 OrElse js_operators.Contains(allline(sp - 1))) AndAlso (sp = allline.Length - 1 OrElse js_operators.Contains(allline(sp + 1))) Then
+                        If (sp = 0 OrElse js_operators.Contains(allline(sp - 1))) AndAlso (sp + i.Length >= allline.Length OrElse js_operators.Contains(allline(sp + i.Length))) Then
                             CodeData.SelectionStart = sp + currentbegin
                             CodeData.SelectionLength = i.Length
                             CodeData.SelectionColor = Color.Blue
