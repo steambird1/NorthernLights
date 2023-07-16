@@ -159,7 +159,7 @@ Public Class MainIDE
 
     ' For JavaScript: (Reserved keywords are not here.)
     Public js_keywords As List(Of String) = New List(Of String)({"break", "case", "catch", "continue", "default", "delete", "do", "else", "finally", "for", "function", "if", "in", "instanceof", "new", "return", "switch", "this", "throw", "try", "typeof", "var", "void", "while", "with", "let"})
-    Public js_operators As List(Of Char) = New List(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c, "["c, "]"c, "{"c, "}"c, "!"c, "?"c, "."c})   ' Only for expression, not for Intelligent analyzer
+    Public js_operators As List(Of Char) = New List(Of Char)({"~"c, "+"c, "-"c, "*"c, "/"c, "%"c, ":"c, "#"c, "("c, ")"c, " "c, ","c, vbLf, vbCr, vbTab, "$"c, "="c, "^"c, "|"c, "&"c, ">"c, "<"c, "["c, "]"c, "{"c, "}"c, "!"c, "?"c, "."c, ";"c})   ' Only for expression, not for Intelligent analyzer
     Public js_string_liked As List(Of String) = New List(Of String)({""""c, "/"c})
     'Public js_classes As List(Of String) = New List(Of String)({"document", "window", "XMLHttpRequest"})    ' These are what we usually use
 
@@ -717,7 +717,7 @@ Public Class MainIDE
 
 
                         previous = sp
-                        If sp = 0 OrElse js_operators.Contains(allline(sp - 1)) Then
+                        If (sp = 0 OrElse js_operators.Contains(allline(sp - 1))) AndAlso (sp = allline.Length - 1 OrElse js_operators.Contains(allline(sp + 1))) Then
                             CodeData.SelectionStart = sp + currentbegin
                             CodeData.SelectionLength = i.Length
                             CodeData.SelectionColor = Color.Blue
