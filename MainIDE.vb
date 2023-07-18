@@ -1250,8 +1250,11 @@ vsc:    lineJustEdit = currentline
         SaveThisTo(PreparePath, True, System.Text.Encoding.Default)
     End Sub
 
-    Private Sub RunCurrentProgram(Optional parameter As String = "")
+    Private Sub RunCurrentProgram(ByVal Optional parameter As String = "")
         PrepareCurrentProgram()
+        If current.Length > 0 Then
+            parameter &= " --include-from:" & My.Computer.FileSystem.GetParentPath(current) & "\"
+        End If
         Shell(Application.StartupPath & "\BlueBetter4.exe """ & PreparePath & """ " & parameter, AppWinStyle.NormalFocus)
     End Sub
 
