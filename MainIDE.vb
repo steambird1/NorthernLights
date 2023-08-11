@@ -1004,8 +1004,6 @@ vsc:    lineJustEdit = currentline
                         CodeData.SelectedText += vbTab
                     Next
                 End If
-            Case Else
-
         End Select
 
         If isRevDiv And (Not justDiv) Then
@@ -1423,5 +1421,54 @@ vsc:    lineJustEdit = currentline
 
     Private Sub RefreshHighlightToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshHighlightToolStripMenuItem.Click
         ForceRefresh()
+    End Sub
+
+    Private Sub CodeData_KeyDown(sender As Object, e As KeyEventArgs) Handles CodeData.KeyDown
+        Select Case e.KeyCode
+            Case Keys.Tab
+                If CodeData.SelectionLength <= 0 Then
+                    Exit Select
+                End If
+                If e.Shift Then
+                    ' Shrink Tab
+                    Dim NewRes As StringBuilder = New StringBuilder
+                    Dim Shrinking As Boolean = True
+                    For Each i In CodeData.SelectedText
+                        Select Case i
+                            Case vbLf
+                                ' Line feed, add
+                                NewRes.AppendLine()
+                                Shrinking = True
+                            Case vbTab
+                                If Shrinking Then
+                                    Shrinking = False
+                                Else
+                                    NewRes.Append(vbTab)
+                                End If
+                            Case Else
+                                NewRes.Append(i)
+                        End Select
+                    Next
+                    CodeData.SelectedText = NewRes.ToString()
+                Else
+                    ' Gain Tab
+                    Dim NewRes As StringBuilder = New StringBuilder(vbTab)
+                    For Each i In CodeData.SelectedText
+                        Select Case i
+                            Case vbLf
+                                ' Line feed, add
+                                NewRes.AppendLine()
+                                NewRes.Append(vbTab)
+                            Case Else
+                                NewRes.Append(i)
+                        End Select
+                    Next
+                    CodeData.SelectedText = NewRes.ToString()
+                End If
+                e.Handled = True
+                e.SuppressKeyPress = True
+            Case Else
+
+        End Select
     End Sub
 End Class

@@ -35,6 +35,7 @@ Partial Class MainIDE
         Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddStaticFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.RefreshHighlightToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsEncodingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -61,6 +62,7 @@ Partial Class MainIDE
         Me.LineLabel = New System.Windows.Forms.RichTextBox()
         Me.Notify1 = New System.Windows.Forms.Label()
         Me.FileKindSelector = New System.Windows.Forms.GroupBox()
+        Me.JSFile = New System.Windows.Forms.RadioButton()
         Me.RegardAsANSI = New System.Windows.Forms.CheckBox()
         Me.OpeningPrompt = New System.Windows.Forms.Label()
         Me.PlainFile = New System.Windows.Forms.RadioButton()
@@ -70,8 +72,6 @@ Partial Class MainIDE
         Me.PageFile = New System.Windows.Forms.RadioButton()
         Me.BlueFile = New System.Windows.Forms.RadioButton()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.JSFile = New System.Windows.Forms.RadioButton()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         Me.Searcher.SuspendLayout()
@@ -81,7 +81,7 @@ Partial Class MainIDE
         'UpdateTimer
         '
         UpdateTimer.Enabled = True
-        UpdateTimer.Interval = 1000
+        UpdateTimer.Interval = 5000
         AddHandler UpdateTimer.Tick, AddressOf Me.UpdateTimer_Tick
         '
         'MenuStrip1
@@ -163,6 +163,11 @@ Partial Class MainIDE
         Me.AddStaticFileToolStripMenuItem.Name = "AddStaticFileToolStripMenuItem"
         Me.AddStaticFileToolStripMenuItem.Size = New System.Drawing.Size(278, 26)
         Me.AddStaticFileToolStripMenuItem.Text = "Add static file..."
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(275, 6)
         '
         'RefreshHighlightToolStripMenuItem
         '
@@ -409,6 +414,16 @@ Partial Class MainIDE
         Me.FileKindSelector.Text = "Select method"
         Me.FileKindSelector.Visible = False
         '
+        'JSFile
+        '
+        Me.JSFile.AutoSize = True
+        Me.JSFile.Location = New System.Drawing.Point(60, 180)
+        Me.JSFile.Name = "JSFile"
+        Me.JSFile.Size = New System.Drawing.Size(148, 19)
+        Me.JSFile.TabIndex = 9
+        Me.JSFile.Text = "JavaScript File"
+        Me.JSFile.UseVisualStyleBackColor = True
+        '
         'RegardAsANSI
         '
         Me.RegardAsANSI.AutoSize = True
@@ -498,21 +513,6 @@ Partial Class MainIDE
         Me.Label3.Size = New System.Drawing.Size(575, 15)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Please select which kind of file you would like to create or regard as."
-        '
-        'JSFile
-        '
-        Me.JSFile.AutoSize = True
-        Me.JSFile.Location = New System.Drawing.Point(60, 180)
-        Me.JSFile.Name = "JSFile"
-        Me.JSFile.Size = New System.Drawing.Size(148, 19)
-        Me.JSFile.TabIndex = 9
-        Me.JSFile.Text = "JavaScript File"
-        Me.JSFile.UseVisualStyleBackColor = True
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(275, 6)
         '
         'MainIDE
         '
