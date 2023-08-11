@@ -53,6 +53,8 @@ Partial Class General
         Me.ArrangeIconsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConsoleStarter = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.AboutBlueBetterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutBluePageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutMinserverTour = New System.Windows.Forms.ToolStripMenuItem()
@@ -60,8 +62,6 @@ Partial Class General
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
         Me.GithubWebsiteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.fbd = New System.Windows.Forms.FolderBrowserDialog()
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ConsoleStarter = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -265,51 +265,52 @@ Partial Class General
         Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
         Me.HelpToolStripMenuItem.Text = "Utility"
         '
+        'ConsoleStarter
+        '
+        Me.ConsoleStarter.Name = "ConsoleStarter"
+        Me.ConsoleStarter.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.K), System.Windows.Forms.Keys)
+        Me.ConsoleStarter.Size = New System.Drawing.Size(313, 26)
+        Me.ConsoleStarter.Text = "Start BlueBetter Console"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(310, 6)
+        '
         'AboutBlueBetterToolStripMenuItem
         '
         Me.AboutBlueBetterToolStripMenuItem.Name = "AboutBlueBetterToolStripMenuItem"
-        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
+        Me.AboutBlueBetterToolStripMenuItem.Size = New System.Drawing.Size(313, 26)
         Me.AboutBlueBetterToolStripMenuItem.Text = "About BlueBetter"
         '
         'AboutBluePageToolStripMenuItem
         '
         Me.AboutBluePageToolStripMenuItem.Name = "AboutBluePageToolStripMenuItem"
-        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
+        Me.AboutBluePageToolStripMenuItem.Size = New System.Drawing.Size(313, 26)
         Me.AboutBluePageToolStripMenuItem.Text = "About BluePage"
         '
         'AboutMinserverTour
         '
         Me.AboutMinserverTour.Name = "AboutMinserverTour"
-        Me.AboutMinserverTour.Size = New System.Drawing.Size(262, 26)
+        Me.AboutMinserverTour.Size = New System.Drawing.Size(313, 26)
         Me.AboutMinserverTour.Text = "About MinServer"
         '
         'AboutIDEToolStripMenuItem
         '
         Me.AboutIDEToolStripMenuItem.Name = "AboutIDEToolStripMenuItem"
-        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
+        Me.AboutIDEToolStripMenuItem.Size = New System.Drawing.Size(313, 26)
         Me.AboutIDEToolStripMenuItem.Text = "About IDE"
         '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(259, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(310, 6)
         '
         'GithubWebsiteToolStripMenuItem
         '
         Me.GithubWebsiteToolStripMenuItem.Name = "GithubWebsiteToolStripMenuItem"
-        Me.GithubWebsiteToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
+        Me.GithubWebsiteToolStripMenuItem.Size = New System.Drawing.Size(313, 26)
         Me.GithubWebsiteToolStripMenuItem.Text = "Github Website"
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(259, 6)
-        '
-        'ConsoleStarter
-        '
-        Me.ConsoleStarter.Name = "ConsoleStarter"
-        Me.ConsoleStarter.Size = New System.Drawing.Size(262, 26)
-        Me.ConsoleStarter.Text = "Start BlueBetter Console"
         '
         'General
         '

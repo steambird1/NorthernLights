@@ -331,7 +331,7 @@ Public Class General
     End Sub
 
     Private Sub VersionDisplay(Optional sender As Object = Nothing, Optional e As EventArgs = Nothing) Handles AboutIDEToolStripMenuItem.Click
-        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.17", MsgBoxStyle.Information, "About IDE")
+        MsgBox("NorthernLights IDE" & vbCrLf & "Version 1.18", MsgBoxStyle.Information, "About IDE")
     End Sub
 
     Private Sub AboutBlueBetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutBlueBetterToolStripMenuItem.Click
